@@ -10,7 +10,6 @@ export default async function handler(req, res) {
 
   const now = Date.now();
 
-
   if (cache && now - cacheTime < 60000) {
     return res.status(200).json(cache);
   }
@@ -24,7 +23,6 @@ export default async function handler(req, res) {
   try {
     const response = await fetch(url);
     const data = await response.json();
-
 
     if (data && data.code === 429 && cache) {
       return res.status(200).json(cache);
