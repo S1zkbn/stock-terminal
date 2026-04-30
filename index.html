@@ -1,75 +1,350 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Stock Terminal</title>
-  <style>
-    body {
-      background: #0b0b10;
-      color: white;
-      font-family: Arial;
-      padding: 40px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quant Signal Desk</title>
 
-    .card {
-      background: #181820;
-      padding: 15px;
-      border-radius: 12px;
-      margin: 10px;
-      display: inline-block;
-      min-width: 120px;
-    }
+<style>
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Helvetica,Arial;
+  background:#0b0b10;
+  color:#fff;
+}
+.nav{
+  position:fixed;
+  top:0;
+  width:100%;
+  background:rgba(10,10,15,.75);
+  backdrop-filter:blur(18px);
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  padding:14px 0;
+  z-index:999;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.nav a{color:#aaa;text-decoration:none;font-size:13px}
+.nav a:hover{color:white}
 
-    .up { color: #00ff9d; }
-    .down { color: #ff4d4d; }
-  </style>
+.hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.hero h1{font-size:64px;margin:0}
+.hero p{color:#aaa}
+
+section{
+  max-width:1200px;
+  margin:auto;
+  padding:100px 20px;
+}
+h2{font-size:32px}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:12px;
+}
+.card{
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:14px;
+  cursor:pointer;
+  transition:.2s;
+}
+.card:hover{
+  transform:translateY(-4px);
+  background:rgba(255,255,255,.09);
+}
+.symbol{font-weight:600;font-size:15px}
+.name{font-size:12px;color:#888;margin-top:2px}
+.price{font-size:13px;color:#aaa;margin-top:7px}
+.up{color:#00ff9d}
+.down{color:#ff4d4d}
+
+.block{
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:16px;
+}
+.block p{color:#aaa;font-size:13px;line-height:1.5}
+
+.news a{
+  color:#9ad1ff;
+  text-decoration:none;
+  font-size:13px;
+  line-height:1.5;
+}
+.news a:hover{text-decoration:underline}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.86);
+  z-index:9999;
+}
+.modal-content{
+  width:92%;
+  height:84%;
+  margin:4% auto;
+  background:black;
+  border-radius:18px;
+  overflow:hidden;
+}
+.close{
+  position:absolute;
+  top:22px;
+  right:32px;
+  font-size:30px;
+  cursor:pointer;
+}
+
+.glow{
+  position:fixed;
+  width:650px;
+  height:650px;
+  top:-250px;
+  left:-250px;
+  background:radial-gradient(circle,rgba(0,200,255,.18),transparent 60%);
+  filter:blur(90px);
+  z-index:-1;
+}
+.glow2{
+  position:fixed;
+  width:650px;
+  height:650px;
+  right:-250px;
+  bottom:-250px;
+  background:radial-gradient(circle,rgba(255,0,150,.13),transparent 60%);
+  filter:blur(90px);
+  z-index:-1;
+}
+</style>
 </head>
 
 <body>
 
-<h1>Market Overview</h1>
+<div class="glow"></div>
+<div class="glow2"></div>
 
-<div id="stocks"></div>
+<div class="nav">
+  <a href="#market">Market</a>
+  <a href="#movers">Top Movers</a>
+  <a href="#watch">Watchlist</a>
+  <a href="#news">News</a>
+</div>
+
+<div class="hero">
+  <h1>Quant Signal Desk</h1>
+  <p>Live Equity Data • Market Structure • TradingView Charts</p>
+</div>
+
+<section id="market">
+  <h2>Market Overview</h2>
+  <div class="grid" id="marketGrid"></div>
+</section>
+
+<section id="movers">
+  <h2>Top Movers</h2>
+  <div class="grid" id="moversGrid"></div>
+</section>
+
+<section id="watch">
+  <h2>My Watchlist</h2>
+  <div class="grid" id="watchGrid"></div>
+</section>
+
+<section id="news">
+  <h2>Market News</h2>
+  <div class="grid news">
+    <div class="card"><a href="https://www.cnbc.com/quotes/META" target="_blank">META latest market news</a></div>
+    <div class="card"><a href="https://www.cnbc.com/quotes/NVDA" target="_blank">NVDA AI sector coverage</a></div>
+    <div class="card"><a href="https://www.cnbc.com/quotes/SPY" target="_blank">SPY market trend updates</a></div>
+    <div class="card"><a href="https://www.reuters.com/markets/" target="_blank">Reuters global market news</a></div>
+    <div class="card"><a href="https://finance.yahoo.com/quote/RDDT" target="_blank">RDDT latest stock updates</a></div>
+    <div class="card"><a href="https://finance.yahoo.com/quote/CMG" target="_blank">CMG latest stock updates</a></div>
+  </div>
+</section>
+
+<div id="modal" class="modal">
+  <div class="close" onclick="closeChart()">×</div>
+  <div class="modal-content">
+    <iframe id="frame" width="100%" height="100%" frameborder="0"></iframe>
+  </div>
+</div>
 
 <script>
-const symbols = ["SPY", "QQQ", "AAPL", "MSFT", "META", "NVDA", "TSLA"];
+const marketList = [
+  ["SPY","SPY","AMEX:SPY","S&P 500 ETF"],
+  ["QQQ","QQQ","NASDAQ:QQQ","Nasdaq 100 ETF"],
+  ["IWM","IWM","AMEX:IWM","Russell 2000"],
+  ["VTI","VTI","AMEX:VTI","Total Market"],
+  ["DIA","DIA","AMEX:DIA","Dow ETF"],
+  ["XLK","XLK","AMEX:XLK","Tech ETF"],
+  ["XLF","XLF","AMEX:XLF","Finance ETF"],
+  ["ARKK","ARKK","AMEX:ARKK","Innovation ETF"],
+  ["AAPL","AAPL","NASDAQ:AAPL","Apple"],
+  ["MSFT","MSFT","NASDAQ:MSFT","Microsoft"],
+  ["META","META","NASDAQ:META","Meta"],
+  ["NVDA","NVDA","NASDAQ:NVDA","Nvidia"],
+  ["AMZN","AMZN","NASDAQ:AMZN","Amazon"],
+  ["GOOGL","GOOGL","NASDAQ:GOOGL","Alphabet"],
+  ["TSLA","TSLA","NASDAQ:TSLA","Tesla"],
+  ["AMD","AMD","NASDAQ:AMD","AMD"],
+  ["COIN","COIN","NASDAQ:COIN","Coinbase"],
+  ["PLTR","PLTR","NYSE:PLTR","Palantir"],
+  ["UBER","UBER","NYSE:UBER","Uber"],
+  ["SHOP","SHOP","NYSE:SHOP","Shopify"],
+  ["DIS","DIS","NYSE:DIS","Disney"],
+  ["NFLX","NFLX","NASDAQ:NFLX","Netflix"]
+];
 
-async function loadPrices() {
-  const res = await fetch("/api/quote?symbols=" + symbols.join(","));
-  const data = await res.json();
+const watchList = [
+  ["CMG","CMG","NYSE:CMG","Chipotle"],
+  ["META","META","NASDAQ:META","Meta"],
+  ["BROS","BROS","NYSE:BROS","Dutch Bros"],
+  ["DKNG","DKNG","NASDAQ:DKNG","DraftKings"],
+  ["LKNCY","LKNCY","OTC:LKNCY","Luckin Coffee"],
+  ["RDDT","RDDT","NYSE:RDDT","Reddit"]
+];
 
-  const box = document.getElementById("stocks");
-  box.innerHTML = "";
+function createCards(list, containerId){
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
 
-  symbols.forEach(symbol => {
-    const q = data[symbol];
+  list.forEach(function(item){
+    const symbol = item[0];
+    const apiSymbol = item[1];
+    const tvSymbol = item[2];
+    const name = item[3];
 
-    if (!q || !q.close) {
-      box.innerHTML += `
-        <div class="card">
-          <b>${symbol}</b><br>
-          No data
-        </div>
-      `;
-      return;
-    }
+    const card = document.createElement("div");
+    card.className = "card";
+    card.onclick = function(){ openChart(tvSymbol); };
 
-    const price = Number(q.close).toFixed(2);
-    const change = Number(q.percent_change).toFixed(2);
-    const cls = change >= 0 ? "up" : "down";
-    const sign = change >= 0 ? "+" : "";
+    card.innerHTML =
+      '<div class="symbol">' + symbol + '</div>' +
+      '<div class="name">' + name + '</div>' +
+      '<div class="price" id="price-' + apiSymbol + '">loading...</div>';
 
-    box.innerHTML += `
-      <div class="card">
-        <b>${symbol}</b><br>
-        $${price}<br>
-        <span class="${cls}">${sign}${change}%</span>
-      </div>
-    `;
+    container.appendChild(card);
   });
 }
 
-loadPrices();
-setInterval(loadPrices, 60000);
+function getQuote(data, symbol){
+  if(data[symbol]) return data[symbol];
+  if(data.close || data.price) return data;
+  return null;
+}
+
+async function updatePrices(){
+  const all = marketList.concat(watchList);
+  const unique = [];
+
+  all.forEach(function(item){
+    if(!unique.includes(item[1])) unique.push(item[1]);
+  });
+
+  try{
+    const res = await fetch("/api/quote?symbols=" + unique.join(","));
+    const data = await res.json();
+
+    unique.forEach(function(symbol){
+      const q = getQuote(data, symbol);
+      const el = document.getElementById("price-" + symbol);
+      if(!el) return;
+
+      if(!q || q.code){
+        el.innerHTML = "No data";
+        return;
+      }
+
+      const rawPrice = q.close || q.price || q.previous_close;
+      const rawChange = q.percent_change || q.change || 0;
+
+      if(!rawPrice){
+        el.innerHTML = "No data";
+        return;
+      }
+
+      const price = Number(rawPrice).toFixed(2);
+      const change = Number(rawChange).toFixed(2);
+      const cls = change >= 0 ? "up" : "down";
+      const sign = change >= 0 ? "+" : "";
+
+      el.innerHTML = "$" + price + ' <span class="' + cls + '">' + sign + change + "%</span>";
+    });
+
+    buildMovers(data, unique);
+
+  }catch(e){
+    console.log(e);
+  }
+}
+
+function buildMovers(data, symbols){
+  const box = document.getElementById("moversGrid");
+  const rows = [];
+
+  symbols.forEach(function(symbol){
+    const q = getQuote(data, symbol);
+    if(!q || q.code) return;
+
+    const change = Number(q.percent_change || q.change || 0);
+    const price = Number(q.close || q.price || q.previous_close || 0);
+
+    if(!price) return;
+
+    rows.push({symbol:symbol, change:change, price:price});
+  });
+
+  rows.sort(function(a,b){ return b.change - a.change; });
+
+  const gainers = rows.slice(0,3);
+  const losers = rows.slice(-3).reverse();
+
+  box.innerHTML =
+    '<div class="block"><b>Top Gainers</b><p>' +
+    gainers.map(function(x){
+      return x.symbol + " $" + x.price.toFixed(2) + " +" + x.change.toFixed(2) + "%";
+    }).join("<br>") +
+    '</p></div>' +
+    '<div class="block"><b>Top Losers</b><p>' +
+    losers.map(function(x){
+      return x.symbol + " $" + x.price.toFixed(2) + " " + x.change.toFixed(2) + "%";
+    }).join("<br>") +
+    '</p></div>' +
+    '<div class="block"><b>Market Note</b><p>Large-cap tech, ETFs, and watchlist names are monitored with cached live quote data.</p></div>';
+}
+
+function openChart(tvSymbol){
+  document.getElementById("modal").style.display = "block";
+  document.getElementById("frame").src =
+    "https://s.tradingview.com/widgetembed/?symbol=" + tvSymbol + "&interval=D&theme=dark";
+}
+
+function closeChart(){
+  document.getElementById("modal").style.display = "none";
+  document.getElementById("frame").src = "";
+}
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape") closeChart();
+});
+
+createCards(marketList, "marketGrid");
+createCards(watchList, "watchGrid");
+updatePrices();
+setInterval(updatePrices, 60000);
 </script>
 
 </body>
