@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stock Terminal</title>
+  <style>
+    body {
+      background: #0b0b10;
+      color: white;
+      font-family: Arial;
+      padding: 40px;
+    }
+
+    .card {
+      background: #181820;
+      padding: 15px;
+      border-radius: 12px;
+      margin: 10px;
+      display: inline-block;
+      min-width: 120px;
+    }
+
+    .up { color: #00ff9d; }
+    .down { color: #ff4d4d; }
+  </style>
+</head>
+
+<body>
+
+<h1>Market Overview</h1>
+
+<div id="stocks"></div>
+
+<script>
+const symbols = ["SPY", "QQQ", "AAPL", "MSFT", "META", "NVDA", "TSLA"];
+
+async function loadPrices() {
+  const res = await fetch("/api/quote?symbols=" + symbols.join(","));
+  const data = await res.json();
+
+  const box = document.getElementById("stocks");
+  box.innerHTML = "";
+
+  symbols.forEach(symbol => {
+    const q = data[symbol];
+
+    if (!q || !q.close) {
+      box.innerHTML += `
+        <div class="card">
+          <b>${symbol}</b><br>
+          No data
+        </div>
+      `;
+      return;
+    }
+
+    const price = Number(q.close).toFixed(2);
+    const change = Number(q.percent_change).toFixed(2);
+    const cls = change >= 0 ? "up" : "down";
+    const sign = change >= 0 ? "+" : "";
+
+    box.innerHTML += `
+      <div class="card">
+        <b>${symbol}</b><br>
+        $${price}<br>
+        <span class="${cls}">${sign}${change}%</span>
+      </div>
+    `;
+  });
+}
+
+loadPrices();
+setInterval(loadPrices, 30000);
+</script>
+
+</body>
+</html>
