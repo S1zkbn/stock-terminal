@@ -8,102 +8,182 @@
 <style>
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Helvetica,Arial;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Helvetica,Arial,sans-serif;
   background:#0b0b10;
   color:white;
 }
 
 section{
-  max-width:1200px;
+  max-width:1250px;
   margin:auto;
   padding:70px 20px;
 }
 
 h2{
-  font-size:34px;
-  margin-bottom:20px;
+  font-size:36px;
+  margin-bottom:18px;
+  letter-spacing:-.5px;
+}
+
+.small{
+  color:#999;
+  font-size:14px;
+  margin-top:-8px;
+  margin-bottom:24px;
 }
 
 .glow,.glow2{
   position:fixed;
-  width:650px;
-  height:650px;
-  filter:blur(90px);
+  width:700px;
+  height:700px;
+  filter:blur(100px);
   z-index:-1;
 }
+
 .glow{
-  top:-250px;left:-250px;
-  background:radial-gradient(circle,rgba(0,200,255,.16),transparent 60%);
+  top:-280px;
+  left:-260px;
+  background:radial-gradient(circle,rgba(0,200,255,.18),transparent 60%);
 }
+
 .glow2{
-  right:-250px;bottom:-250px;
-  background:radial-gradient(circle,rgba(255,0,150,.12),transparent 60%);
+  right:-260px;
+  bottom:-280px;
+  background:radial-gradient(circle,rgba(255,0,150,.13),transparent 60%);
 }
 
 .block{
-  background:rgba(255,255,255,.05);
+  background:rgba(255,255,255,.055);
   border:1px solid rgba(255,255,255,.08);
-  border-radius:22px;
+  border-radius:24px;
   padding:18px;
   margin-bottom:18px;
   backdrop-filter:blur(18px);
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
 }
 
 .chart-box{
   overflow:hidden;
-  border-radius:24px;
+  border-radius:26px;
   border:1px solid rgba(255,255,255,.1);
+  background:#050508;
+  box-shadow:0 25px 80px rgba(0,0,0,.35);
 }
 
-/* 下拉框 */
+/* 美化下拉框 */
+.selector-panel{
+  background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.035));
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:24px;
+  padding:18px;
+  margin-bottom:20px;
+}
+
 .buttons{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
   gap:14px;
-  margin-bottom:22px;
+}
+
+.select-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.select-wrap label{
+  font-size:12px;
+  color:#9a9a9f;
+  padding-left:4px;
 }
 
 .buttons select{
+  width:100%;
   appearance:none;
+  -webkit-appearance:none;
   background:
-    linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.04)),
-    url("data:image/svg+xml,%3Csvg width='14' height='10' viewBox='0 0 14 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L7 7.5L13 1.5' stroke='white' stroke-width='2'/%3E%3C/svg%3E");
+    linear-gradient(135deg,#f5f5f7,#d8d8df),
+    url("data:image/svg+xml,%3Csvg width='14' height='10' viewBox='0 0 14 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L7 7.5L13 1.5' stroke='%23111' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat:no-repeat;
-  background-position:right 14px center;
-  padding:14px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.15);
-  color:white;
+  background-position:right 16px center;
+  color:#111;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:18px;
+  padding:15px 46px 15px 16px;
   cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  box-shadow:0 12px 35px rgba(0,0,0,.25);
+}
+
+.buttons select:focus{
+  outline:none;
+  box-shadow:0 0 0 4px rgba(80,150,255,.22);
+}
+
+.buttons select option{
+  background:#f5f5f7;
+  color:#111;
 }
 
 /* 新闻 */
 .news-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
   gap:18px;
 }
 
 .news-card{
   background:rgba(255,255,255,.06);
-  border-radius:20px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:24px;
   overflow:hidden;
-  transition:.25s;
+  transition:.25s ease;
+  box-shadow:0 20px 55px rgba(0,0,0,.22);
 }
+
 .news-card:hover{
-  transform:translateY(-5px);
+  transform:translateY(-6px);
+  background:rgba(255,255,255,.1);
 }
+
 .news-card img{
   width:100%;
   height:150px;
   object-fit:cover;
+  display:block;
+  filter:saturate(1.05) contrast(1.05);
 }
+
+.news-card a{
+  color:white;
+  text-decoration:none;
+}
+
 .news-card h3{
-  padding:14px;
-  font-size:15px;
+  font-size:16px;
+  padding:14px 15px 4px;
   margin:0;
+  line-height:1.35;
 }
-.news-card a{color:white;text-decoration:none}
+
+.news-card p{
+  color:#aaa;
+  font-size:13px;
+  line-height:1.45;
+  padding:0 15px 16px;
+  margin:8px 0 0;
+}
+
+.badge{
+  display:inline-block;
+  margin:14px 15px 0;
+  padding:5px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.1);
+  color:#cfd6ff;
+  font-size:11px;
+}
 </style>
 </head>
 
@@ -113,126 +193,365 @@ h2{
 <div class="glow2"></div>
 
 <!-- OVERVIEW -->
-<section>
+<section id="overview">
 <h2>Market Overview</h2>
+<p class="small">Multi-line market overview powered by TradingView.</p>
 
 <div class="block">
 <script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-{"symbols":[{"proName":"AMEX:SPY"},{"proName":"NASDAQ:QQQ"},{"proName":"AMEX:IWM"},{"proName":"AMEX:VTI"}],"colorTheme":"dark"}
+{
+  "symbols": [
+    {"proName":"AMEX:SPY","title":"SPY"},
+    {"proName":"NASDAQ:QQQ","title":"QQQ"},
+    {"proName":"AMEX:IWM","title":"IWM"},
+    {"proName":"AMEX:VTI","title":"VTI"},
+    {"proName":"AMEX:DIA","title":"DIA"},
+    {"proName":"AMEX:VOO","title":"VOO"},
+    {"proName":"AMEX:XLK","title":"XLK"},
+    {"proName":"AMEX:XLF","title":"XLF"}
+  ],
+  "colorTheme":"dark",
+  "isTransparent":true,
+  "displayMode":"adaptive"
+}
 </script>
 </div>
 
 <div class="block">
 <script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-{"symbols":[{"proName":"NASDAQ:AAPL"},{"proName":"NASDAQ:MSFT"},{"proName":"NASDAQ:META"},{"proName":"NASDAQ:NVDA"},{"proName":"NASDAQ:TSLA"}],"colorTheme":"dark"}
+{
+  "symbols": [
+    {"proName":"NASDAQ:AAPL","title":"AAPL"},
+    {"proName":"NASDAQ:MSFT","title":"MSFT"},
+    {"proName":"NASDAQ:META","title":"META"},
+    {"proName":"NASDAQ:NVDA","title":"NVDA"},
+    {"proName":"NASDAQ:AMZN","title":"AMZN"},
+    {"proName":"NASDAQ:GOOGL","title":"GOOGL"},
+    {"proName":"NASDAQ:TSLA","title":"TSLA"},
+    {"proName":"NASDAQ:AMD","title":"AMD"}
+  ],
+  "colorTheme":"dark",
+  "isTransparent":true,
+  "displayMode":"adaptive"
+}
 </script>
 </div>
 
-<!-- WATCHLIST -->
-<h2>My Watchlist</h2>
 <div class="block">
 <script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-{"symbols":[
-{"proName":"NYSE:CMG"},
-{"proName":"NASDAQ:META"},
-{"proName":"NYSE:BROS"},
-{"proName":"NASDAQ:DKNG"},
-{"proName":"OTC:LKNCY"},
-{"proName":"NYSE:RDDT"}
-],"colorTheme":"dark"}
+{
+  "symbols": [
+    {"proName":"NYSE:CMG","title":"CMG"},
+    {"proName":"NASDAQ:META","title":"META"},
+    {"proName":"NYSE:BROS","title":"BROS"},
+    {"proName":"NASDAQ:DKNG","title":"DKNG"},
+    {"proName":"OTC:LKNCY","title":"LKNCY"},
+    {"proName":"NYSE:RDDT","title":"RDDT"},
+    {"proName":"NASDAQ:COIN","title":"COIN"},
+    {"proName":"NYSE:PLTR","title":"PLTR"}
+  ],
+  "colorTheme":"dark",
+  "isTransparent":true,
+  "displayMode":"adaptive"
+}
+</script>
+</div>
+
+<h2 style="margin-top:55px;">My Watchlist</h2>
+<p class="small">CMG • META • BROS • DKNG • LKNCY • RDDT</p>
+
+<div class="block">
+<script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+{
+  "symbols": [
+    {"proName":"NYSE:CMG","title":"CMG"},
+    {"proName":"NASDAQ:META","title":"META"},
+    {"proName":"NYSE:BROS","title":"BROS"},
+    {"proName":"NASDAQ:DKNG","title":"DKNG"},
+    {"proName":"OTC:LKNCY","title":"LKNCY"},
+    {"proName":"NYSE:RDDT","title":"RDDT"}
+  ],
+  "colorTheme":"dark",
+  "isTransparent":true,
+  "displayMode":"adaptive"
+}
 </script>
 </div>
 
 </section>
 
-<!-- CHART -->
-<section>
+<!-- LIVE CHART -->
+<section id="chart">
 <h2>Live Chart</h2>
+<p class="small">100+ choices. Select asset class, sector, then ticker.</p>
 
-<div class="buttons">
-<select id="type" onchange="loadCat()"></select>
-<select id="cat" onchange="loadSymbol()"></select>
-<select id="sym" onchange="changeChart()"></select>
+<div class="selector-panel">
+  <div class="buttons">
+    <div class="select-wrap">
+      <label>Asset Class</label>
+      <select id="type" onchange="loadCat()"></select>
+    </div>
+
+    <div class="select-wrap">
+      <label>Category</label>
+      <select id="cat" onchange="loadSymbol()"></select>
+    </div>
+
+    <div class="select-wrap">
+      <label>Symbol</label>
+      <select id="sym" onchange="changeChart()"></select>
+    </div>
+  </div>
 </div>
 
 <div class="chart-box">
-<iframe id="chart"
-src="https://s.tradingview.com/widgetembed/?symbol=NASDAQ:AAPL&theme=dark"
-width="100%" height="520"></iframe>
+<iframe id="chartFrame"
+src="https://s.tradingview.com/widgetembed/?symbol=NASDAQ:AAPL&interval=D&theme=dark"
+width="100%" height="580" frameborder="0"></iframe>
 </div>
-
 </section>
 
 <!-- NEWS -->
-<section>
-<h2>Market News</h2>
+<section id="news">
+<h2>Market News & Analyst Views</h2>
+<p class="small">Curated market links, company updates, analyst-style research pages, and sector news.</p>
 
 <div class="news-grid">
 
 <div class="news-card">
 <a href="https://www.cnbc.com/quotes/NVDA" target="_blank">
-<img src="https://images.unsplash.com/photo-1518770660439-4636190af475">
-<h3>NVDA AI demand remains strong</h3>
+<img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80">
+<span class="badge">AI / Semiconductors</span>
+<h3>NVDA AI demand and chip cycle updates</h3>
+<p>Track Nvidia headlines, analyst commentary, and AI infrastructure demand.</p>
+</a>
+</div>
+
+<div class="news-card">
+<a href="https://finance.yahoo.com/quote/NVDA/analysis" target="_blank">
+<img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80">
+<span class="badge">Analyst Analysis</span>
+<h3>NVDA analyst estimates and forecasts</h3>
+<p>View earnings estimates, rating trends, and forward expectations.</p>
 </a>
 </div>
 
 <div class="news-card">
 <a href="https://www.cnbc.com/quotes/META" target="_blank">
-<img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb">
-<h3>META advertising growth outlook</h3>
+<img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?auto=format&fit=crop&w=900&q=80">
+<span class="badge">Mega-cap Tech</span>
+<h3>META ads, AI, and social platform updates</h3>
+<p>Follow Meta stock news, ad revenue, Reality Labs, and AI strategy.</p>
 </a>
 </div>
 
 <div class="news-card">
-<a href="https://www.reuters.com/markets/" target="_blank">
-<img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a">
-<h3>Global markets update</h3>
+<a href="https://finance.yahoo.com/quote/META/analysis" target="_blank">
+<img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80">
+<span class="badge">Analyst Analysis</span>
+<h3>META analyst estimates and earnings outlook</h3>
+<p>Explore analyst expectations, earnings revisions, and valuation context.</p>
+</a>
+</div>
+
+<div class="news-card">
+<a href="https://www.cnbc.com/quotes/SPY" target="_blank">
+<img src="https://images.unsplash.com/photo-1642790551116-18e150f248e6?auto=format&fit=crop&w=900&q=80">
+<span class="badge">S&P 500</span>
+<h3>SPY market trend and index movement</h3>
+<p>Monitor broad market sentiment, index movement, and macro-driven risk appetite.</p>
+</a>
+</div>
+
+<div class="news-card">
+<a href="https://www.reuters.com/markets/us/" target="_blank">
+<img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80">
+<span class="badge">Macro</span>
+<h3>U.S. market headlines from Reuters</h3>
+<p>Follow rates, inflation, earnings season, and global market reaction.</p>
+</a>
+</div>
+
+<div class="news-card">
+<a href="https://finance.yahoo.com/quote/CMG" target="_blank">
+<img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80">
+<span class="badge">Consumer</span>
+<h3>CMG stock news and restaurant sector updates</h3>
+<p>Track Chipotle earnings, margins, same-store sales, and consumer trends.</p>
+</a>
+</div>
+
+<div class="news-card">
+<a href="https://finance.yahoo.com/quote/BROS" target="_blank">
+<img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=900&q=80">
+<span class="badge">Growth Consumer</span>
+<h3>BROS growth story and beverage sector updates</h3>
+<p>Follow Dutch Bros expansion, store growth, and consumer demand.</p>
+</a>
+</div>
+
+<div class="news-card">
+<a href="https://finance.yahoo.com/quote/DKNG" target="_blank">
+<img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80">
+<span class="badge">Gaming / Betting</span>
+<h3>DKNG sports betting and online gaming news</h3>
+<p>Track revenue growth, state legalization trends, and betting market share.</p>
+</a>
+</div>
+
+<div class="news-card">
+<a href="https://finance.yahoo.com/quote/RDDT" target="_blank">
+<img src="https://images.unsplash.com/photo-1611605698335-8b1569810432?auto=format&fit=crop&w=900&q=80">
+<span class="badge">Social Media</span>
+<h3>RDDT stock updates and social platform sentiment</h3>
+<p>Follow Reddit’s advertising business, user growth, and market sentiment.</p>
+</a>
+</div>
+
+<div class="news-card">
+<a href="https://finance.yahoo.com/quote/LKNCY" target="_blank">
+<img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80">
+<span class="badge">China Consumer</span>
+<h3>LKNCY Luckin Coffee updates</h3>
+<p>Track Luckin Coffee news, growth, China consumer trends, and OTC trading.</p>
+</a>
+</div>
+
+<div class="news-card">
+<a href="https://www.marketwatch.com/" target="_blank">
+<img src="https://images.unsplash.com/photo-1535320903710-d993d3d77d29?auto=format&fit=crop&w=900&q=80">
+<span class="badge">MarketWatch</span>
+<h3>Market commentary and analyst-style coverage</h3>
+<p>Read broader market commentary, stock analysis, and investing themes.</p>
 </a>
 </div>
 
 </div>
-
 </section>
 
 <script>
-const data={
-ETF:{
-Major:[["SPY","AMEX:SPY"],["QQQ","NASDAQ:QQQ"]],
-Sector:[["XLK","AMEX:XLK"],["XLF","AMEX:XLF"]]
-},
-Stocks:{
-Tech:[["AAPL","NASDAQ:AAPL"],["NVDA","NASDAQ:NVDA"],["META","NASDAQ:META"]],
-Energy:[["XOM","NYSE:XOM"],["CVX","NYSE:CVX"]],
-Finance:[["JPM","NYSE:JPM"],["BAC","NYSE:BAC"]]
-}
+const data = {
+  "ETF": {
+    "Major Index": [
+      ["SPY","AMEX:SPY"],["QQQ","NASDAQ:QQQ"],["DIA","AMEX:DIA"],["IWM","AMEX:IWM"],
+      ["VTI","AMEX:VTI"],["VOO","AMEX:VOO"],["IVV","AMEX:IVV"],["RSP","AMEX:RSP"],
+      ["MDY","AMEX:MDY"],["EFA","AMEX:EFA"],["EEM","AMEX:EEM"],["ACWI","NASDAQ:ACWI"]
+    ],
+    "Sector ETF": [
+      ["XLK","AMEX:XLK"],["XLF","AMEX:XLF"],["XLE","AMEX:XLE"],["XLV","AMEX:XLV"],
+      ["XLY","AMEX:XLY"],["XLP","AMEX:XLP"],["XLI","AMEX:XLI"],["XLU","AMEX:XLU"],
+      ["XLB","AMEX:XLB"],["XLRE","AMEX:XLRE"],["XLC","AMEX:XLC"],["XBI","AMEX:XBI"]
+    ],
+    "Tech / Semiconductor ETF": [
+      ["SMH","NASDAQ:SMH"],["SOXX","NASDAQ:SOXX"],["IGV","AMEX:IGV"],["CIBR","NASDAQ:CIBR"],
+      ["BOTZ","NASDAQ:BOTZ"],["ARKK","AMEX:ARKK"],["ARKQ","AMEX:ARKQ"],["ARKW","AMEX:ARKW"]
+    ],
+    "Bond / Gold / Volatility": [
+      ["TLT","NASDAQ:TLT"],["IEF","NASDAQ:IEF"],["SHY","NASDAQ:SHY"],["HYG","AMEX:HYG"],
+      ["LQD","AMEX:LQD"],["GLD","AMEX:GLD"],["SLV","AMEX:SLV"],["VXX","AMEX:VXX"]
+    ],
+    "Energy / Commodity ETF": [
+      ["USO","AMEX:USO"],["UNG","AMEX:UNG"],["XOP","AMEX:XOP"],["OIH","AMEX:OIH"],
+      ["DBC","AMEX:DBC"],["GDX","AMEX:GDX"],["URA","AMEX:URA"],["COPX","AMEX:COPX"]
+    ]
+  },
+
+  "Stocks": {
+    "Mega Cap Tech": [
+      ["AAPL","NASDAQ:AAPL"],["MSFT","NASDAQ:MSFT"],["NVDA","NASDAQ:NVDA"],["META","NASDAQ:META"],
+      ["GOOGL","NASDAQ:GOOGL"],["GOOG","NASDAQ:GOOG"],["AMZN","NASDAQ:AMZN"],["TSLA","NASDAQ:TSLA"],
+      ["AVGO","NASDAQ:AVGO"],["ORCL","NYSE:ORCL"],["ADBE","NASDAQ:ADBE"],["CRM","NYSE:CRM"]
+    ],
+    "AI / Semiconductors": [
+      ["NVDA","NASDAQ:NVDA"],["AMD","NASDAQ:AMD"],["INTC","NASDAQ:INTC"],["AVGO","NASDAQ:AVGO"],
+      ["TSM","NYSE:TSM"],["MU","NASDAQ:MU"],["QCOM","NASDAQ:QCOM"],["ARM","NASDAQ:ARM"],
+      ["SMCI","NASDAQ:SMCI"],["ASML","NASDAQ:ASML"],["AMAT","NASDAQ:AMAT"],["LRCX","NASDAQ:LRCX"]
+    ],
+    "Software / Cloud": [
+      ["PLTR","NYSE:PLTR"],["SNOW","NYSE:SNOW"],["SHOP","NYSE:SHOP"],["NOW","NYSE:NOW"],
+      ["DDOG","NASDAQ:DDOG"],["NET","NYSE:NET"],["MDB","NASDAQ:MDB"],["CRWD","NASDAQ:CRWD"],
+      ["ZS","NASDAQ:ZS"],["OKTA","NASDAQ:OKTA"],["TEAM","NASDAQ:TEAM"],["WDAY","NASDAQ:WDAY"]
+    ],
+    "Energy / Oil": [
+      ["XOM","NYSE:XOM"],["CVX","NYSE:CVX"],["COP","NYSE:COP"],["SLB","NYSE:SLB"],
+      ["OXY","NYSE:OXY"],["MPC","NYSE:MPC"],["VLO","NYSE:VLO"],["EOG","NYSE:EOG"],
+      ["PSX","NYSE:PSX"],["HAL","NYSE:HAL"],["DVN","NYSE:DVN"],["FANG","NASDAQ:FANG"]
+    ],
+    "Finance": [
+      ["JPM","NYSE:JPM"],["BAC","NYSE:BAC"],["GS","NYSE:GS"],["MS","NYSE:MS"],
+      ["C","NYSE:C"],["WFC","NYSE:WFC"],["V","NYSE:V"],["MA","NYSE:MA"],
+      ["AXP","NYSE:AXP"],["BLK","NYSE:BLK"],["SCHW","NYSE:SCHW"],["COF","NYSE:COF"]
+    ],
+    "Consumer / Retail": [
+      ["CMG","NYSE:CMG"],["BROS","NYSE:BROS"],["MCD","NYSE:MCD"],["SBUX","NASDAQ:SBUX"],
+      ["NKE","NYSE:NKE"],["COST","NASDAQ:COST"],["WMT","NYSE:WMT"],["TGT","NYSE:TGT"],
+      ["HD","NYSE:HD"],["LOW","NYSE:LOW"],["LULU","NASDAQ:LULU"],["ULTA","NASDAQ:ULTA"]
+    ],
+    "Media / Internet": [
+      ["NFLX","NASDAQ:NFLX"],["DIS","NYSE:DIS"],["RDDT","NYSE:RDDT"],["UBER","NYSE:UBER"],
+      ["DASH","NASDAQ:DASH"],["ABNB","NASDAQ:ABNB"],["SPOT","NYSE:SPOT"],["PINS","NYSE:PINS"],
+      ["SNAP","NYSE:SNAP"],["ROKU","NASDAQ:ROKU"],["MTCH","NASDAQ:MTCH"],["PARA","NASDAQ:PARA"]
+    ],
+    "Gaming / Betting": [
+      ["DKNG","NASDAQ:DKNG"],["RBLX","NYSE:RBLX"],["EA","NASDAQ:EA"],["TTWO","NASDAQ:TTWO"],
+      ["U","NYSE:U"],["MGM","NYSE:MGM"],["WYNN","NASDAQ:WYNN"],["LVS","NYSE:LVS"]
+    ],
+    "China / ADR": [
+      ["BABA","NYSE:BABA"],["JD","NASDAQ:JD"],["PDD","NASDAQ:PDD"],["NIO","NYSE:NIO"],
+      ["LI","NASDAQ:LI"],["XPEV","NYSE:XPEV"],["BIDU","NASDAQ:BIDU"],["TME","NYSE:TME"],
+      ["YUMC","NYSE:YUMC"],["BEKE","NYSE:BEKE"],["BILI","NASDAQ:BILI"],["LKNCY","OTC:LKNCY"]
+    ],
+    "Crypto Related": [
+      ["COIN","NASDAQ:COIN"],["MSTR","NASDAQ:MSTR"],["RIOT","NASDAQ:RIOT"],["MARA","NASDAQ:MARA"],
+      ["HOOD","NASDAQ:HOOD"],["SQ","NYSE:SQ"],["PYPL","NASDAQ:PYPL"],["CLSK","NASDAQ:CLSK"]
+    ],
+    "Healthcare": [
+      ["LLY","NYSE:LLY"],["UNH","NYSE:UNH"],["JNJ","NYSE:JNJ"],["PFE","NYSE:PFE"],
+      ["MRNA","NASDAQ:MRNA"],["ABBV","NYSE:ABBV"],["TMO","NYSE:TMO"],["ISRG","NASDAQ:ISRG"],
+      ["REGN","NASDAQ:REGN"],["VRTX","NASDAQ:VRTX"],["GILD","NASDAQ:GILD"],["AMGN","NASDAQ:AMGN"]
+    ],
+    "Industrial / Aerospace": [
+      ["BA","NYSE:BA"],["CAT","NYSE:CAT"],["GE","NYSE:GE"],["LMT","NYSE:LMT"],
+      ["RTX","NYSE:RTX"],["DE","NYSE:DE"],["HON","NASDAQ:HON"],["UPS","NYSE:UPS"],
+      ["FDX","NYSE:FDX"],["NOC","NYSE:NOC"],["GD","NYSE:GD"],["UNP","NYSE:UNP"]
+    ]
+  }
 };
 
 function init(){
-let t=document.getElementById("type");
-Object.keys(data).forEach(k=>t.innerHTML+=`<option>${k}</option>`);
-loadCat();
+  const type = document.getElementById("type");
+  type.innerHTML = "";
+  Object.keys(data).forEach(function(k){
+    type.innerHTML += '<option value="' + k + '">' + k + '</option>';
+  });
+  loadCat();
 }
 
 function loadCat(){
-let t=document.getElementById("type").value;
-let c=document.getElementById("cat");
-c.innerHTML="";
-Object.keys(data[t]).forEach(k=>c.innerHTML+=`<option>${k}</option>`);
-loadSymbol();
+  const t = document.getElementById("type").value;
+  const cat = document.getElementById("cat");
+  cat.innerHTML = "";
+  Object.keys(data[t]).forEach(function(k){
+    cat.innerHTML += '<option value="' + k + '">' + k + '</option>';
+  });
+  loadSymbol();
 }
 
 function loadSymbol(){
-let t=document.getElementById("type").value;
-let c=document.getElementById("cat").value;
-let s=document.getElementById("sym");
-s.innerHTML="";
-data[t][c].forEach(i=>s.innerHTML+=`<option value="${i[1]}">${i[0]}</option>`);
-changeChart();
+  const t = document.getElementById("type").value;
+  const c = document.getElementById("cat").value;
+  const sym = document.getElementById("sym");
+  sym.innerHTML = "";
+  data[t][c].forEach(function(item){
+    sym.innerHTML += '<option value="' + item[1] + '">' + item[0] + '</option>';
+  });
+  changeChart();
 }
 
 function changeChart(){
-document.getElementById("chart").src=
-"https://s.tradingview.com/widgetembed/?symbol="+document.getElementById("sym").value+"&theme=dark";
+  const selected = document.getElementById("sym").value;
+  document.getElementById("chartFrame").src =
+    "https://s.tradingview.com/widgetembed/?symbol=" + selected + "&interval=D&theme=dark";
 }
 
 init();
