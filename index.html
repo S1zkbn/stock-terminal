@@ -117,10 +117,10 @@ h2{
 
 .chart-box{
   overflow:hidden;
-  border-radius:26px;
-  border:1px solid rgba(255,255,255,.1);
-  background:#050508;
-  box-shadow:0 25px 80px rgba(0,0,0,.35);
+  border-radius:32px;
+  border:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+  box-shadow:0 30px 90px rgba(0,0,0,.35);
 }
 
 .selector-panel{
@@ -166,6 +166,11 @@ h2{
   font-size:14px;
   font-weight:600;
   box-shadow:0 12px 35px rgba(0,0,0,.25);
+}
+
+.buttons select:focus{
+  outline:none;
+  box-shadow:0 0 0 4px rgba(80,150,255,.22);
 }
 
 .buttons select option{
@@ -346,53 +351,53 @@ h2{
   </section>
 
   <section id="watchlist" class="stock-page">
-  <h2>My Watchlist</h2>
-  <p class="small">CMG • META • BROS • DKNG • LKNCY • RDDT</p>
+    <h2>My Watchlist</h2>
+    <p class="small">CMG • META • BROS • DKNG • LKNCY • RDDT</p>
 
-  <div class="block">
-    <script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-    {
-      "symbols": [
-        {"proName":"NYSE:CMG","title":"CMG"},
-        {"proName":"NASDAQ:META","title":"META"},
-        {"proName":"NYSE:BROS","title":"BROS"},
-        {"proName":"NASDAQ:DKNG","title":"DKNG"},
-        {"proName":"OTC:LKNCY","title":"LKNCY"},
-        {"proName":"NYSE:RDDT","title":"RDDT"}
-      ],
-      "colorTheme":"dark",
-      "isTransparent":true,
-      "displayMode":"adaptive"
-    }
-    </script>
-  </div>
+    <div class="block">
+      <script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+      {
+        "symbols": [
+          {"proName":"NYSE:CMG","title":"CMG"},
+          {"proName":"NASDAQ:META","title":"META"},
+          {"proName":"NYSE:BROS","title":"BROS"},
+          {"proName":"NASDAQ:DKNG","title":"DKNG"},
+          {"proName":"OTC:LKNCY","title":"LKNCY"},
+          {"proName":"NYSE:RDDT","title":"RDDT"}
+        ],
+        "colorTheme":"dark",
+        "isTransparent":true,
+        "displayMode":"adaptive"
+      }
+      </script>
+    </div>
 
-  <div class="selector-panel">
-    <div class="buttons">
-      <div class="select-wrap">
-        <label>Watchlist Chart</label>
-        <select id="watchSym" onchange="changeWatchChart()">
-          <option value="NYSE:CMG">CMG</option>
-          <option value="NASDAQ:META">META</option>
-          <option value="NYSE:BROS">BROS</option>
-          <option value="NASDAQ:DKNG">DKNG</option>
-          <option value="OTC:LKNCY">LKNCY</option>
-          <option value="NYSE:RDDT">RDDT</option>
-        </select>
+    <div class="selector-panel">
+      <div class="buttons">
+        <div class="select-wrap">
+          <label>Watchlist Chart</label>
+          <select id="watchSym" onchange="changeWatchChart()">
+            <option value="NYSE:CMG">CMG</option>
+            <option value="NASDAQ:META">META</option>
+            <option value="NYSE:BROS">BROS</option>
+            <option value="NASDAQ:DKNG">DKNG</option>
+            <option value="OTC:LKNCY">LKNCY</option>
+            <option value="NYSE:RDDT">RDDT</option>
+          </select>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="chart-box">
-    <iframe id="watchChartFrame"
-      src="https://s.tradingview.com/widgetembed/?symbol=NYSE:CMG&interval=D&theme=dark"
-      width="100%"
-      height="520"
-      frameborder="0">
-    </iframe>
-  </div>
-</section>
-  
+    <div class="chart-box">
+      <iframe id="watchChartFrame"
+        src="https://s.tradingview.com/widgetembed/?symbol=NYSE:CMG&interval=D&theme=dark&style=2&hide_top_toolbar=1&hide_legend=1&withdateranges=0&studies=[]"
+        width="100%"
+        height="520"
+        frameborder="0">
+      </iframe>
+    </div>
+  </section>
+
   <section id="chart" class="stock-page">
     <h2>Live Chart</h2>
     <p class="small">100+ choices. Select asset class, sector, then ticker.</p>
@@ -418,7 +423,7 @@ h2{
 
     <div class="chart-box">
       <iframe id="chartFrame"
-        src="https://s.tradingview.com/widgetembed/?symbol=NASDAQ:AAPL&interval=D&theme=dark"
+        src="https://s.tradingview.com/widgetembed/?symbol=NASDAQ:AAPL&interval=D&theme=dark&style=2&hide_top_toolbar=1&hide_legend=1&withdateranges=0&studies=[]"
         width="100%"
         height="580"
         frameborder="0">
@@ -426,24 +431,24 @@ h2{
     </div>
   </section>
 
+  <section id="news" class="stock-page">
+    <h2>Market News & Analyst Views</h2>
+    <p class="small">Auto-updated market news powered by your /api/news endpoint.</p>
+
+    <div class="news-grid" id="newsGrid">
+      <div class="block">Loading latest news...</div>
+    </div>
+  </section>
+</main>
 
 <main id="geoguessr" class="main-page">
   <section class="coming">
     <div class="coming-card">
       <h2>GeoGuessr Hub</h2>
-      <p>Coming soon. This section will later include GeoGuessr tools, maps, game modes, practice systems, and multiplayer ideas.</p>
+      <p>Coming soon. This section will later include GeoGuessr profile, stats, maps, training tools, practice plans, game modes, and multiplayer projects.</p>
     </div>
   </section>
 </main>
-
- <section id="news" class="stock-page">
-  <h2>Market News & Analyst Views</h2>
-  <p class="small">Auto-updated market news powered by Google News RSS.</p>
-
-  <div class="news-grid" id="newsGrid">
-    <div class="block">Loading latest news...</div>
-  </div>
-</section>
 
 <script>
 const data = {
@@ -534,10 +539,17 @@ const data = {
   }
 };
 
+function appleChartUrl(symbol){
+  return "https://s.tradingview.com/widgetembed/?symbol=" +
+    symbol +
+    "&interval=D&theme=dark&style=2&hide_top_toolbar=1&hide_legend=1&withdateranges=0&studies=[]";
+}
+
 function showMain(id){
   document.querySelectorAll(".main-page").forEach(function(page){
     page.classList.remove("active");
   });
+
   document.getElementById(id).classList.add("active");
 
   document.getElementById("btn-stocks").classList.remove("active");
@@ -549,20 +561,28 @@ function showStockPage(id){
   document.querySelectorAll(".stock-page").forEach(function(page){
     page.classList.remove("active");
   });
+
   document.getElementById(id).classList.add("active");
 
   ["overview","watchlist","chart","news"].forEach(function(x){
     document.getElementById("btn-" + x).classList.remove("active");
   });
+
   document.getElementById("btn-" + id).classList.add("active");
+
+  if(id === "news"){
+    loadNews();
+  }
 }
 
 function init(){
   const type = document.getElementById("type");
   type.innerHTML = "";
+
   Object.keys(data).forEach(function(k){
     type.innerHTML += '<option value="' + k + '">' + k + '</option>';
   });
+
   loadCat();
 }
 
@@ -570,9 +590,11 @@ function loadCat(){
   const t = document.getElementById("type").value;
   const cat = document.getElementById("cat");
   cat.innerHTML = "";
+
   Object.keys(data[t]).forEach(function(k){
     cat.innerHTML += '<option value="' + k + '">' + k + '</option>';
   });
+
   loadSymbol();
 }
 
@@ -581,32 +603,41 @@ function loadSymbol(){
   const c = document.getElementById("cat").value;
   const sym = document.getElementById("sym");
   sym.innerHTML = "";
+
   data[t][c].forEach(function(item){
     sym.innerHTML += '<option value="' + item[1] + '">' + item[0] + '</option>';
   });
+
   changeChart();
 }
 
 function changeChart(){
   const selected = document.getElementById("sym").value;
-  document.getElementById("chartFrame").src =
-    "https://s.tradingview.com/widgetembed/?symbol=" + selected + "&interval=D&theme=dark";
+  document.getElementById("chartFrame").src = appleChartUrl(selected);
 }
-async function loadNews() {
+
+function changeWatchChart(){
+  const selected = document.getElementById("watchSym").value;
+  document.getElementById("watchChartFrame").src = appleChartUrl(selected);
+}
+
+async function loadNews(){
   const grid = document.getElementById("newsGrid");
 
-  try {
-    const res = await fetch("/api/news?q=stock market OR Nvidia OR Meta OR S&P 500 OR analyst rating");
-    const data = await res.json();
+  if(!grid) return;
 
-    if (!data.articles || data.articles.length === 0) {
-      grid.innerHTML = '<div class="block">No news found.</div>';
+  try{
+    const res = await fetch("/api/news?q=stock market OR Nvidia OR Meta OR S&P 500 OR analyst rating OR earnings");
+    const newsData = await res.json();
+
+    if(!newsData.articles || newsData.articles.length === 0){
+      showFallbackNews();
       return;
     }
 
     grid.innerHTML = "";
 
-    data.articles.forEach(function(article) {
+    newsData.articles.forEach(function(article){
       grid.innerHTML +=
         '<div class="news-card">' +
           '<a href="' + article.link + '" target="_blank">' +
@@ -617,30 +648,104 @@ async function loadNews() {
           '</a>' +
         '</div>';
     });
-
-  } catch (e) {
-    grid.innerHTML = '<div class="block">Failed to load news.</div>';
+  }catch(e){
+    showFallbackNews();
   }
 }
 
-function formatDate(dateText) {
-  if (!dateText) return "Latest update";
+function showFallbackNews(){
+  const grid = document.getElementById("newsGrid");
+
+  grid.innerHTML =
+    '<div class="news-card">' +
+      '<a href="https://www.cnbc.com/quotes/NVDA" target="_blank">' +
+        '<img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80">' +
+        '<span class="badge">AI / Semiconductors</span>' +
+        '<h3>NVDA AI demand and chip cycle updates</h3>' +
+        '<p>Track Nvidia headlines and AI infrastructure demand.</p>' +
+      '</a>' +
+    '</div>' +
+
+    '<div class="news-card">' +
+      '<a href="https://finance.yahoo.com/quote/NVDA/analysis" target="_blank">' +
+        '<img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80">' +
+        '<span class="badge">Analyst Analysis</span>' +
+        '<h3>NVDA analyst estimates and forecasts</h3>' +
+        '<p>View earnings estimates and forward expectations.</p>' +
+      '</a>' +
+    '</div>' +
+
+    '<div class="news-card">' +
+      '<a href="https://www.cnbc.com/quotes/META" target="_blank">' +
+        '<img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?auto=format&fit=crop&w=900&q=80">' +
+        '<span class="badge">Mega-cap Tech</span>' +
+        '<h3>META ads, AI, and platform updates</h3>' +
+        '<p>Follow Meta stock news and AI strategy.</p>' +
+      '</a>' +
+    '</div>' +
+
+    '<div class="news-card">' +
+      '<a href="https://finance.yahoo.com/quote/META/analysis" target="_blank">' +
+        '<img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80">' +
+        '<span class="badge">Analyst Analysis</span>' +
+        '<h3>META analyst estimates and outlook</h3>' +
+        '<p>Explore earnings revisions and valuation context.</p>' +
+      '</a>' +
+    '</div>' +
+
+    '<div class="news-card">' +
+      '<a href="https://www.cnbc.com/quotes/SPY" target="_blank">' +
+        '<img src="https://images.unsplash.com/photo-1642790551116-18e150f248e6?auto=format&fit=crop&w=900&q=80">' +
+        '<span class="badge">S&P 500</span>' +
+        '<h3>SPY market trend and index movement</h3>' +
+        '<p>Monitor broad market sentiment and macro-driven risk appetite.</p>' +
+      '</a>' +
+    '</div>' +
+
+    '<div class="news-card">' +
+      '<a href="https://www.reuters.com/markets/us/" target="_blank">' +
+        '<img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80">' +
+        '<span class="badge">Macro</span>' +
+        '<h3>U.S. market headlines from Reuters</h3>' +
+        '<p>Follow rates, inflation, earnings season, and market reactions.</p>' +
+      '</a>' +
+    '</div>' +
+
+    '<div class="news-card">' +
+      '<a href="https://finance.yahoo.com/quote/CMG" target="_blank">' +
+        '<img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80">' +
+        '<span class="badge">Consumer</span>' +
+        '<h3>CMG stock news and restaurant sector</h3>' +
+        '<p>Track Chipotle earnings, margins, and consumer trends.</p>' +
+      '</a>' +
+    '</div>' +
+
+    '<div class="news-card">' +
+      '<a href="https://finance.yahoo.com/quote/BROS" target="_blank">' +
+        '<img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=900&q=80">' +
+        '<span class="badge">Growth Consumer</span>' +
+        '<h3>BROS growth story and beverage sector</h3>' +
+        '<p>Follow Dutch Bros expansion and store growth.</p>' +
+      '</a>' +
+    '</div>';
+}
+
+function formatDate(dateText){
+  if(!dateText) return "Latest update";
+
   const d = new Date(dateText);
-  if (isNaN(d)) return "Latest update";
+
+  if(isNaN(d)) return "Latest update";
+
   return d.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric"
+    month:"short",
+    day:"numeric",
+    year:"numeric"
   });
 }
-  function changeWatchChart(){
-  const selected = document.getElementById("watchSym").value;
-  document.getElementById("watchChartFrame").src =
-    "https://s.tradingview.com/widgetembed/?symbol=" + selected + "&interval=D&theme=dark";
-}
+
 init();
 loadNews();
-  
 </script>
 
 </body>
