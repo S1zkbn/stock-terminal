@@ -21,33 +21,27 @@ section{
 
 h2{
   font-size:34px;
-  margin-bottom:25px;
+  margin-bottom:20px;
 }
 
+.glow,.glow2{
+  position:fixed;
+  width:650px;
+  height:650px;
+  filter:blur(90px);
+  z-index:-1;
+}
 .glow{
-  position:fixed;
-  width:650px;
-  height:650px;
-  top:-250px;
-  left:-250px;
+  top:-250px;left:-250px;
   background:radial-gradient(circle,rgba(0,200,255,.16),transparent 60%);
-  filter:blur(90px);
-  z-index:-1;
 }
-
 .glow2{
-  position:fixed;
-  width:650px;
-  height:650px;
-  right:-250px;
-  bottom:-250px;
+  right:-250px;bottom:-250px;
   background:radial-gradient(circle,rgba(255,0,150,.12),transparent 60%);
-  filter:blur(90px);
-  z-index:-1;
 }
 
 .block{
-  background:rgba(255,255,255,.055);
+  background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.08);
   border-radius:22px;
   padding:18px;
@@ -59,31 +53,31 @@ h2{
   overflow:hidden;
   border-radius:24px;
   border:1px solid rgba(255,255,255,.1);
-  background:#050508;
 }
 
+/* 下拉框 */
 .buttons{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-bottom:18px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+  margin-bottom:22px;
 }
 
 .buttons select{
-  background:rgba(255,255,255,.08);
+  appearance:none;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.04)),
+    url("data:image/svg+xml,%3Csvg width='14' height='10' viewBox='0 0 14 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L7 7.5L13 1.5' stroke='white' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  padding:14px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.15);
   color:white;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:999px;
-  padding:10px 15px;
   cursor:pointer;
-  font-size:13px;
 }
 
-.buttons select option{
-  background:#111;
-  color:white;
-}
-
+/* 新闻 */
 .news-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
@@ -92,42 +86,24 @@ h2{
 
 .news-card{
   background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:22px;
+  border-radius:20px;
   overflow:hidden;
   transition:.25s;
 }
-
 .news-card:hover{
   transform:translateY(-5px);
-  background:rgba(255,255,255,.1);
 }
-
 .news-card img{
   width:100%;
   height:150px;
   object-fit:cover;
-  display:block;
 }
-
-.news-card a{
-  color:white;
-  text-decoration:none;
-}
-
 .news-card h3{
-  font-size:16px;
-  padding:15px;
+  padding:14px;
+  font-size:15px;
   margin:0;
-  line-height:1.4;
 }
-
-.small{
-  color:#999;
-  font-size:13px;
-  margin-top:-10px;
-  margin-bottom:25px;
-}
+.news-card a{color:white;text-decoration:none}
 </style>
 </head>
 
@@ -136,265 +112,130 @@ h2{
 <div class="glow"></div>
 <div class="glow2"></div>
 
-<section id="overview">
+<!-- OVERVIEW -->
+<section>
 <h2>Market Overview</h2>
-<p class="small">Live market overview powered by TradingView</p>
 
 <div class="block">
 <script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-{
-  "symbols": [
-    {"proName":"AMEX:SPY","title":"SPY"},
-    {"proName":"NASDAQ:QQQ","title":"QQQ"},
-    {"proName":"AMEX:IWM","title":"IWM"},
-    {"proName":"AMEX:VTI","title":"VTI"},
-    {"proName":"AMEX:DIA","title":"DIA"},
-    {"proName":"AMEX:XLK","title":"XLK"},
-    {"proName":"AMEX:XLF","title":"XLF"},
-    {"proName":"AMEX:ARKK","title":"ARKK"}
-  ],
-  "colorTheme":"dark",
-  "isTransparent":true,
-  "displayMode":"adaptive"
-}
+{"symbols":[{"proName":"AMEX:SPY"},{"proName":"NASDAQ:QQQ"},{"proName":"AMEX:IWM"},{"proName":"AMEX:VTI"}],"colorTheme":"dark"}
 </script>
 </div>
 
 <div class="block">
 <script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-{
-  "symbols": [
-    {"proName":"NASDAQ:AAPL","title":"AAPL"},
-    {"proName":"NASDAQ:MSFT","title":"MSFT"},
-    {"proName":"NASDAQ:META","title":"META"},
-    {"proName":"NASDAQ:NVDA","title":"NVDA"},
-    {"proName":"NASDAQ:AMZN","title":"AMZN"},
-    {"proName":"NASDAQ:GOOGL","title":"GOOGL"},
-    {"proName":"NASDAQ:TSLA","title":"TSLA"},
-    {"proName":"NASDAQ:AMD","title":"AMD"}
-  ],
-  "colorTheme":"dark",
-  "isTransparent":true,
-  "displayMode":"adaptive"
-}
+{"symbols":[{"proName":"NASDAQ:AAPL"},{"proName":"NASDAQ:MSFT"},{"proName":"NASDAQ:META"},{"proName":"NASDAQ:NVDA"},{"proName":"NASDAQ:TSLA"}],"colorTheme":"dark"}
 </script>
 </div>
 
+<!-- WATCHLIST -->
+<h2>My Watchlist</h2>
 <div class="block">
 <script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-{
-  "symbols": [
-    {"proName":"NYSE:CMG","title":"CMG"},
-    {"proName":"NYSE:BROS","title":"BROS"},
-    {"proName":"NASDAQ:DKNG","title":"DKNG"},
-    {"proName":"OTC:LKNCY","title":"LKNCY"},
-    {"proName":"NYSE:RDDT","title":"RDDT"},
-    {"proName":"NASDAQ:COIN","title":"COIN"},
-    {"proName":"NYSE:PLTR","title":"PLTR"},
-    {"proName":"NYSE:UBER","title":"UBER"}
-  ],
-  "colorTheme":"dark",
-  "isTransparent":true,
-  "displayMode":"adaptive"
-}
+{"symbols":[
+{"proName":"NYSE:CMG"},
+{"proName":"NASDAQ:META"},
+{"proName":"NYSE:BROS"},
+{"proName":"NASDAQ:DKNG"},
+{"proName":"OTC:LKNCY"},
+{"proName":"NYSE:RDDT"}
+],"colorTheme":"dark"}
 </script>
 </div>
+
 </section>
 
-<section id="chart">
+<!-- CHART -->
+<section>
 <h2>Live Chart</h2>
-<p class="small">Choose asset class, category, then symbol.</p>
 
-<div class="block">
-  <div class="buttons">
-    <select id="assetType" onchange="loadCategories()"></select>
-    <select id="category" onchange="loadSymbols()"></select>
-    <select id="symbolSelect" onchange="changeChartFromSelect()"></select>
-  </div>
+<div class="buttons">
+<select id="type" onchange="loadCat()"></select>
+<select id="cat" onchange="loadSymbol()"></select>
+<select id="sym" onchange="changeChart()"></select>
 </div>
 
 <div class="chart-box">
-  <iframe id="chartFrame"
-    src="https://s.tradingview.com/widgetembed/?symbol=NASDAQ:AAPL&interval=D&theme=dark"
-    width="100%"
-    height="560"
-    frameborder="0">
-  </iframe>
+<iframe id="chart"
+src="https://s.tradingview.com/widgetembed/?symbol=NASDAQ:AAPL&theme=dark"
+width="100%" height="520"></iframe>
 </div>
+
 </section>
 
-<section id="news">
+<!-- NEWS -->
+<section>
 <h2>Market News</h2>
 
 <div class="news-grid">
 
-  <div class="news-card">
-    <a href="https://www.cnbc.com/quotes/NVDA" target="_blank">
-      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80">
-      <h3>NVDA and AI chip demand remain in focus</h3>
-    </a>
-  </div>
+<div class="news-card">
+<a href="https://www.cnbc.com/quotes/NVDA" target="_blank">
+<img src="https://images.unsplash.com/photo-1518770660439-4636190af475">
+<h3>NVDA AI demand remains strong</h3>
+</a>
+</div>
 
-  <div class="news-card">
-    <a href="https://www.cnbc.com/quotes/META" target="_blank">
-      <img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?auto=format&fit=crop&w=800&q=80">
-      <h3>META latest stock and advertising business updates</h3>
-    </a>
-  </div>
+<div class="news-card">
+<a href="https://www.cnbc.com/quotes/META" target="_blank">
+<img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb">
+<h3>META advertising growth outlook</h3>
+</a>
+</div>
 
-  <div class="news-card">
-    <a href="https://www.cnbc.com/quotes/SPY" target="_blank">
-      <img src="https://images.unsplash.com/photo-1642790551116-18e150f248e6?auto=format&fit=crop&w=800&q=80">
-      <h3>SPY market trend and S&P 500 movement</h3>
-    </a>
-  </div>
-
-  <div class="news-card">
-    <a href="https://finance.yahoo.com/quote/RDDT" target="_blank">
-      <img src="https://images.unsplash.com/photo-1611605698335-8b1569810432?auto=format&fit=crop&w=800&q=80">
-      <h3>RDDT stock news and social media market sentiment</h3>
-    </a>
-  </div>
-
-  <div class="news-card">
-    <a href="https://finance.yahoo.com/quote/CMG" target="_blank">
-      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80">
-      <h3>CMG updates and consumer stock performance</h3>
-    </a>
-  </div>
-
-  <div class="news-card">
-    <a href="https://www.reuters.com/markets/" target="_blank">
-      <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=80">
-      <h3>Global market headlines from Reuters</h3>
-    </a>
-  </div>
+<div class="news-card">
+<a href="https://www.reuters.com/markets/" target="_blank">
+<img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a">
+<h3>Global markets update</h3>
+</a>
+</div>
 
 </div>
+
 </section>
 
 <script>
-const chartData = {
-  "ETF": {
-    "Major Index": [
-      ["SPY","AMEX:SPY"], ["QQQ","NASDAQ:QQQ"], ["DIA","AMEX:DIA"],
-      ["IWM","AMEX:IWM"], ["VTI","AMEX:VTI"], ["VOO","AMEX:VOO"]
-    ],
-    "Sector ETF": [
-      ["XLK","AMEX:XLK"], ["XLF","AMEX:XLF"], ["XLE","AMEX:XLE"],
-      ["XLV","AMEX:XLV"], ["XLY","AMEX:XLY"], ["XLP","AMEX:XLP"],
-      ["XLI","AMEX:XLI"], ["XLU","AMEX:XLU"], ["XLB","AMEX:XLB"],
-      ["XLRE","AMEX:XLRE"]
-    ],
-    "Growth / Innovation": [
-      ["ARKK","AMEX:ARKK"], ["ARKQ","AMEX:ARKQ"], ["ARKG","AMEX:ARKG"],
-      ["SOXX","NASDAQ:SOXX"], ["SMH","NASDAQ:SMH"], ["IBB","NASDAQ:IBB"]
-    ],
-    "Bond / Gold / Volatility": [
-      ["TLT","NASDAQ:TLT"], ["HYG","AMEX:HYG"], ["LQD","AMEX:LQD"],
-      ["GLD","AMEX:GLD"], ["SLV","AMEX:SLV"], ["VXX","AMEX:VXX"]
-    ]
-  },
-
-  "Stocks": {
-    "Technology": [
-      ["AAPL","NASDAQ:AAPL"], ["MSFT","NASDAQ:MSFT"], ["NVDA","NASDAQ:NVDA"],
-      ["META","NASDAQ:META"], ["GOOGL","NASDAQ:GOOGL"], ["AMZN","NASDAQ:AMZN"],
-      ["AMD","NASDAQ:AMD"], ["INTC","NASDAQ:INTC"], ["AVGO","NASDAQ:AVGO"],
-      ["ORCL","NYSE:ORCL"], ["CRM","NYSE:CRM"], ["ADBE","NASDAQ:ADBE"],
-      ["PLTR","NYSE:PLTR"], ["SNOW","NYSE:SNOW"], ["SHOP","NYSE:SHOP"]
-    ],
-    "Energy / Oil": [
-      ["XOM","NYSE:XOM"], ["CVX","NYSE:CVX"], ["COP","NYSE:COP"],
-      ["SLB","NYSE:SLB"], ["OXY","NYSE:OXY"], ["MPC","NYSE:MPC"],
-      ["VLO","NYSE:VLO"], ["EOG","NYSE:EOG"]
-    ],
-    "Finance": [
-      ["JPM","NYSE:JPM"], ["BAC","NYSE:BAC"], ["GS","NYSE:GS"],
-      ["MS","NYSE:MS"], ["C","NYSE:C"], ["WFC","NYSE:WFC"],
-      ["V","NYSE:V"], ["MA","NYSE:MA"], ["AXP","NYSE:AXP"]
-    ],
-    "Consumer": [
-      ["TSLA","NASDAQ:TSLA"], ["NKE","NYSE:NKE"], ["SBUX","NASDAQ:SBUX"],
-      ["MCD","NYSE:MCD"], ["CMG","NYSE:CMG"], ["BROS","NYSE:BROS"],
-      ["COST","NASDAQ:COST"], ["WMT","NYSE:WMT"], ["TGT","NYSE:TGT"]
-    ],
-    "Media / Internet": [
-      ["NFLX","NASDAQ:NFLX"], ["DIS","NYSE:DIS"], ["RDDT","NYSE:RDDT"],
-      ["UBER","NYSE:UBER"], ["DASH","NASDAQ:DASH"], ["ABNB","NASDAQ:ABNB"],
-      ["SPOT","NYSE:SPOT"], ["PINS","NYSE:PINS"], ["SNAP","NYSE:SNAP"]
-    ],
-    "Gaming / Betting": [
-      ["DKNG","NASDAQ:DKNG"], ["RBLX","NYSE:RBLX"], ["EA","NASDAQ:EA"],
-      ["TTWO","NASDAQ:TTWO"], ["U","NYSE:U"]
-    ],
-    "China / ADR": [
-      ["BABA","NYSE:BABA"], ["JD","NASDAQ:JD"], ["PDD","NASDAQ:PDD"],
-      ["NIO","NYSE:NIO"], ["LI","NASDAQ:LI"], ["XPEV","NYSE:XPEV"],
-      ["BIDU","NASDAQ:BIDU"], ["TME","NYSE:TME"], ["LKNCY","OTC:LKNCY"]
-    ],
-    "Crypto Related": [
-      ["COIN","NASDAQ:COIN"], ["MSTR","NASDAQ:MSTR"], ["RIOT","NASDAQ:RIOT"],
-      ["MARA","NASDAQ:MARA"], ["HOOD","NASDAQ:HOOD"], ["SQ","NYSE:SQ"],
-      ["PYPL","NASDAQ:PYPL"]
-    ],
-    "Healthcare": [
-      ["LLY","NYSE:LLY"], ["UNH","NYSE:UNH"], ["JNJ","NYSE:JNJ"],
-      ["PFE","NYSE:PFE"], ["MRNA","NASDAQ:MRNA"], ["ABBV","NYSE:ABBV"],
-      ["TMO","NYSE:TMO"], ["ISRG","NASDAQ:ISRG"]
-    ],
-    "Industrial / Aerospace": [
-      ["BA","NYSE:BA"], ["CAT","NYSE:CAT"], ["GE","NYSE:GE"],
-      ["LMT","NYSE:LMT"], ["RTX","NYSE:RTX"], ["DE","NYSE:DE"],
-      ["HON","NASDAQ:HON"], ["UPS","NYSE:UPS"]
-    ]
-  }
+const data={
+ETF:{
+Major:[["SPY","AMEX:SPY"],["QQQ","NASDAQ:QQQ"]],
+Sector:[["XLK","AMEX:XLK"],["XLF","AMEX:XLF"]]
+},
+Stocks:{
+Tech:[["AAPL","NASDAQ:AAPL"],["NVDA","NASDAQ:NVDA"],["META","NASDAQ:META"]],
+Energy:[["XOM","NYSE:XOM"],["CVX","NYSE:CVX"]],
+Finance:[["JPM","NYSE:JPM"],["BAC","NYSE:BAC"]]
+}
 };
 
-function initSelectors(){
-  const assetType = document.getElementById("assetType");
-  assetType.innerHTML = "";
-
-  Object.keys(chartData).forEach(type => {
-    assetType.innerHTML += `<option value="${type}">${type}</option>`;
-  });
-
-  loadCategories();
+function init(){
+let t=document.getElementById("type");
+Object.keys(data).forEach(k=>t.innerHTML+=`<option>${k}</option>`);
+loadCat();
 }
 
-function loadCategories(){
-  const type = document.getElementById("assetType").value;
-  const category = document.getElementById("category");
-  category.innerHTML = "";
-
-  Object.keys(chartData[type]).forEach(cat => {
-    category.innerHTML += `<option value="${cat}">${cat}</option>`;
-  });
-
-  loadSymbols();
+function loadCat(){
+let t=document.getElementById("type").value;
+let c=document.getElementById("cat");
+c.innerHTML="";
+Object.keys(data[t]).forEach(k=>c.innerHTML+=`<option>${k}</option>`);
+loadSymbol();
 }
 
-function loadSymbols(){
-  const type = document.getElementById("assetType").value;
-  const cat = document.getElementById("category").value;
-  const symbolSelect = document.getElementById("symbolSelect");
-
-  symbolSelect.innerHTML = "";
-
-  chartData[type][cat].forEach(item => {
-    symbolSelect.innerHTML += `<option value="${item[1]}">${item[0]}</option>`;
-  });
-
-  changeChartFromSelect();
+function loadSymbol(){
+let t=document.getElementById("type").value;
+let c=document.getElementById("cat").value;
+let s=document.getElementById("sym");
+s.innerHTML="";
+data[t][c].forEach(i=>s.innerHTML+=`<option value="${i[1]}">${i[0]}</option>`);
+changeChart();
 }
 
-function changeChartFromSelect(){
-  const symbol = document.getElementById("symbolSelect").value;
-  document.getElementById("chartFrame").src =
-    "https://s.tradingview.com/widgetembed/?symbol=" + symbol + "&interval=D&theme=dark";
+function changeChart(){
+document.getElementById("chart").src=
+"https://s.tradingview.com/widgetembed/?symbol="+document.getElementById("sym").value+"&theme=dark";
 }
 
-initSelectors();
+init();
 </script>
 
 </body>
