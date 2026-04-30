@@ -12,6 +12,8 @@ body{
   background:#0b0b10;
   color:#fff;
 }
+
+/* NAV */
 .nav{
   position:fixed;
   top:0;
@@ -25,9 +27,14 @@ body{
   z-index:999;
   border-bottom:1px solid rgba(255,255,255,.08);
 }
-.nav a{color:#aaa;text-decoration:none;font-size:13px}
+.nav a{
+  color:#aaa;
+  text-decoration:none;
+  font-size:13px;
+}
 .nav a:hover{color:white}
 
+/* HERO */
 .hero{
   height:100vh;
   display:flex;
@@ -37,8 +44,9 @@ body{
   text-align:center;
 }
 .hero h1{font-size:64px;margin:0}
-.hero p{color:#aaa}
+.hero p{color:#aaa;margin-top:10px}
 
+/* SECTIONS */
 section{
   max-width:1200px;
   margin:auto;
@@ -46,68 +54,25 @@ section{
 }
 h2{font-size:32px}
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-  gap:12px;
-}
-.card{
-  background:rgba(255,255,255,.055);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:16px;
-  padding:14px;
-  cursor:pointer;
-  transition:.2s;
-}
-.card:hover{
-  transform:translateY(-4px);
-  background:rgba(255,255,255,.09);
-}
-.symbol{font-weight:600;font-size:15px}
-.name{font-size:12px;color:#888;margin-top:2px}
-.price{font-size:13px;color:#aaa;margin-top:7px}
-.up{color:#00ff9d}
-.down{color:#ff4d4d}
-
+/* BLOCK */
 .block{
-  background:rgba(255,255,255,.055);
+  background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.08);
   border-radius:16px;
   padding:16px;
 }
-.block p{color:#aaa;font-size:13px;line-height:1.5}
 
+/* NEWS */
 .news a{
+  display:block;
   color:#9ad1ff;
   text-decoration:none;
-  font-size:13px;
-  line-height:1.5;
+  margin-bottom:10px;
+  font-size:14px;
 }
 .news a:hover{text-decoration:underline}
 
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.86);
-  z-index:9999;
-}
-.modal-content{
-  width:92%;
-  height:84%;
-  margin:4% auto;
-  background:black;
-  border-radius:18px;
-  overflow:hidden;
-}
-.close{
-  position:absolute;
-  top:22px;
-  right:32px;
-  font-size:30px;
-  cursor:pointer;
-}
-
+/* GLOW */
 .glow{
   position:fixed;
   width:650px;
@@ -136,216 +101,107 @@ h2{font-size:32px}
 <div class="glow"></div>
 <div class="glow2"></div>
 
+<!-- NAV -->
 <div class="nav">
   <a href="#market">Market</a>
-  <a href="#movers">Top Movers</a>
   <a href="#watch">Watchlist</a>
+  <a href="#chart">Chart</a>
   <a href="#news">News</a>
 </div>
 
+<!-- HERO -->
 <div class="hero">
   <h1>Quant Signal Desk</h1>
-  <p>Live Equity Data • Market Structure • TradingView Charts</p>
+  <p>Real-time Market • No API • Stable Data</p>
 </div>
 
+<!-- MARKET (实时价格滚动) -->
 <section id="market">
-  <h2>Market Overview</h2>
-  <div class="grid" id="marketGrid"></div>
-</section>
+<h2>Market Overview</h2>
 
-<section id="movers">
-  <h2>Top Movers</h2>
-  <div class="grid" id="moversGrid"></div>
-</section>
-
-<section id="watch">
-  <h2>My Watchlist</h2>
-  <div class="grid" id="watchGrid"></div>
-</section>
-
-<section id="news">
-  <h2>Market News</h2>
-  <div class="grid news">
-    <div class="card"><a href="https://www.cnbc.com/quotes/META" target="_blank">META latest market news</a></div>
-    <div class="card"><a href="https://www.cnbc.com/quotes/NVDA" target="_blank">NVDA AI sector coverage</a></div>
-    <div class="card"><a href="https://www.cnbc.com/quotes/SPY" target="_blank">SPY market trend updates</a></div>
-    <div class="card"><a href="https://www.reuters.com/markets/" target="_blank">Reuters global market news</a></div>
-    <div class="card"><a href="https://finance.yahoo.com/quote/RDDT" target="_blank">RDDT latest stock updates</a></div>
-    <div class="card"><a href="https://finance.yahoo.com/quote/CMG" target="_blank">CMG latest stock updates</a></div>
-  </div>
-</section>
-
-<div id="modal" class="modal">
-  <div class="close" onclick="closeChart()">×</div>
-  <div class="modal-content">
-    <iframe id="frame" width="100%" height="100%" frameborder="0"></iframe>
-  </div>
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+  {
+    "symbols": [
+      {"proName":"AMEX:SPY","title":"SPY"},
+      {"proName":"NASDAQ:QQQ","title":"QQQ"},
+      {"proName":"NASDAQ:AAPL","title":"AAPL"},
+      {"proName":"NASDAQ:MSFT","title":"MSFT"},
+      {"proName":"NASDAQ:META","title":"META"},
+      {"proName":"NASDAQ:NVDA","title":"NVDA"},
+      {"proName":"NASDAQ:TSLA","title":"TSLA"},
+      {"proName":"NASDAQ:AMZN","title":"AMZN"}
+    ],
+    "colorTheme": "dark",
+    "isTransparent": true,
+    "displayMode": "adaptive"
+  }
+  </script>
 </div>
 
-<script>
-const marketList = [
-  ["SPY","SPY","AMEX:SPY","S&P 500 ETF"],
-  ["QQQ","QQQ","NASDAQ:QQQ","Nasdaq 100 ETF"],
-  ["IWM","IWM","AMEX:IWM","Russell 2000"],
-  ["VTI","VTI","AMEX:VTI","Total Market"],
-  ["DIA","DIA","AMEX:DIA","Dow ETF"],
-  ["XLK","XLK","AMEX:XLK","Tech ETF"],
-  ["XLF","XLF","AMEX:XLF","Finance ETF"],
-  ["ARKK","ARKK","AMEX:ARKK","Innovation ETF"],
-  ["AAPL","AAPL","NASDAQ:AAPL","Apple"],
-  ["MSFT","MSFT","NASDAQ:MSFT","Microsoft"],
-  ["META","META","NASDAQ:META","Meta"],
-  ["NVDA","NVDA","NASDAQ:NVDA","Nvidia"],
-  ["AMZN","AMZN","NASDAQ:AMZN","Amazon"],
-  ["GOOGL","GOOGL","NASDAQ:GOOGL","Alphabet"],
-  ["TSLA","TSLA","NASDAQ:TSLA","Tesla"],
-  ["AMD","AMD","NASDAQ:AMD","AMD"],
-  ["COIN","COIN","NASDAQ:COIN","Coinbase"],
-  ["PLTR","PLTR","NYSE:PLTR","Palantir"],
-  ["UBER","UBER","NYSE:UBER","Uber"],
-  ["SHOP","SHOP","NYSE:SHOP","Shopify"],
-  ["DIS","DIS","NYSE:DIS","Disney"],
-  ["NFLX","NFLX","NASDAQ:NFLX","Netflix"]
-];
+</section>
 
-const watchList = [
-  ["CMG","CMG","NYSE:CMG","Chipotle"],
-  ["META","META","NASDAQ:META","Meta"],
-  ["BROS","BROS","NYSE:BROS","Dutch Bros"],
-  ["DKNG","DKNG","NASDAQ:DKNG","DraftKings"],
-  ["LKNCY","LKNCY","OTC:LKNCY","Luckin Coffee"],
-  ["RDDT","RDDT","NYSE:RDDT","Reddit"]
-];
+<!-- WATCHLIST -->
+<section id="watch">
+<h2>My Watchlist</h2>
 
-function createCards(list, containerId){
-  const container = document.getElementById(containerId);
-  container.innerHTML = "";
-
-  list.forEach(function(item){
-    const symbol = item[0];
-    const apiSymbol = item[1];
-    const tvSymbol = item[2];
-    const name = item[3];
-
-    const card = document.createElement("div");
-    card.className = "card";
-    card.onclick = function(){ openChart(tvSymbol); };
-
-    card.innerHTML =
-      '<div class="symbol">' + symbol + '</div>' +
-      '<div class="name">' + name + '</div>' +
-      '<div class="price" id="price-' + apiSymbol + '">loading...</div>';
-
-    container.appendChild(card);
-  });
-}
-
-function getQuote(data, symbol){
-  if(data[symbol]) return data[symbol];
-  if(data.close || data.price) return data;
-  return null;
-}
-
-async function updatePrices(){
-  const all = marketList.concat(watchList);
-  const unique = [];
-
-  all.forEach(function(item){
-    if(!unique.includes(item[1])) unique.push(item[1]);
-  });
-
-  try{
-    const res = await fetch("/api/quote?symbols=" + unique.join(","));
-    const data = await res.json();
-
-    unique.forEach(function(symbol){
-      const q = getQuote(data, symbol);
-      const el = document.getElementById("price-" + symbol);
-      if(!el) return;
-
-      if(!q || q.code){
-        el.innerHTML = "No data";
-        return;
-      }
-
-      const rawPrice = q.close || q.price || q.previous_close;
-      const rawChange = q.percent_change || q.change || 0;
-
-      if(!rawPrice){
-        el.innerHTML = "No data";
-        return;
-      }
-
-      const price = Number(rawPrice).toFixed(2);
-      const change = Number(rawChange).toFixed(2);
-      const cls = change >= 0 ? "up" : "down";
-      const sign = change >= 0 ? "+" : "";
-
-      el.innerHTML = "$" + price + ' <span class="' + cls + '">' + sign + change + "%</span>";
-    });
-
-    buildMovers(data, unique);
-
-  }catch(e){
-    console.log(e);
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+  {
+    "symbols": [
+      ["CMG"],
+      ["META"],
+      ["BROS"],
+      ["DKNG"],
+      ["OTC:LKNCY"],
+      ["NYSE:RDDT"]
+    ],
+    "colorTheme": "dark",
+    "width": "100%",
+    "height": 400
   }
-}
+  </script>
+</div>
 
-function buildMovers(data, symbols){
-  const box = document.getElementById("moversGrid");
-  const rows = [];
+</section>
 
-  symbols.forEach(function(symbol){
-    const q = getQuote(data, symbol);
-    if(!q || q.code) return;
+<!-- CHART -->
+<section id="chart">
+<h2>Live Chart</h2>
 
-    const change = Number(q.percent_change || q.change || 0);
-    const price = Number(q.close || q.price || q.previous_close || 0);
+<div class="tradingview-widget-container">
+  <div id="tradingview_chart"></div>
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script>
+    new TradingView.widget({
+      "width": "100%",
+      "height": 500,
+      "symbol": "NASDAQ:AAPL",
+      "interval": "D",
+      "theme": "dark",
+      "style": "1",
+      "locale": "en"
+    });
+  </script>
+</div>
 
-    if(!price) return;
+</section>
 
-    rows.push({symbol:symbol, change:change, price:price});
-  });
+<!-- NEWS -->
+<section id="news">
+<h2>Market News</h2>
 
-  rows.sort(function(a,b){ return b.change - a.change; });
+<div class="block news">
+  <a href="https://www.cnbc.com/quotes/NVDA" target="_blank">NVDA AI demand remains strong</a>
+  <a href="https://www.cnbc.com/quotes/META" target="_blank">META advertising outlook improves</a>
+  <a href="https://www.cnbc.com/quotes/SPY" target="_blank">SPY market trend analysis</a>
+  <a href="https://www.reuters.com/markets/" target="_blank">Global markets update (Reuters)</a>
+  <a href="https://finance.yahoo.com/quote/RDDT" target="_blank">RDDT latest updates</a>
+</div>
 
-  const gainers = rows.slice(0,3);
-  const losers = rows.slice(-3).reverse();
-
-  box.innerHTML =
-    '<div class="block"><b>Top Gainers</b><p>' +
-    gainers.map(function(x){
-      return x.symbol + " $" + x.price.toFixed(2) + " +" + x.change.toFixed(2) + "%";
-    }).join("<br>") +
-    '</p></div>' +
-    '<div class="block"><b>Top Losers</b><p>' +
-    losers.map(function(x){
-      return x.symbol + " $" + x.price.toFixed(2) + " " + x.change.toFixed(2) + "%";
-    }).join("<br>") +
-    '</p></div>' +
-    '<div class="block"><b>Market Note</b><p>Large-cap tech, ETFs, and watchlist names are monitored with cached live quote data.</p></div>';
-}
-
-function openChart(tvSymbol){
-  document.getElementById("modal").style.display = "block";
-  document.getElementById("frame").src =
-    "https://s.tradingview.com/widgetembed/?symbol=" + tvSymbol + "&interval=D&theme=dark";
-}
-
-function closeChart(){
-  document.getElementById("modal").style.display = "none";
-  document.getElementById("frame").src = "";
-}
-
-document.addEventListener("keydown", function(e){
-  if(e.key === "Escape") closeChart();
-});
-
-createCards(marketList, "marketGrid");
-createCards(watchList, "watchGrid");
-updatePrices();
-setInterval(updatePrices, 3600000);
-</script>
+</section>
 
 </body>
 </html>
