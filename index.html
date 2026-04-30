@@ -69,18 +69,19 @@ h2{
   margin-bottom:18px;
 }
 
-.buttons button{
+.buttons select{
   background:rgba(255,255,255,.08);
   color:white;
   border:1px solid rgba(255,255,255,.1);
   border-radius:999px;
-  padding:9px 15px;
+  padding:10px 15px;
   cursor:pointer;
   font-size:13px;
 }
 
-.buttons button:hover{
-  background:rgba(255,255,255,.16);
+.buttons select option{
+  background:#111;
+  color:white;
 }
 
 .news-grid{
@@ -202,18 +203,14 @@ h2{
 
 <section id="chart">
 <h2>Live Chart</h2>
+<p class="small">Choose asset class, category, then symbol.</p>
 
-<div class="buttons">
-  <button onclick="changeChart('NASDAQ:AAPL')">AAPL</button>
-  <button onclick="changeChart('NASDAQ:META')">META</button>
-  <button onclick="changeChart('NASDAQ:NVDA')">NVDA</button>
-  <button onclick="changeChart('AMEX:SPY')">SPY</button>
-  <button onclick="changeChart('NASDAQ:QQQ')">QQQ</button>
-  <button onclick="changeChart('NYSE:CMG')">CMG</button>
-  <button onclick="changeChart('NYSE:BROS')">BROS</button>
-  <button onclick="changeChart('NASDAQ:DKNG')">DKNG</button>
-  <button onclick="changeChart('OTC:LKNCY')">LKNCY</button>
-  <button onclick="changeChart('NYSE:RDDT')">RDDT</button>
+<div class="block">
+  <div class="buttons">
+    <select id="assetType" onchange="loadCategories()"></select>
+    <select id="category" onchange="loadSymbols()"></select>
+    <select id="symbolSelect" onchange="changeChartFromSelect()"></select>
+  </div>
 </div>
 
 <div class="chart-box">
@@ -277,10 +274,127 @@ h2{
 </section>
 
 <script>
-function changeChart(symbol){
+const chartData = {
+  "ETF": {
+    "Major Index": [
+      ["SPY","AMEX:SPY"], ["QQQ","NASDAQ:QQQ"], ["DIA","AMEX:DIA"],
+      ["IWM","AMEX:IWM"], ["VTI","AMEX:VTI"], ["VOO","AMEX:VOO"]
+    ],
+    "Sector ETF": [
+      ["XLK","AMEX:XLK"], ["XLF","AMEX:XLF"], ["XLE","AMEX:XLE"],
+      ["XLV","AMEX:XLV"], ["XLY","AMEX:XLY"], ["XLP","AMEX:XLP"],
+      ["XLI","AMEX:XLI"], ["XLU","AMEX:XLU"], ["XLB","AMEX:XLB"],
+      ["XLRE","AMEX:XLRE"]
+    ],
+    "Growth / Innovation": [
+      ["ARKK","AMEX:ARKK"], ["ARKQ","AMEX:ARKQ"], ["ARKG","AMEX:ARKG"],
+      ["SOXX","NASDAQ:SOXX"], ["SMH","NASDAQ:SMH"], ["IBB","NASDAQ:IBB"]
+    ],
+    "Bond / Gold / Volatility": [
+      ["TLT","NASDAQ:TLT"], ["HYG","AMEX:HYG"], ["LQD","AMEX:LQD"],
+      ["GLD","AMEX:GLD"], ["SLV","AMEX:SLV"], ["VXX","AMEX:VXX"]
+    ]
+  },
+
+  "Stocks": {
+    "Technology": [
+      ["AAPL","NASDAQ:AAPL"], ["MSFT","NASDAQ:MSFT"], ["NVDA","NASDAQ:NVDA"],
+      ["META","NASDAQ:META"], ["GOOGL","NASDAQ:GOOGL"], ["AMZN","NASDAQ:AMZN"],
+      ["AMD","NASDAQ:AMD"], ["INTC","NASDAQ:INTC"], ["AVGO","NASDAQ:AVGO"],
+      ["ORCL","NYSE:ORCL"], ["CRM","NYSE:CRM"], ["ADBE","NASDAQ:ADBE"],
+      ["PLTR","NYSE:PLTR"], ["SNOW","NYSE:SNOW"], ["SHOP","NYSE:SHOP"]
+    ],
+    "Energy / Oil": [
+      ["XOM","NYSE:XOM"], ["CVX","NYSE:CVX"], ["COP","NYSE:COP"],
+      ["SLB","NYSE:SLB"], ["OXY","NYSE:OXY"], ["MPC","NYSE:MPC"],
+      ["VLO","NYSE:VLO"], ["EOG","NYSE:EOG"]
+    ],
+    "Finance": [
+      ["JPM","NYSE:JPM"], ["BAC","NYSE:BAC"], ["GS","NYSE:GS"],
+      ["MS","NYSE:MS"], ["C","NYSE:C"], ["WFC","NYSE:WFC"],
+      ["V","NYSE:V"], ["MA","NYSE:MA"], ["AXP","NYSE:AXP"]
+    ],
+    "Consumer": [
+      ["TSLA","NASDAQ:TSLA"], ["NKE","NYSE:NKE"], ["SBUX","NASDAQ:SBUX"],
+      ["MCD","NYSE:MCD"], ["CMG","NYSE:CMG"], ["BROS","NYSE:BROS"],
+      ["COST","NASDAQ:COST"], ["WMT","NYSE:WMT"], ["TGT","NYSE:TGT"]
+    ],
+    "Media / Internet": [
+      ["NFLX","NASDAQ:NFLX"], ["DIS","NYSE:DIS"], ["RDDT","NYSE:RDDT"],
+      ["UBER","NYSE:UBER"], ["DASH","NASDAQ:DASH"], ["ABNB","NASDAQ:ABNB"],
+      ["SPOT","NYSE:SPOT"], ["PINS","NYSE:PINS"], ["SNAP","NYSE:SNAP"]
+    ],
+    "Gaming / Betting": [
+      ["DKNG","NASDAQ:DKNG"], ["RBLX","NYSE:RBLX"], ["EA","NASDAQ:EA"],
+      ["TTWO","NASDAQ:TTWO"], ["U","NYSE:U"]
+    ],
+    "China / ADR": [
+      ["BABA","NYSE:BABA"], ["JD","NASDAQ:JD"], ["PDD","NASDAQ:PDD"],
+      ["NIO","NYSE:NIO"], ["LI","NASDAQ:LI"], ["XPEV","NYSE:XPEV"],
+      ["BIDU","NASDAQ:BIDU"], ["TME","NYSE:TME"], ["LKNCY","OTC:LKNCY"]
+    ],
+    "Crypto Related": [
+      ["COIN","NASDAQ:COIN"], ["MSTR","NASDAQ:MSTR"], ["RIOT","NASDAQ:RIOT"],
+      ["MARA","NASDAQ:MARA"], ["HOOD","NASDAQ:HOOD"], ["SQ","NYSE:SQ"],
+      ["PYPL","NASDAQ:PYPL"]
+    ],
+    "Healthcare": [
+      ["LLY","NYSE:LLY"], ["UNH","NYSE:UNH"], ["JNJ","NYSE:JNJ"],
+      ["PFE","NYSE:PFE"], ["MRNA","NASDAQ:MRNA"], ["ABBV","NYSE:ABBV"],
+      ["TMO","NYSE:TMO"], ["ISRG","NASDAQ:ISRG"]
+    ],
+    "Industrial / Aerospace": [
+      ["BA","NYSE:BA"], ["CAT","NYSE:CAT"], ["GE","NYSE:GE"],
+      ["LMT","NYSE:LMT"], ["RTX","NYSE:RTX"], ["DE","NYSE:DE"],
+      ["HON","NASDAQ:HON"], ["UPS","NYSE:UPS"]
+    ]
+  }
+};
+
+function initSelectors(){
+  const assetType = document.getElementById("assetType");
+  assetType.innerHTML = "";
+
+  Object.keys(chartData).forEach(type => {
+    assetType.innerHTML += `<option value="${type}">${type}</option>`;
+  });
+
+  loadCategories();
+}
+
+function loadCategories(){
+  const type = document.getElementById("assetType").value;
+  const category = document.getElementById("category");
+  category.innerHTML = "";
+
+  Object.keys(chartData[type]).forEach(cat => {
+    category.innerHTML += `<option value="${cat}">${cat}</option>`;
+  });
+
+  loadSymbols();
+}
+
+function loadSymbols(){
+  const type = document.getElementById("assetType").value;
+  const cat = document.getElementById("category").value;
+  const symbolSelect = document.getElementById("symbolSelect");
+
+  symbolSelect.innerHTML = "";
+
+  chartData[type][cat].forEach(item => {
+    symbolSelect.innerHTML += `<option value="${item[1]}">${item[0]}</option>`;
+  });
+
+  changeChartFromSelect();
+}
+
+function changeChartFromSelect(){
+  const symbol = document.getElementById("symbolSelect").value;
   document.getElementById("chartFrame").src =
     "https://s.tradingview.com/widgetembed/?symbol=" + symbol + "&interval=D&theme=dark";
 }
+
+initSelectors();
 </script>
 
 </body>
