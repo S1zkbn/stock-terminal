@@ -3,95 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quant Signal Desk</title>
+<title>Market Terminal</title>
 
 <style>
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Helvetica,Arial;
   background:#0b0b10;
-  color:#fff;
+  color:white;
 }
 
-/* NAV */
-.nav{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:rgba(10,10,15,.75);
-  backdrop-filter:blur(18px);
-  display:flex;
-  justify-content:center;
-  gap:24px;
-  padding:14px 0;
-  z-index:999;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-.nav a{
-  color:#aaa;
-  text-decoration:none;
-  font-size:13px;
-}
-.nav a:hover{color:white}
-
-/* HERO */
-.hero{
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-.hero h1{font-size:64px;margin:0}
-.hero p{color:#aaa;margin-top:10px}
-
-/* SECTIONS */
 section{
   max-width:1200px;
   margin:auto;
-  padding:100px 20px;
-}
-h2{font-size:32px}
-
-/* BLOCK */
-.block{
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:16px;
-  padding:16px;
+  padding:70px 20px;
 }
 
-/* NEWS */
-.news a{
-  display:block;
-  color:#9ad1ff;
-  text-decoration:none;
-  margin-bottom:10px;
-  font-size:14px;
+h2{
+  font-size:34px;
+  margin-bottom:25px;
 }
-.news a:hover{text-decoration:underline}
 
-/* GLOW */
 .glow{
   position:fixed;
   width:650px;
   height:650px;
   top:-250px;
   left:-250px;
-  background:radial-gradient(circle,rgba(0,200,255,.18),transparent 60%);
+  background:radial-gradient(circle,rgba(0,200,255,.16),transparent 60%);
   filter:blur(90px);
   z-index:-1;
 }
+
 .glow2{
   position:fixed;
   width:650px;
   height:650px;
   right:-250px;
   bottom:-250px;
-  background:radial-gradient(circle,rgba(255,0,150,.13),transparent 60%);
+  background:radial-gradient(circle,rgba(255,0,150,.12),transparent 60%);
   filter:blur(90px);
   z-index:-1;
+}
+
+.block{
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  padding:18px;
+  margin-bottom:18px;
+  backdrop-filter:blur(18px);
+}
+
+.chart-box{
+  overflow:hidden;
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,.1);
+  background:#050508;
+}
+
+.buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.buttons button{
+  background:rgba(255,255,255,.08);
+  color:white;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:999px;
+  padding:9px 15px;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.buttons button:hover{
+  background:rgba(255,255,255,.16);
+}
+
+.news-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+}
+
+.news-card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  overflow:hidden;
+  transition:.25s;
+}
+
+.news-card:hover{
+  transform:translateY(-5px);
+  background:rgba(255,255,255,.1);
+}
+
+.news-card img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  display:block;
+}
+
+.news-card a{
+  color:white;
+  text-decoration:none;
+}
+
+.news-card h3{
+  font-size:16px;
+  padding:15px;
+  margin:0;
+  line-height:1.4;
+}
+
+.small{
+  color:#999;
+  font-size:13px;
+  margin-top:-10px;
+  margin-bottom:25px;
 }
 </style>
 </head>
@@ -101,107 +135,153 @@ h2{font-size:32px}
 <div class="glow"></div>
 <div class="glow2"></div>
 
-<!-- NAV -->
-<div class="nav">
-  <a href="#market">Market</a>
-  <a href="#watch">Watchlist</a>
-  <a href="#chart">Chart</a>
-  <a href="#news">News</a>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-  <h1>Quant Signal Desk</h1>
-  <p>Real-time Market • No API • Stable Data</p>
-</div>
-
-<!-- MARKET (实时价格滚动) -->
-<section id="market">
+<section id="overview">
 <h2>Market Overview</h2>
+<p class="small">Live market overview powered by TradingView</p>
 
-<div class="tradingview-widget-container">
-  <div class="tradingview-widget-container__widget"></div>
-  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-  {
-    "symbols": [
-      {"proName":"AMEX:SPY","title":"SPY"},
-      {"proName":"NASDAQ:QQQ","title":"QQQ"},
-      {"proName":"NASDAQ:AAPL","title":"AAPL"},
-      {"proName":"NASDAQ:MSFT","title":"MSFT"},
-      {"proName":"NASDAQ:META","title":"META"},
-      {"proName":"NASDAQ:NVDA","title":"NVDA"},
-      {"proName":"NASDAQ:TSLA","title":"TSLA"},
-      {"proName":"NASDAQ:AMZN","title":"AMZN"}
-    ],
-    "colorTheme": "dark",
-    "isTransparent": true,
-    "displayMode": "adaptive"
-  }
-  </script>
+<div class="block">
+<script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+{
+  "symbols": [
+    {"proName":"AMEX:SPY","title":"SPY"},
+    {"proName":"NASDAQ:QQQ","title":"QQQ"},
+    {"proName":"AMEX:IWM","title":"IWM"},
+    {"proName":"AMEX:VTI","title":"VTI"},
+    {"proName":"AMEX:DIA","title":"DIA"},
+    {"proName":"AMEX:XLK","title":"XLK"},
+    {"proName":"AMEX:XLF","title":"XLF"},
+    {"proName":"AMEX:ARKK","title":"ARKK"}
+  ],
+  "colorTheme":"dark",
+  "isTransparent":true,
+  "displayMode":"adaptive"
+}
+</script>
 </div>
 
-</section>
-
-<!-- WATCHLIST -->
-<section id="watch">
-<h2>My Watchlist</h2>
-
-<div class="tradingview-widget-container">
-  <div class="tradingview-widget-container__widget"></div>
-  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
-  {
-    "symbols": [
-      ["CMG"],
-      ["META"],
-      ["BROS"],
-      ["DKNG"],
-      ["OTC:LKNCY"],
-      ["NYSE:RDDT"]
-    ],
-    "colorTheme": "dark",
-    "width": "100%",
-    "height": 400
-  }
-  </script>
+<div class="block">
+<script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+{
+  "symbols": [
+    {"proName":"NASDAQ:AAPL","title":"AAPL"},
+    {"proName":"NASDAQ:MSFT","title":"MSFT"},
+    {"proName":"NASDAQ:META","title":"META"},
+    {"proName":"NASDAQ:NVDA","title":"NVDA"},
+    {"proName":"NASDAQ:AMZN","title":"AMZN"},
+    {"proName":"NASDAQ:GOOGL","title":"GOOGL"},
+    {"proName":"NASDAQ:TSLA","title":"TSLA"},
+    {"proName":"NASDAQ:AMD","title":"AMD"}
+  ],
+  "colorTheme":"dark",
+  "isTransparent":true,
+  "displayMode":"adaptive"
+}
+</script>
 </div>
 
+<div class="block">
+<script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+{
+  "symbols": [
+    {"proName":"NYSE:CMG","title":"CMG"},
+    {"proName":"NYSE:BROS","title":"BROS"},
+    {"proName":"NASDAQ:DKNG","title":"DKNG"},
+    {"proName":"OTC:LKNCY","title":"LKNCY"},
+    {"proName":"NYSE:RDDT","title":"RDDT"},
+    {"proName":"NASDAQ:COIN","title":"COIN"},
+    {"proName":"NYSE:PLTR","title":"PLTR"},
+    {"proName":"NYSE:UBER","title":"UBER"}
+  ],
+  "colorTheme":"dark",
+  "isTransparent":true,
+  "displayMode":"adaptive"
+}
+</script>
+</div>
 </section>
 
-<!-- CHART -->
 <section id="chart">
 <h2>Live Chart</h2>
 
-<div class="tradingview-widget-container">
-  <div id="tradingview_chart"></div>
-  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-  <script>
-    new TradingView.widget({
-      "width": "100%",
-      "height": 500,
-      "symbol": "NASDAQ:AAPL",
-      "interval": "D",
-      "theme": "dark",
-      "style": "1",
-      "locale": "en"
-    });
-  </script>
+<div class="buttons">
+  <button onclick="changeChart('NASDAQ:AAPL')">AAPL</button>
+  <button onclick="changeChart('NASDAQ:META')">META</button>
+  <button onclick="changeChart('NASDAQ:NVDA')">NVDA</button>
+  <button onclick="changeChart('AMEX:SPY')">SPY</button>
+  <button onclick="changeChart('NASDAQ:QQQ')">QQQ</button>
+  <button onclick="changeChart('NYSE:CMG')">CMG</button>
+  <button onclick="changeChart('NYSE:BROS')">BROS</button>
+  <button onclick="changeChart('NASDAQ:DKNG')">DKNG</button>
+  <button onclick="changeChart('OTC:LKNCY')">LKNCY</button>
+  <button onclick="changeChart('NYSE:RDDT')">RDDT</button>
 </div>
 
+<div class="chart-box">
+  <iframe id="chartFrame"
+    src="https://s.tradingview.com/widgetembed/?symbol=NASDAQ:AAPL&interval=D&theme=dark"
+    width="100%"
+    height="560"
+    frameborder="0">
+  </iframe>
+</div>
 </section>
 
-<!-- NEWS -->
 <section id="news">
 <h2>Market News</h2>
 
-<div class="block news">
-  <a href="https://www.cnbc.com/quotes/NVDA" target="_blank">NVDA AI demand remains strong</a>
-  <a href="https://www.cnbc.com/quotes/META" target="_blank">META advertising outlook improves</a>
-  <a href="https://www.cnbc.com/quotes/SPY" target="_blank">SPY market trend analysis</a>
-  <a href="https://www.reuters.com/markets/" target="_blank">Global markets update (Reuters)</a>
-  <a href="https://finance.yahoo.com/quote/RDDT" target="_blank">RDDT latest updates</a>
-</div>
+<div class="news-grid">
 
+  <div class="news-card">
+    <a href="https://www.cnbc.com/quotes/NVDA" target="_blank">
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80">
+      <h3>NVDA and AI chip demand remain in focus</h3>
+    </a>
+  </div>
+
+  <div class="news-card">
+    <a href="https://www.cnbc.com/quotes/META" target="_blank">
+      <img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?auto=format&fit=crop&w=800&q=80">
+      <h3>META latest stock and advertising business updates</h3>
+    </a>
+  </div>
+
+  <div class="news-card">
+    <a href="https://www.cnbc.com/quotes/SPY" target="_blank">
+      <img src="https://images.unsplash.com/photo-1642790551116-18e150f248e6?auto=format&fit=crop&w=800&q=80">
+      <h3>SPY market trend and S&P 500 movement</h3>
+    </a>
+  </div>
+
+  <div class="news-card">
+    <a href="https://finance.yahoo.com/quote/RDDT" target="_blank">
+      <img src="https://images.unsplash.com/photo-1611605698335-8b1569810432?auto=format&fit=crop&w=800&q=80">
+      <h3>RDDT stock news and social media market sentiment</h3>
+    </a>
+  </div>
+
+  <div class="news-card">
+    <a href="https://finance.yahoo.com/quote/CMG" target="_blank">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80">
+      <h3>CMG updates and consumer stock performance</h3>
+    </a>
+  </div>
+
+  <div class="news-card">
+    <a href="https://www.reuters.com/markets/" target="_blank">
+      <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=80">
+      <h3>Global market headlines from Reuters</h3>
+    </a>
+  </div>
+
+</div>
 </section>
+
+<script>
+function changeChart(symbol){
+  document.getElementById("chartFrame").src =
+    "https://s.tradingview.com/widgetembed/?symbol=" + symbol + "&interval=D&theme=dark";
+}
+</script>
 
 </body>
 </html>
