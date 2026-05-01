@@ -696,17 +696,28 @@ const data = {
 };
 
 function showGeoPage(id){
-  document.getElementById("geo-tips").classList.remove("active");
-  document.getElementById("geo-ai").classList.remove("active");
+  const tipsPage = document.getElementById("geo-tips");
+  const aiPage = document.getElementById("geo-ai");
+
+  const tipsBtn = document.getElementById("btn-geo-tips");
+  const aiBtn = document.getElementById("btn-geo-ai");
+
+  if(!tipsPage || !aiPage || !tipsBtn || !aiBtn){
+    console.log("GeoGuessr page element missing");
+    return;
+  }
+
+  tipsPage.classList.remove("active");
+  aiPage.classList.remove("active");
 
   document.getElementById(id).classList.add("active");
 
-  document.getElementById("btn-geo-tips").classList.remove("active");
-  document.getElementById("btn-geo-ai").classList.remove("active");
+  tipsBtn.classList.remove("active");
+  aiBtn.classList.remove("active");
 
   document.getElementById("btn-" + id).classList.add("active");
 }
-
+  
 function addChatMessage(text, type){
   const box = document.getElementById("chatMessages");
   const msg = document.createElement("div");
