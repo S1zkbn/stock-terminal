@@ -373,6 +373,70 @@ h2{
 .chat-input-area button:hover{
   background:#dfe7ff;
 }
+.daily-brief{
+  background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.035));
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:28px;
+  padding:22px;
+  margin-bottom:28px;
+  box-shadow:0 25px 80px rgba(0,0,0,.28);
+}
+
+.brief-header h2{
+  margin:0;
+  font-size:30px;
+}
+
+.brief-header p{
+  color:#aaa;
+  font-size:14px;
+  margin:8px 0 20px;
+}
+
+.brief-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:16px;
+}
+
+.brief-card{
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  padding:18px;
+}
+
+.brief-card h3{
+  margin:0 0 10px;
+  font-size:17px;
+}
+
+.brief-card p{
+  color:#c9c9cf;
+  font-size:14px;
+  line-height:1.6;
+  margin:0;
+}
+
+.brief-card ul{
+  margin:0;
+  padding-left:18px;
+  color:#c9c9cf;
+  line-height:1.6;
+  font-size:14px;
+}
+
+.brief-tag{
+  display:inline-block;
+  margin-bottom:10px;
+  padding:5px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.1);
+  color:#9ad1ff;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+}
 </style>
 </head>
 
@@ -555,9 +619,15 @@ h2{
     <h2>Market News & Analyst Views</h2>
     <p class="small">Real-time market news, earnings, and analyst insights.</p>
     
-    <div class="block">
-  <h2 style="margin-top:0;">Daily Market Brief</h2>
-  <p id="dailyAnalysis" style="color:#ccc;line-height:1.7;">Loading daily analysis...</p>
+    <div class="daily-brief">
+  <div class="brief-header">
+    <h2>Daily Market Brief</h2>
+    <p>AI-generated market overview organized by market, sentiment, watchlist, and risks.</p>
+  </div>
+
+  <div class="brief-grid" id="dailyAnalysis">
+    <div class="brief-card">Loading daily analysis...</div>
+  </div>
 </div>
 
     <div class="news-grid" id="newsGrid">
@@ -806,11 +876,66 @@ async function loadDailyAnalysis(){
   try{
     const res = await fetch("/api/daily-analysis");
     const data = await res.json();
+    const a = data.analysis;
 
-    box.textContent = data.analysis || data.error || "Daily analysis unavailable.";
+    if(!a || data.error){
+      box.innerHTML = '<div class="brief-card">Daily analysis unavailable.</div>';
+      return;
+    }
+
+    box.innerHTML =
+      '<div class="brief-card">' +
+        '<span class="brief-tag">Market</span>' +
+        '<h3>大盘 Market Overview</h3>' +
+        '<p>' + escapeHtml(a.market || "Unavailable.") + '</p>' +
+      '</div>' +
+
+      '<div class="brief-card">' +
+        '<span class="brief-tag">Sentiment</span>' +
+        '<h3>情绪 Market Sentiment</h3>' +
+        '<p>' + escapeHtml(a.sentiment || "Unavailable.") + '</p>' +
+      '</div>' +
+
+      '<div class="brief-card">' +
+        '<span class="brief-tag">Stocks</span>' +
+        '<h3>个股 Individual Stocks</h3>' +
+        '<p>' + escapeHtml(a.individualStocks || "Unavailable.") + '</p>' +
+      '</div>' +
+
+      '<div class="brief-card">' +
+        '<span class="brief-tag">Watchlist</span>' +
+        '<h3>关注点 Watchlist Focus</h3>' +
+        '<p>' + escapeHtml(a.watchlistFocus || "Unavailable.") + '</p>' +
+      '</div>' +
+
+      '<div class="brief-card">' +
+        '<span class="brief-tag">Watch</span>' +
+        '<h3>可以注意的股票 Stocks to Watch</h3>' +
+        '<ul>' +
+          (Array.isArray(a.stocksToWatch)
+            ? a.stocksToWatch.map(x => '<li>' + escapeHtml(x) + '</li>').join("")
+            : '<li>Unavailable.</li>') +
+        '</ul>' +
+      '</div>' +
+
+      '<div class="brief-card">' +
+        '<span class="brief-tag">Risk</span>' +
+        '<h3>风险 Main Risks</h3>' +
+        '<p>' + escapeHtml(a.risks || "Unavailable.") + '</p>' +
+      '</div>';
+
   }catch(e){
-    box.textContent = "Daily analysis unavailable.";
+    box.innerHTML = '<div class="brief-card">Daily analysis unavailable.</div>';
   }
+}
+
+function escapeHtml(text){
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function showStockPage(id){
