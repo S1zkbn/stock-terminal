@@ -437,6 +437,11 @@ h2{
   font-weight:700;
   text-transform:uppercase;
 }
+
+.dark-widget{
+  background:#0b0b10;
+}
+
 </style>
 </head>
 
@@ -531,26 +536,26 @@ h2{
     <h2>My Watchlist</h2>
     <p class="small">CMG • META • BROS • DKNG • LKNCY • RDDT • PRCT • IREN • RKLB</p>
 
-    <div class="block">
-      <script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-      {
-        "symbols": [
-  {"proName":"NYSE:CMG","title":"CMG"},
-  {"proName":"NASDAQ:META","title":"META"},
-  {"proName":"NYSE:BROS","title":"BROS"},
-  {"proName":"NASDAQ:DKNG","title":"DKNG"},
-  {"proName":"OTC:LKNCY","title":"LKNCY"},
-  {"proName":"NYSE:RDDT","title":"RDDT"},
-  {"proName":"NASDAQ:PRCT","title":"PRCT"},
-  {"proName":"NASDAQ:IREN","title":"IREN"},
-  {"proName":"NASDAQ:RKLB","title":"RKLB"}
-]
-        "colorTheme":"dark",
-        "isTransparent":true,
-        "displayMode":"adaptive"
-      }
-      </script>
-    </div>
+    <div class="block dark-widget">
+  <script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+  {
+    "symbols": [
+      {"proName":"NYSE:CMG","title":"CMG"},
+      {"proName":"NASDAQ:META","title":"META"},
+      {"proName":"NYSE:BROS","title":"BROS"},
+      {"proName":"NASDAQ:DKNG","title":"DKNG"},
+      {"proName":"OTC:LKNCY","title":"LKNCY"},
+      {"proName":"NYSE:RDDT","title":"RDDT"},
+      {"proName":"NASDAQ:PRCT","title":"PRCT"},
+      {"proName":"NASDAQ:IREN","title":"IREN"},
+      {"proName":"NASDAQ:RKLB","title":"RKLB"}
+    ],
+    "colorTheme":"dark",
+    "isTransparent":true,
+    "displayMode":"adaptive"
+  }
+  </script>
+</div>
 
     <div class="selector-panel">
       <div class="buttons">
@@ -1165,6 +1170,8 @@ function closeTip(){
   document.getElementById("tipArticle").style.display = "none";
   document.getElementById("tipsList").style.display = "grid";
 }
+
+
 
 init();
 loadDailyAnalysis();
