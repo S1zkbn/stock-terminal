@@ -274,6 +274,105 @@ h2{
   color:#aaa;
   line-height:1.6;
 }
+
+  .chat-shell{
+  max-width:900px;
+  margin:auto;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:28px;
+  overflow:hidden;
+  box-shadow:0 30px 90px rgba(0,0,0,.35);
+}
+
+.chat-header{
+  padding:18px 22px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.06);
+}
+
+.chat-header h3{
+  margin:0;
+  font-size:20px;
+}
+
+.chat-header p{
+  margin:6px 0 0;
+  color:#aaa;
+  font-size:13px;
+}
+
+.chat-messages{
+  height:430px;
+  overflow-y:auto;
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.message{
+  max-width:75%;
+  padding:13px 16px;
+  border-radius:20px;
+  line-height:1.55;
+  font-size:14px;
+  white-space:pre-wrap;
+}
+
+.user-msg{
+  align-self:flex-end;
+  background:#f5f5f7;
+  color:#111;
+  border-bottom-right-radius:6px;
+}
+
+.ai-msg{
+  align-self:flex-start;
+  background:rgba(255,255,255,.09);
+  color:#eee;
+  border:1px solid rgba(255,255,255,.08);
+  border-bottom-left-radius:6px;
+}
+
+.chat-input-area{
+  display:flex;
+  gap:12px;
+  padding:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+  background:rgba(0,0,0,.25);
+}
+
+.chat-input-area textarea{
+  flex:1;
+  height:58px;
+  resize:none;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  padding:14px;
+  background:rgba(255,255,255,.08);
+  color:white;
+  font-size:14px;
+  outline:none;
+}
+
+.chat-input-area textarea::placeholder{
+  color:#888;
+}
+
+.chat-input-area button{
+  border:0;
+  border-radius:18px;
+  padding:0 22px;
+  background:white;
+  color:#111;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.chat-input-area button:hover{
+  background:#dfe7ff;
+}
 </style>
 </head>
 
@@ -497,20 +596,30 @@ h2{
   </section>
 
   <section id="geo-ai" class="stock-page">
-    <h2>GeoGuessr AI Coach</h2>
-    <p class="small">Ask for country clues, practice plans, or how to separate similar countries.</p>
+  <h2>GeoGuessr AI Coach</h2>
+  <p class="small">Ask questions, get practice plans, and review country clues.</p>
 
-    <div class="block">
-      <textarea id="geoQuestion" placeholder="Example: How do I tell Czechia and Slovakia apart?" style="width:100%;height:120px;border-radius:16px;padding:14px;font-size:15px;"></textarea>
-      <br><br>
-      <button onclick="askGeoAI()" style="border:0;border-radius:999px;padding:12px 20px;font-weight:700;cursor:pointer;">Ask AI</button>
+  <div class="chat-shell">
+    <div class="chat-header">
+      <h3>GeoGuessr Coach</h3>
+      <p>Country clues • Road signs • Poles • Bollards • Languages • NMPZ strategy</p>
     </div>
 
-    <div class="block">
-      <h3>AI Response</h3>
-      <p id="geoAnswer" style="color:#ccc;line-height:1.6;">Your answer will appear here.</p>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message ai-msg">
+        Hi, I’m your GeoGuessr coach. Ask me things like:
+        “How do I tell Czechia and Slovakia apart?”
+        “Give me a Europe practice plan.”
+        “How do I identify Chile quickly?”
+      </div>
     </div>
-  </section>
+
+    <div class="chat-input-area">
+      <textarea id="geoQuestion" placeholder="Ask a GeoGuessr question..."></textarea>
+      <button onclick="askGeoAI()">Send</button>
+    </div>
+  </div>
+</section>
 </main>
 
 <script>
@@ -614,35 +723,50 @@ function showGeoPage(id){
   document.getElementById("btn-" + id).classList.add("active");
 }
 
-async function askGeoAI(){
-  const question = document.getElementById("geoQuestion").value;
-  const answer = document.getElementById("geoAnswer");
+function addChatMessage(text, type){
+  const box = document.getElementById("chatMessages");
+  const msg = document.createElement("div");
 
-  if(!question.trim()){
-    answer.textContent = "Type a question first.";
+  msg.className = "message " + (type === "user" ? "user-msg" : "ai-msg");
+  msg.textContent = text;
+
+  box.appendChild(msg);
+  box.scrollTop = box.scrollHeight;
+
+  return msg;
+}
+
+async function askGeoAI(){
+  const input = document.getElementById("geoQuestion");
+  const question = input.value.trim();
+
+  if(!question){
     return;
   }
 
-  answer.textContent = "Thinking...";
+  addChatMessage(question, "user");
+  input.value = "";
+
+  const thinking = addChatMessage("Thinking...", "ai");
 
   try{
     const res = await fetch("/api/geo-ai", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
       },
-      body: JSON.stringify({ message: question })
+      body:JSON.stringify({ message: question })
     });
 
     const data = await res.json();
 
-    answer.textContent =
-  data.reply ||
-  data.error ||
-  JSON.stringify(data.details || data, null, 2) ||
-  "No response.";
+    thinking.textContent =
+      data.reply ||
+      data.error ||
+      JSON.stringify(data.details || data, null, 2) ||
+      "No response.";
   }catch(e){
-    answer.textContent = "AI request failed.";
+    thinking.textContent = "AI request failed. Check API key or backend.";
   }
 }
 
