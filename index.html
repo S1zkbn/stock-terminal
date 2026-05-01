@@ -456,10 +456,59 @@ h2{
 </main>
 
 <main id="geoguessr" class="main-page">
-  <section class="coming">
-    <div class="coming-card">
-      <h2>GeoGuessr Hub</h2>
-      <p>Coming soon. This section will later include GeoGuessr profile, stats, maps, training tools, practice plans, game modes, and multiplayer projects.</p>
+  <section>
+    <h1>GeoGuessr Hub</h1>
+
+    <div class="sub-nav">
+      <button class="active" id="btn-geo-tips" onclick="showGeoPage('geo-tips')">Tips</button>
+      <button id="btn-geo-ai" onclick="showGeoPage('geo-ai')">AI Chat</button>
+    </div>
+  </section>
+
+  <section id="geo-tips" class="stock-page active">
+    <h2>GeoGuessr Tips</h2>
+    <p class="small">Basic clues for country guessing and practice.</p>
+
+    <div class="news-grid">
+      <div class="news-card">
+        <span class="badge">Roads</span>
+        <h3>Road Lines</h3>
+        <p>Yellow center lines often appear in the Americas. White center lines are common in Europe.</p>
+      </div>
+
+      <div class="news-card">
+        <span class="badge">Language</span>
+        <h3>Language Clues</h3>
+        <p>Look for unique letters: ø/å in Nordic areas, ã/ç in Portuguese, and ł/ę in Polish.</p>
+      </div>
+
+      <div class="news-card">
+        <span class="badge">Poles</span>
+        <h3>Utility Poles</h3>
+        <p>Poles, road signs, and bollards are some of the fastest ways to separate countries.</p>
+      </div>
+
+      <div class="news-card">
+        <span class="badge">Strategy</span>
+        <h3>No Move Strategy</h3>
+        <p>Start with road side, sun direction, landscape, road quality, signs, and license plates.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="geo-ai" class="stock-page">
+    <h2>GeoGuessr AI Coach</h2>
+    <p class="small">Ask for country clues, practice plans, or how to separate similar countries.</p>
+
+    <div class="block">
+      <textarea id="geoQuestion" placeholder="Example: How do I tell Czechia and Slovakia apart?" style="width:100%;height:120px;border-radius:16px;padding:14px;font-size:15px;"></textarea>
+      <br><br>
+      <button onclick="askGeoAI()" style="border:0;border-radius:999px;padding:12px 20px;font-weight:700;cursor:pointer;">Ask AI</button>
+    </div>
+
+    <div class="block">
+      <h3>AI Response</h3>
+      <p id="geoAnswer" style="color:#ccc;line-height:1.6;">Your answer will appear here.</p>
     </div>
   </section>
 </main>
@@ -552,6 +601,46 @@ const data = {
     ]
   }
 };
+
+function showGeoPage(id){
+  document.getElementById("geo-tips").classList.remove("active");
+  document.getElementById("geo-ai").classList.remove("active");
+
+  document.getElementById(id).classList.add("active");
+
+  document.getElementById("btn-geo-tips").classList.remove("active");
+  document.getElementById("btn-geo-ai").classList.remove("active");
+
+  document.getElementById("btn-" + id).classList.add("active");
+}
+
+async function askGeoAI(){
+  const question = document.getElementById("geoQuestion").value;
+  const answer = document.getElementById("geoAnswer");
+
+  if(!question.trim()){
+    answer.textContent = "Type a question first.";
+    return;
+  }
+
+  answer.textContent = "Thinking...";
+
+  try{
+    const res = await fetch("/api/geo-ai", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: question })
+    });
+
+    const data = await res.json();
+
+    answer.textContent = data.reply || data.error || "No response.";
+  }catch(e){
+    answer.textContent = "AI request failed.";
+  }
+}
 
 function appleChartUrl(symbol){
   return "https://s.tradingview.com/widgetembed/?symbol=" +
