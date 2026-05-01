@@ -564,35 +564,13 @@ h2{
     </div>
   </section>
 
-  <section id="geo-tips" class="stock-page active">
-  <h2>GeoGuessr Tips</h2>
-  <p class="small">Click an article to open. Full articles can be added later.</p>
-
   <div class="news-grid" id="tipsList">
-    <div class="news-card" onclick="openTip('country')">
-      <span class="badge">Basics</span>
-      <h3>How to Identify a Country Quickly</h3>
-      <p>Roads, language, signs, landscape, and camera clues.</p>
-    </div>
-
-    <div class="news-card" onclick="openTip('europe')">
-      <span class="badge">Europe</span>
-      <h3>Europe Country Clues Guide</h3>
-      <p>How to separate Czechia, Slovakia, Slovenia, Croatia, and more.</p>
-    </div>
-
-    <div class="news-card" onclick="openTip('nmpz')">
-      <span class="badge">NMPZ</span>
-      <h3>No Move / NMPZ Strategy</h3>
-      <p>How to build a guess from one frame only.</p>
-    </div>
-
-    <div class="news-card" onclick="openTip('bollards')">
-      <span class="badge">Road Meta</span>
-      <h3>Bollards, Poles, and Road Lines</h3>
-      <p>Fast country recognition using road infrastructure.</p>
-    </div>
+  <div class="news-card" onclick="openTip('main')">
+    <span class="badge">Guide</span>
+    <h3>Useful Tips</h3>
+    <p>Essential GeoGuessr knowledge and strategies.</p>
   </div>
+</div>
 
   <div class="block" id="tipArticle" style="display:none;">
     <button onclick="closeTip()" style="border:0;border-radius:999px;padding:10px 16px;font-weight:700;cursor:pointer;">← Back</button>
@@ -1020,10 +998,11 @@ function formatDate(dateText){
     year:"numeric"
   });
 }
+  
 const tips = {
-  country: {
-    title: "Useful tips",
-    body: "Coming soon."
+  main: {
+    title: "Useful Tips",
+    body: "This article will later include all essential GeoGuessr knowledge: country identification, road signs, language clues, poles, bollards, license plates, and advanced strategies."
   }
 };
 
