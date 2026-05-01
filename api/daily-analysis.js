@@ -15,16 +15,21 @@ export default async function handler(req, res) {
   }
 
   const prompt = `
-Write a concise daily US stock market analysis for a personal finance dashboard.
+Write a daily US stock market analysis for a personal finance dashboard.
 
-Include:
-1. Market mood
-2. Tech / AI sector
-3. Watchlist focus: META, CMG, BROS, DKNG, LKNCY, RDDT, PRCT, IREN, RKLB
-4. Main risks
-5. Short-term outlook
+Return ONLY valid JSON. No markdown.
 
-Do not give direct financial advice. Keep it professional and easy to read.
+Use this exact structure:
+{
+  "market": "Brief analysis of the overall market, indexes, rates, and macro conditions.",
+  "sentiment": "Brief analysis of market sentiment, risk appetite, volatility, and liquidity.",
+  "individualStocks": "Brief analysis of important individual stocks such as META, NVDA, TSLA, AAPL, MSFT, IREN, RKLB, PRCT.",
+  "watchlistFocus": "Brief analysis of this watchlist: CMG, META, BROS, DKNG, LKNCY, RDDT, PRCT, IREN, RKLB.",
+  "stocksToWatch": ["Ticker 1 - reason", "Ticker 2 - reason", "Ticker 3 - reason"],
+  "risks": "Main short-term risks to watch."
+}
+
+Do not give direct financial advice. Keep it professional, readable, and concise.
 `;
 
   try {
@@ -44,14 +49,29 @@ Do not give direct financial advice. Keep it professional and easy to read.
 
     const data = await response.json();
 
-    const text =
-      data?.choices?.[0]?.message?.content ||
-      "Daily analysis is temporarily unavailable.";
+    let text =
+  data?.choices?.[0]?.message?.content ||
+  "";
 
-    cache = text;
-    cacheDate = today;
+let parsed;
 
-    return res.status(200).json({ analysis: text });
+try {
+  parsed = JSON.parse(text);
+} catch (e) {
+  parsed = {
+    market: text || "Daily analysis is temporarily unavailable.",
+    sentiment: "Sentiment data unavailable.",
+    individualStocks: "Individual stock analysis unavailable.",
+    watchlistFocus: "Watchlist analysis unavailable.",
+    stocksToWatch: [],
+    risks: "Risk analysis unavailable."
+  };
+}
+
+cache = parsed;
+cacheDate = today;
+
+return res.status(200).json({ analysis: parsed });
   } catch (e) {
     return res.status(500).json({ error: "Failed to generate analysis" });
   }
