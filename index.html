@@ -564,46 +564,50 @@ h2{
     </div>
   </section>
 
-  <div class="news-grid" id="tipsList">
-  <div class="news-card" onclick="openTip('main')">
-    <span class="badge">Guide</span>
-    <h3>Useful Tips</h3>
-    <p>Essential GeoGuessr knowledge and strategies.</p>
-  </div>
-</div>
+  <section id="geo-tips" class="stock-page active">
+    <h2>GeoGuessr Tips</h2>
+    <p class="small">Click the article to open. Full content can be added later.</p>
 
-  <div class="block" id="tipArticle" style="display:none;">
-    <button onclick="closeTip()" style="border:0;border-radius:999px;padding:10px 16px;font-weight:700;cursor:pointer;">← Back</button>
-    <h2 id="tipTitle" style="margin-top:25px;"></h2>
-    <p id="tipBody" style="color:#ccc;line-height:1.8;font-size:16px;"></p>
-  </div>
-</section>
-
-  <section id="geo-ai" class="stock-page">
-  <h2>GeoGuessr AI Coach</h2>
-  <p class="small">Ask questions, get practice plans, and review country clues.</p>
-
-  <div class="chat-shell">
-    <div class="chat-header">
-      <h3>GeoGuessr Coach</h3>
-      <p>Country clues • Road signs • Poles • Bollards • Languages • NMPZ strategy</p>
-    </div>
-
-    <div class="chat-messages" id="chatMessages">
-      <div class="message ai-msg">
-        Hi, I’m your GeoGuessr coach. Ask me things like:
-        “How do I tell Czechia and Slovakia apart?”
-        “Give me a Europe practice plan.”
-        “How do I identify Chile quickly?”
+    <div class="news-grid" id="tipsList">
+      <div class="news-card" onclick="openTip('main')">
+        <span class="badge">Guide</span>
+        <h3>Useful Tips</h3>
+        <p>Essential GeoGuessr knowledge and strategies.</p>
       </div>
     </div>
 
-    <div class="chat-input-area">
-      <textarea id="geoQuestion" placeholder="Ask a GeoGuessr question..."></textarea>
-      <button onclick="askGeoAI()">Send</button>
+    <div class="block" id="tipArticle" style="display:none;">
+      <button onclick="closeTip()" style="border:0;border-radius:999px;padding:10px 16px;font-weight:700;cursor:pointer;">← Back</button>
+      <h2 id="tipTitle" style="margin-top:25px;"></h2>
+      <p id="tipBody" style="color:#ccc;line-height:1.8;font-size:16px;"></p>
     </div>
-  </div>
-</section>
+  </section>
+
+  <section id="geo-ai" class="stock-page">
+    <h2>GeoGuessr AI Coach</h2>
+    <p class="small">Ask questions, get practice plans, and review country clues.</p>
+
+    <div class="chat-shell">
+      <div class="chat-header">
+        <h3>GeoGuessr Coach</h3>
+        <p>Country clues • Road signs • Poles • Bollards • Languages • NMPZ strategy</p>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="message ai-msg">
+          Hi, I’m your GeoGuessr coach. Ask me things like:
+          “How do I tell Czechia and Slovakia apart?”
+          “Give me a Europe practice plan.”
+          “How do I identify Chile quickly?”
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <textarea id="geoQuestion" placeholder="Ask a GeoGuessr question..."></textarea>
+        <button onclick="askGeoAI()">Send</button>
+      </div>
+    </div>
+  </section>
 </main>
 
 <script>
