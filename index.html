@@ -553,7 +553,12 @@ h2{
 
   <section id="news" class="stock-page">
     <h2>Market News & Analyst Views</h2>
-    <p class="small">Auto-updated market news powered by your /api/news endpoint.</p>
+    <p class="small">Real-time market news, earnings, and analyst insights.</p>
+    
+    <div class="block">
+  <h2 style="margin-top:0;">Daily Market Brief</h2>
+  <p id="dailyAnalysis" style="color:#ccc;line-height:1.7;">Loading daily analysis...</p>
+</div>
 
     <div class="news-grid" id="newsGrid">
       <div class="block">Loading latest news...</div>
@@ -794,6 +799,20 @@ function showMain(id){
   document.getElementById("btn-" + id).classList.add("active");
 }
 
+async function loadDailyAnalysis(){
+  const box = document.getElementById("dailyAnalysis");
+  if(!box) return;
+
+  try{
+    const res = await fetch("/api/daily-analysis");
+    const data = await res.json();
+
+    box.textContent = data.analysis || data.error || "Daily analysis unavailable.";
+  }catch(e){
+    box.textContent = "Daily analysis unavailable.";
+  }
+}
+
 function showStockPage(id){
   document.querySelectorAll(".stock-page").forEach(function(page){
     page.classList.remove("active");
@@ -806,6 +825,7 @@ function showStockPage(id){
   });
 
   document.getElementById("btn-" + id).classList.add("active");
+
 
   if(id === "news"){
     loadNews();
@@ -1041,6 +1061,7 @@ function closeTip(){
 }
 
 init();
+loadDailyAnalysis();
 loadNews();
 </script>
 
