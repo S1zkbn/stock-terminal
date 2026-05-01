@@ -636,7 +636,11 @@ async function askGeoAI(){
 
     const data = await res.json();
 
-    answer.textContent = data.reply || data.error || "No response.";
+    answer.textContent =
+  data.reply ||
+  data.error ||
+  JSON.stringify(data.details || data, null, 2) ||
+  "No response.";
   }catch(e){
     answer.textContent = "AI request failed.";
   }
