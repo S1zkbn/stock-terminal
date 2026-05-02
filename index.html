@@ -949,18 +949,20 @@ function showStockPage(id){
     page.classList.remove("active");
   });
 
-  document.getElementById(id).classList.add("active");
+  const target = document.getElementById(id);
+  if(target) target.classList.add("active");
 
   ["overview","watchlist","chart","news"].forEach(function(x){
-    document.getElementById("btn-" + x).classList.remove("active");
+    const btn = document.getElementById("btn-" + x);
+    if(btn) btn.classList.remove("active");
   });
 
-  document.getElementById("btn-" + id).classList.add("active");
-
+  const activeBtn = document.getElementById("btn-" + id);
+  if(activeBtn) activeBtn.classList.add("active");
 
   if(id === "news"){
-  loadDailyAnalysis();
-  loadNews();
+    loadDailyAnalysis();
+    loadNews();
   }
 }
 
