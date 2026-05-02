@@ -15,22 +15,20 @@ export default async function handler(req, res) {
   }
 
   const prompt = `
-Write a daily US stock market analysis for a personal finance dashboard.
-
-Return ONLY valid JSON. No markdown.
+Return ONLY valid JSON. No markdown. No code block.
 
 Use this exact structure:
 {
-  "market": "Brief analysis of the overall market, indexes, rates, and macro conditions.",
-  "sentiment": "Brief analysis of market sentiment, risk appetite, volatility, and liquidity.",
-  "individualStocks": "Brief analysis of important individual stocks such as META, NVDA, TSLA, AAPL, MSFT, IREN, RKLB, PRCT.",
-  "watchlistFocus": "Brief analysis of this watchlist: CMG, META, BROS, DKNG, LKNCY, RDDT, PRCT, IREN, RKLB.",
-  "stocksToWatch": ["Ticker 1 - reason", "Ticker 2 - reason", "Ticker 3 - reason"],
-  "risks": "Main short-term risks to watch."
-  "underratedStocks": ["Ticker 1 - why it may be underappreciated", "Ticker 2 - reason", "Ticker 3 - reason"]
+  "market": "Brief overall market analysis.",
+  "sentiment": "Brief market sentiment analysis.",
+  "individualStocks": "Brief individual stock analysis.",
+  "watchlistFocus": "Brief watchlist analysis for CMG, META, BROS, DKNG, LKNCY, RDDT, PRCT, IREN, RKLB.",
+  "stocksToWatch": ["Ticker - reason", "Ticker - reason", "Ticker - reason"],
+  "underratedStocks": ["Ticker - reason", "Ticker - reason", "Ticker - reason"],
+  "risks": "Brief main risk analysis."
 }
 
-Do not give direct financial advice. Keep it professional, readable, and concise.
+Do not give direct financial advice.
 `;
 
   try {
@@ -41,7 +39,7 @@ Do not give direct financial advice. Keep it professional, readable, and concise
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "openrouter/free",
+        model: "mistralai/mistral-7b-instruct",
         messages: [
           { role: "user", content: prompt }
         ]
@@ -51,30 +49,36 @@ Do not give direct financial advice. Keep it professional, readable, and concise
     const data = await response.json();
 
     let text =
-  data?.choices?.[0]?.message?.content ||
-  "";
+      data?.choices?.[0]?.message?.content ||
+      "";
 
-let parsed;
+    text = text
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
 
-try {
-  parsed = JSON.parse(text);
-} catch (e) {
-  parsed = {
-    market: text || "Daily analysis is temporarily unavailable.",
-    sentiment: "Sentiment data unavailable.",
-    individualStocks: "Individual stock analysis unavailable.",
-    watchlistFocus: "Watchlist analysis unavailable.",
-    stocksToWatch: [],
-    underratedStocks: [],
-    risks: "Risk analysis unavailable."
-  };
-}
+    let parsed;
 
-cache = parsed;
-cacheDate = today;
+    try {
+      parsed = JSON.parse(text);
+    } catch (e) {
+      parsed = {
+        market: text || "Daily analysis temporarily unavailable.",
+        sentiment: "Sentiment data unavailable.",
+        individualStocks: "Individual stock analysis unavailable.",
+        watchlistFocus: "Watchlist analysis unavailable.",
+        stocksToWatch: [],
+        underratedStocks: [],
+        risks: "Risk analysis unavailable."
+      };
+    }
 
-return res.status(200).json({ analysis: parsed });
-  } catch (e) {
+    cache = parsed;
+    cacheDate = today;
+
+    return res.status(200).json({ analysis: parsed });
+
+  } catch (error) {
     return res.status(500).json({ error: "Failed to generate analysis" });
   }
 }
