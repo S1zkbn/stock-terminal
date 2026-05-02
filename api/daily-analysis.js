@@ -50,7 +50,7 @@ Keep it readable, concise, and professional.
         "X-Title": "Market Daily Brief"
       },
       body: JSON.stringify({
-        model: "deepseek/deepseek-chat-v3-0324:free",
+        model: "openrouter/free",
         messages: [
           {
             role: "user",
