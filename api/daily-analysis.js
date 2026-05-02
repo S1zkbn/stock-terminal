@@ -27,6 +27,7 @@ Use this exact structure:
   "watchlistFocus": "Brief analysis of this watchlist: CMG, META, BROS, DKNG, LKNCY, RDDT, PRCT, IREN, RKLB.",
   "stocksToWatch": ["Ticker 1 - reason", "Ticker 2 - reason", "Ticker 3 - reason"],
   "risks": "Main short-term risks to watch."
+  "underratedStocks": ["Ticker 1 - why it may be underappreciated", "Ticker 2 - reason", "Ticker 3 - reason"]
 }
 
 Do not give direct financial advice. Keep it professional, readable, and concise.
@@ -64,6 +65,7 @@ try {
     individualStocks: "Individual stock analysis unavailable.",
     watchlistFocus: "Watchlist analysis unavailable.",
     stocksToWatch: [],
+    underratedStocks: [],
     risks: "Risk analysis unavailable."
   };
 }
