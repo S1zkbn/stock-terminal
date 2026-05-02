@@ -880,55 +880,55 @@ async function loadDailyAnalysis(){
     }
 
     box.innerHTML =
-      '<div class="brief-card">' +
-        '<span class="brief-tag">Market</span>' +
-        '<h3> Market Overview</h3>' +
-        '<p>' + escapeHtml(a.market || "Unavailable.") + '</p>' +
-      '</div>' +
+  '<div class="brief-card">' +
+    '<span class="brief-tag">Market</span>' +
+    '<h3>Market Overview</h3>' +
+    '<p>' + escapeHtml(a.market || "Unavailable.") + '</p>' +
+  '</div>' +
 
-      '<div class="brief-card">' +
-        '<span class="brief-tag">Sentiment</span>' +
-        '<h3> Market Sentiment</h3>' +
-        '<p>' + escapeHtml(a.sentiment || "Unavailable.") + '</p>' +
-      '</div>' +
+  '<div class="brief-card">' +
+    '<span class="brief-tag">Sentiment</span>' +
+    '<h3>Market Sentiment</h3>' +
+    '<p>' + escapeHtml(a.sentiment || "Unavailable.") + '</p>' +
+  '</div>' +
 
-      '<div class="brief-card">' +
-        '<span class="brief-tag">Stocks</span>' +
-        '<h3> Individual Stocks</h3>' +
-        '<p>' + escapeHtml(a.individualStocks || "Unavailable.") + '</p>' +
-      '</div>' +
+  '<div class="brief-card">' +
+    '<span class="brief-tag">Stocks</span>' +
+    '<h3>Individual Stocks</h3>' +
+    '<p>' + escapeHtml(a.individualStocks || "Unavailable.") + '</p>' +
+  '</div>' +
 
-      '<div class="brief-card">' +
-        '<span class="brief-tag">Watchlist</span>' +
-        '<h3> Watchlist Focus</h3>' +
-        '<p>' + escapeHtml(a.watchlistFocus || "Unavailable.") + '</p>' +
-      '</div>' +
+  '<div class="brief-card">' +
+    '<span class="brief-tag">Watchlist</span>' +
+    '<h3>Watchlist Focus</h3>' +
+    '<p>' + escapeHtml(a.watchlistFocus || "Unavailable.") + '</p>' +
+  '</div>' +
 
-      '<div class="brief-card">' +
-        '<span class="brief-tag">Watch</span>' +
-        '<h3> Stocks to Watch</h3>' +
-        '<ul>' +
-          (Array.isArray(a.stocksToWatch)
-            ? a.stocksToWatch.map(x => '<li>' + escapeHtml(x) + '</li>').join("")
-            : '<li>Unavailable.</li>') +
-        '</ul>' +
-      '</div>' +
+  '<div class="brief-card">' +
+    '<span class="brief-tag">Watch</span>' +
+    '<h3>Stocks to Watch</h3>' +
+    '<ul>' +
+      (Array.isArray(a.stocksToWatch)
+        ? a.stocksToWatch.map(x => '<li>' + escapeHtml(x) + '</li>').join("")
+        : '<li>Unavailable.</li>') +
+    '</ul>' +
+  '</div>' +
 
-      '<div class="brief-card">' +
-        '<span class="brief-tag">Risk</span>' +
-        '<h3> Main Risks</h3>' +
-        '<p>' + escapeHtml(a.risks || "Unavailable.") + '</p>' +
-      '</div>';
+  '<div class="brief-card">' +
+    '<span class="brief-tag">Underrated</span>' +
+    '<h3>Underrated Potential Picks</h3>' +
+    '<ul>' +
+      (Array.isArray(a.underratedStocks)
+        ? a.underratedStocks.map(x => '<li>' + escapeHtml(x) + '</li>').join("")
+        : '<li>Unavailable.</li>') +
+    '</ul>' +
+  '</div>' +
 
-          '<div class="brief-card">' +
-        '<span class="brief-tag">Underrated</span>' +
-        '<h3>Underrated Potential Picks</h3>' +
-        '<ul>' +
-          (Array.isArray(a.underratedStocks)
-            ? a.underratedStocks.map(x => '<li>' + escapeHtml(x) + '</li>').join("")
-            : '<li>Unavailable.</li>') +
-        '</ul>' +
-      '</div>' +
+  '<div class="brief-card">' +
+    '<span class="brief-tag">Risk</span>' +
+    '<h3>Main Risks</h3>' +
+    '<p>' + escapeHtml(a.risks || "Unavailable.") + '</p>' +
+  '</div>';
 
   }catch(e){
     box.innerHTML = '<div class="brief-card">Daily analysis unavailable.</div>';
