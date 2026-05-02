@@ -618,7 +618,7 @@ h2{
     <div class="daily-brief">
   <div class="brief-header">
     <h2>Daily Market Brief</h2>
-    <p>AI-generated market overview organized by market, sentiment, watchlist, and risks.</p>
+    <p>AI-generated market overview with sentiment, watchlist focus, risks, and underrated stock ideas.</p>
   </div>
 
   <div class="brief-grid" id="dailyAnalysis">
@@ -919,6 +919,16 @@ async function loadDailyAnalysis(){
         '<h3> Main Risks</h3>' +
         '<p>' + escapeHtml(a.risks || "Unavailable.") + '</p>' +
       '</div>';
+
+          '<div class="brief-card">' +
+        '<span class="brief-tag">Underrated</span>' +
+        '<h3>Underrated Potential Picks</h3>' +
+        '<ul>' +
+          (Array.isArray(a.underratedStocks)
+            ? a.underratedStocks.map(x => '<li>' + escapeHtml(x) + '</li>').join("")
+            : '<li>Unavailable.</li>') +
+        '</ul>' +
+      '</div>' +
 
   }catch(e){
     box.innerHTML = '<div class="brief-card">Daily analysis unavailable.</div>';
