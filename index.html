@@ -1056,20 +1056,18 @@ function showStockPage(id){
   if(activeBtn) activeBtn.classList.add("active");
 
   if(id === "news"){
-  loadDailyAnalysis();
-  loadNews();
-}
+    loadDailyAnalysis();
+    loadNews();
+  }
 
   if(id === "chart" && chartNeedsThemeRefresh){
-  refreshLiveChart();
-  chartNeedsThemeRefresh = false;
-}
+    refreshLiveChart();
+    chartNeedsThemeRefresh = false;
+  }
 
   if(id === "watchlist" && watchNeedsThemeRefresh){
-  refreshWatchChart();
-  watchNeedsThemeRefresh = false;
-}
-    
+    refreshWatchChart();
+    watchNeedsThemeRefresh = false;
   }
 }
 
