@@ -908,15 +908,17 @@ function chartUrl(symbol, allowSymbolChange){
 }
 
 function updateTradingViewTheme(theme){
-  const chartFrame = document.getElementById("chartFrame");
-  if(chartFrame){
-    chartFrame.src = chartFrame.src.replace(/theme=(dark|light)/, "theme=" + theme);
+  const activeStockPage = document.querySelector("#stocks .stock-page.active");
+  if(!activeStockPage) return;
+
+  const id = activeStockPage.id;
+
+  if(id === "chart"){
+    refreshLiveChart();
   }
 
-  const watchChartFrame = document.getElementById("watchChartFrame");
-  if(watchChartFrame){
-    const selected = document.getElementById("watchSym")?.value || "NYSE:CMG";
-    watchChartFrame.src = chartUrl(selected, false);
+  if(id === "watchlist"){
+    refreshWatchChart();
   }
 }
 
