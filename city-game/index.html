@@ -67,6 +67,7 @@
     let round = 1;
     let gameOver = false;
     let marker = null;
+    let focusPin = null;
     let allowedBounds = null;
     let isClamping = false;
 
@@ -308,21 +309,34 @@
     }
 
     function startRound() {
-      answer = chooseCity();
-      attempt = 0;
-      gameOver = false;
-      $("guessInput").value = "";
-      $("history").innerHTML = "";
-      $("result").style.display = "none";
-      $("guessBtn").disabled = false;
-      if (marker) {
-        map.removeLayer(marker);
-        marker = null;
-      }
-      applyViewLimits();
-      $("roundPill").textContent = `Round ${round}`;
-      updateUI();
-    }
+  answer = chooseCity();
+  attempt = 0;
+  gameOver = false;
+  $("guessInput").value = "";
+  $("history").innerHTML = "";
+  $("result").style.display = "none";
+  $("guessBtn").disabled = false;
+
+  if (marker) {
+    map.removeLayer(marker);
+    marker = null;
+  }
+
+  if (focusPin) {
+    map.removeLayer(focusPin);
+    focusPin = null;
+  }
+
+  applyViewLimits();
+
+  focusPin = L.marker([answer.lat, answer.lng], {
+    interactive: false,
+    keyboard: false
+  }).addTo(map);
+
+  $("roundPill").textContent = `Round ${round}`;
+  updateUI();
+}
 
     function updateUI() {
       $("attemptText").textContent = `${Math.min(attempt + 1, MAX_ATTEMPTS)}/${MAX_ATTEMPTS}`;
@@ -391,34 +405,43 @@
     }
 
     function endRound(won) {
-      gameOver = true;
-      $("guessBtn").disabled = true;
+  gameOver = true;
+  $("guessBtn").disabled = true;
 
-      const used = getUsed();
-      used.add(answer.id);
-      saveUsed(used);
+  const used = getUsed();
+  used.add(answer.id);
+  saveUsed(used);
 
-      const s = stats();
-      s.played++;
-      if (won) s.won++;
-      saveStats(s);
+  const s = stats();
+  s.played++;
+  if (won) s.won++;
+  saveStats(s);
 
-      allowedBounds = null;
-      map.dragging.enable();
-      map.setMinZoom(3);
-      map.setMaxZoom(18);
-      map.setMaxBounds(null);
-      map.setView([answer.lat, answer.lng], 11);
-      marker = L.marker([answer.lat, answer.lng]).addTo(map).bindPopup(`${answer.name}${answer.countryName ? ", " + answer.countryName : ""}`).openPopup();
+  allowedBounds = null;
+  map.dragging.enable();
+  map.setMinZoom(3);
+  map.setMaxZoom(18);
+  map.setMaxBounds(null);
+  map.setView([answer.lat, answer.lng], 11);
 
-      $("result").innerHTML = `<b>${won ? "答对了" : "没猜出来"}</b><br>答案：${answer.name}${answer.countryName ? ", " + answer.countryName : ""}<br>人口：${populationValue(answer).toLocaleString()}<br><br><button id="continueBtn">继续下一题</button>`;
-      $("result").style.display = "block";
-      $("continueBtn").onclick = () => {
-        round++;
-        startRound();
-      };
-      updateUI();
-    }
+  if (focusPin) {
+    map.removeLayer(focusPin);
+    focusPin = null;
+  }
+
+  marker = L.marker([answer.lat, answer.lng])
+    .addTo(map)
+    .bindPopup(`${answer.name}${answer.countryName ? ", " + answer.countryName : ""}`)
+    .openPopup();
+
+  $("result").innerHTML = `<b>${won ? "答对了" : "没猜出来"}</b><br>答案：${answer.name}${answer.countryName ? ", " + answer.countryName : ""}<br>人口：${populationValue(answer).toLocaleString()}<br><br><button id="continueBtn">继续下一题</button>`;
+  $("result").style.display = "block";
+  $("continueBtn").onclick = () => {
+    round++;
+    startRound();
+  };
+  updateUI();
+}
 
     function submit() {
       if (gameOver) return;
