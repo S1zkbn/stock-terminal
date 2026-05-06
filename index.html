@@ -1160,7 +1160,7 @@ async function loadNews(){
   if(!grid) return;
 
   try{
-    const res = await fetch("/api/news?q=stock market OR Nvidia OR Meta OR S&P 500 OR analyst rating OR earnings");
+    const res = await fetch("/api/news");
     const newsData = await res.json();
 
     if(!newsData.articles || newsData.articles.length === 0){
@@ -1195,75 +1195,11 @@ function showFallbackNews(){
 
   grid.innerHTML =
     '<div class="news-card">' +
-      '<a href="https://www.cnbc.com/quotes/NVDA" target="_blank">' +
-        '<img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80">' +
-        '<span class="badge">AI / Semiconductors</span>' +
-        '<h3>NVDA AI demand and chip cycle updates</h3>' +
-        '<p>Track Nvidia headlines and AI infrastructure demand.</p>' +
-      '</a>' +
-    '</div>' +
-
-    '<div class="news-card">' +
-      '<a href="https://finance.yahoo.com/quote/NVDA/analysis" target="_blank">' +
-        '<img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80">' +
-        '<span class="badge">Analyst Analysis</span>' +
-        '<h3>NVDA analyst estimates and forecasts</h3>' +
-        '<p>View earnings estimates and forward expectations.</p>' +
-      '</a>' +
-    '</div>' +
-
-    '<div class="news-card">' +
-      '<a href="https://www.cnbc.com/quotes/META" target="_blank">' +
-        '<img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?auto=format&fit=crop&w=900&q=80">' +
-        '<span class="badge">Mega-cap Tech</span>' +
-        '<h3>META ads, AI, and platform updates</h3>' +
-        '<p>Follow Meta stock news and AI strategy.</p>' +
-      '</a>' +
-    '</div>' +
-
-    '<div class="news-card">' +
-      '<a href="https://finance.yahoo.com/quote/META/analysis" target="_blank">' +
-        '<img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80">' +
-        '<span class="badge">Analyst Analysis</span>' +
-        '<h3>META analyst estimates and outlook</h3>' +
-        '<p>Explore earnings revisions and valuation context.</p>' +
-      '</a>' +
-    '</div>' +
-
-    '<div class="news-card">' +
-      '<a href="https://www.cnbc.com/quotes/SPY" target="_blank">' +
-        '<img src="https://images.unsplash.com/photo-1642790551116-18e150f248e6?auto=format&fit=crop&w=900&q=80">' +
-        '<span class="badge">S&P 500</span>' +
-        '<h3>SPY market trend and index movement</h3>' +
-        '<p>Monitor broad market sentiment and macro-driven risk appetite.</p>' +
-      '</a>' +
-    '</div>' +
-
-    '<div class="news-card">' +
-      '<a href="https://www.reuters.com/markets/us/" target="_blank">' +
-        '<img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80">' +
-        '<span class="badge">Macro</span>' +
-        '<h3>U.S. market headlines from Reuters</h3>' +
-        '<p>Follow rates, inflation, earnings season, and market reactions.</p>' +
-      '</a>' +
-    '</div>' +
-
-    '<div class="news-card">' +
-      '<a href="https://finance.yahoo.com/quote/CMG" target="_blank">' +
-        '<img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80">' +
-        '<span class="badge">Consumer</span>' +
-        '<h3>CMG stock news and restaurant sector</h3>' +
-        '<p>Track Chipotle earnings, margins, and consumer trends.</p>' +
-      '</a>' +
-    '</div>' +
-
-    '<div class="news-card">' +
-      '<a href="https://finance.yahoo.com/quote/BROS" target="_blank">' +
-        '<img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=900&q=80">' +
-        '<span class="badge">Growth Consumer</span>' +
-        '<h3>BROS growth story and beverage sector</h3>' +
-        '<p>Follow Dutch Bros expansion and store growth.</p>' +
-      '</a>' +
+      '<div style="padding:22px;">' +
+        '<span class="badge">News</span>' +
+        '<h3>Market news is temporarily unavailable.</h3>' +
+        '<p>Please refresh later. The daily market feed updates automatically once the news service is available.</p>' +
+      '</div>' +
     '</div>';
 }
 
