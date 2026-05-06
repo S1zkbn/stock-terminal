@@ -5,36 +5,551 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Endless Satellite City Guess</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+
   <style>
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:#0d1118;color:#f7f9fc;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden}button,input,select{font:inherit}button{border:0;border-radius:14px;padding:12px 15px;font-weight:800;cursor:pointer;background:#7aa2ff;color:#06101f}button.ghost{background:rgba(255,255,255,.08);color:#f7f9fc;border:1px solid rgba(255,255,255,.12)}button:disabled{opacity:.5;cursor:not-allowed}input,select{width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:#0b1018;color:#fff;padding:12px 13px;outline:none}input:focus,select:focus{border-color:#7aa2ff}.app{height:100vh;display:grid;grid-template-columns:390px 1fr}.side{background:#141b26;border-right:1px solid rgba(255,255,255,.08);padding:18px;overflow:auto}.map{min-width:0;position:relative}#map{height:100%;width:100%;background:#070a0f}.brand{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}.brand-actions{display:flex;gap:8px;align-items:center}.language-select{width:auto;min-width:112px;padding:12px 34px 12px 13px;border-radius:14px}.brand h1{font-size:22px;letter-spacing:-.04em;margin:0}.card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:15px;margin-bottom:13px;box-shadow:0 20px 60px rgba(0,0,0,.18)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row{display:flex;gap:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.stat{background:rgba(255,255,255,.06);border-radius:16px;padding:12px;text-align:center}.stat b{display:block;font-size:18px}.stat span{display:block;color:#a9b4c8;font-size:12px;margin-top:2px}.muted{color:#a9b4c8;font-size:13px;line-height:1.55}.suggestions{position:relative}.suggestBox{position:absolute;z-index:1000;left:0;right:0;top:50px;background:#0b1018;border:1px solid rgba(255,255,255,.16);border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.45);display:none}.suggestion{padding:11px 13px;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer}.suggestion:hover{background:rgba(122,162,255,.16)}.suggestion small{color:#a9b4c8}.history{display:grid;gap:8px;margin-top:12px}.guess{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.055);font-size:14px}.tag{border-radius:999px;padding:4px 8px;font-size:12px;background:rgba(255,255,255,.1)}.tag.ok{color:#7df5ad;background:rgba(93,235,153,.18)}.tag.bad{color:#ffd18c;background:rgba(255,185,86,.18)}.result{display:none;border-color:rgba(122,162,255,.28);background:rgba(122,162,255,.12);line-height:1.55}.topOverlay{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;pointer-events:none}.pill{pointer-events:auto;backdrop-filter:blur(14px);background:rgba(8,12,18,.75);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:9px 12px;color:#f7f9fc;font-size:13px}.loading{position:absolute;inset:0;display:grid;place-items:center;background:#0d1118;z-index:9999}.loadingCard{max-width:420px;background:#141b26;border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:22px;box-shadow:0 20px 80px rgba(0,0,0,.35)}.progress{height:8px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden;margin-top:14px}.bar{height:100%;width:20%;background:#7aa2ff;border-radius:999px;animation:load 1.2s infinite alternate}@keyframes load{to{width:95%}}@media(max-width:860px){body{overflow:auto}.app{height:auto;min-height:100vh;grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid rgba(255,255,255,.08)}.map{height:56vh}.brand{flex-direction:column}.topOverlay{top:10px;left:10px;right:10px}.pill{font-size:12px}}
+    :root{
+      --bg:#0d1118;
+      --text:#f7f9fc;
+      --subtext:#a9b4c8;
+      --side:#141b26;
+      --card:rgba(255,255,255,.055);
+      --stat:rgba(255,255,255,.06);
+      --border:rgba(255,255,255,.1);
+      --input-bg:#0b1018;
+      --input-text:#ffffff;
+      --button:#7aa2ff;
+      --button-text:#06101f;
+      --ghost:rgba(255,255,255,.08);
+      --ghost-text:#f7f9fc;
+      --suggest-bg:#0b1018;
+      --result-bg:rgba(122,162,255,.12);
+      --result-border:rgba(122,162,255,.28);
+      --overlay-bg:rgba(8,12,18,.75);
+      --loading-bg:#0d1118;
+      --shadow:rgba(0,0,0,.35);
+      --map-bg:#070a0f;
+    }
+
+    body.light{
+      --bg:#f5f5f7;
+      --text:#111111;
+      --subtext:#666b76;
+      --side:#ffffff;
+      --card:rgba(0,0,0,.035);
+      --stat:rgba(0,0,0,.045);
+      --border:rgba(0,0,0,.12);
+      --input-bg:#f2f2f7;
+      --input-text:#111111;
+      --button:#111111;
+      --button-text:#ffffff;
+      --ghost:rgba(0,0,0,.055);
+      --ghost-text:#111111;
+      --suggest-bg:#ffffff;
+      --result-bg:rgba(0,122,255,.08);
+      --result-border:rgba(0,122,255,.22);
+      --overlay-bg:rgba(255,255,255,.78);
+      --loading-bg:#f5f5f7;
+      --shadow:rgba(0,0,0,.16);
+      --map-bg:#e5e5ea;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      overflow:hidden;
+      transition:background .25s ease,color .25s ease;
+    }
+
+    button,input,select{
+      font:inherit;
+    }
+
+    button{
+      border:0;
+      border-radius:14px;
+      padding:12px 15px;
+      font-weight:800;
+      cursor:pointer;
+      background:var(--button);
+      color:var(--button-text);
+      transition:.2s ease;
+    }
+
+    button:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.04);
+    }
+
+    button.ghost{
+      background:var(--ghost);
+      color:var(--ghost-text);
+      border:1px solid var(--border);
+    }
+
+    button:disabled{
+      opacity:.5;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    input,select{
+      width:100%;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:var(--input-bg);
+      color:var(--input-text);
+      padding:12px 13px;
+      outline:none;
+      transition:.2s ease;
+    }
+
+    input::placeholder{
+      color:var(--subtext);
+    }
+
+    input:focus,select:focus{
+      border-color:#7aa2ff;
+      box-shadow:0 0 0 4px rgba(122,162,255,.16);
+    }
+
+    .app{
+      height:100vh;
+      display:grid;
+      grid-template-columns:390px 1fr;
+    }
+
+    .side{
+      background:var(--side);
+      border-right:1px solid var(--border);
+      padding:18px;
+      overflow:auto;
+      transition:background .25s ease,border-color .25s ease;
+    }
+
+    .map{
+      min-width:0;
+      position:relative;
+    }
+
+    #map{
+      height:100%;
+      width:100%;
+      background:var(--map-bg);
+    }
+
+    .brand{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .brand-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .language-select{
+      width:auto;
+      min-width:112px;
+      padding:12px 34px 12px 13px;
+      border-radius:14px;
+    }
+
+    .brand h1{
+      font-size:22px;
+      letter-spacing:-.04em;
+      margin:0;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:15px;
+      margin-bottom:13px;
+      box-shadow:0 20px 60px var(--shadow);
+      transition:background .25s ease,border-color .25s ease,box-shadow .25s ease;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .stat{
+      background:var(--stat);
+      border-radius:16px;
+      padding:12px;
+      text-align:center;
+      transition:background .25s ease;
+    }
+
+    .stat b{
+      display:block;
+      font-size:18px;
+    }
+
+    .stat span{
+      display:block;
+      color:var(--subtext);
+      font-size:12px;
+      margin-top:2px;
+    }
+
+    .muted{
+      color:var(--subtext);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .suggestions{
+      position:relative;
+    }
+
+    .suggestBox{
+      position:absolute;
+      z-index:1000;
+      left:0;
+      right:0;
+      top:50px;
+      background:var(--suggest-bg);
+      border:1px solid var(--border);
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 18px 50px var(--shadow);
+      display:none;
+    }
+
+    .suggestion{
+      padding:11px 13px;
+      border-bottom:1px solid var(--border);
+      cursor:pointer;
+      color:var(--text);
+    }
+
+    .suggestion:hover{
+      background:rgba(122,162,255,.16);
+    }
+
+    .suggestion small{
+      color:var(--subtext);
+    }
+
+    .history{
+      display:grid;
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .guess{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:8px;
+      align-items:center;
+      padding:10px 12px;
+      border-radius:14px;
+      background:var(--card);
+      font-size:14px;
+    }
+
+    .tag{
+      border-radius:999px;
+      padding:4px 8px;
+      font-size:12px;
+      background:var(--ghost);
+    }
+
+    .tag.ok{
+      color:#19a75d;
+      background:rgba(93,235,153,.18);
+    }
+
+    .tag.bad{
+      color:#c27803;
+      background:rgba(255,185,86,.18);
+    }
+
+    body:not(.light) .tag.ok{
+      color:#7df5ad;
+    }
+
+    body:not(.light) .tag.bad{
+      color:#ffd18c;
+    }
+
+    .result{
+      display:none;
+      border-color:var(--result-border);
+      background:var(--result-bg);
+      line-height:1.55;
+    }
+
+    .topOverlay{
+      position:absolute;
+      top:16px;
+      left:16px;
+      right:16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      pointer-events:none;
+    }
+
+    .pill{
+      pointer-events:auto;
+      backdrop-filter:blur(14px);
+      background:var(--overlay-bg);
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:9px 12px;
+      color:var(--text);
+      font-size:13px;
+      box-shadow:0 12px 30px var(--shadow);
+    }
+
+    .loading{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      background:var(--loading-bg);
+      z-index:9999;
+      transition:background .25s ease;
+    }
+
+    .loadingCard{
+      max-width:420px;
+      background:var(--side);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:0 20px 80px var(--shadow);
+    }
+
+    .progress{
+      height:8px;
+      border-radius:999px;
+      background:var(--ghost);
+      overflow:hidden;
+      margin-top:14px;
+    }
+
+    .bar{
+      height:100%;
+      width:20%;
+      background:#7aa2ff;
+      border-radius:999px;
+      animation:load 1.2s infinite alternate;
+    }
+
+    body.light .leaflet-control-zoom a{
+      background:#ffffff;
+      color:#111111;
+      border-color:rgba(0,0,0,.14);
+    }
+
+    body.light .leaflet-control-attribution{
+      background:rgba(255,255,255,.76);
+      color:#111;
+    }
+
+    body.light .leaflet-control-attribution a{
+      color:#0059ff;
+    }
+
+    @keyframes load{
+      to{
+        width:95%;
+      }
+    }
+
+    @media(max-width:860px){
+      body{
+        overflow:auto;
+      }
+
+      .app{
+        height:auto;
+        min-height:100vh;
+        grid-template-columns:1fr;
+      }
+
+      .side{
+        border-right:0;
+        border-bottom:1px solid var(--border);
+      }
+
+      .map{
+        height:56vh;
+      }
+
+      .brand{
+        flex-direction:column;
+      }
+
+      .topOverlay{
+        top:10px;
+        left:10px;
+        right:10px;
+      }
+
+      .pill{
+        font-size:12px;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <div class="loading" id="loading"><div class="loadingCard"><h2 style="margin:0 0 8px" data-i18n="loadingTitle">Loading city database</h2><div class="muted" id="loadingText" data-i18n="loadingText">Loading cities.json from the site folder. If it is missing, a small fallback city set will be used.</div><div class="progress"><div class="bar"></div></div></div></div>
+  <div class="loading" id="loading">
+    <div class="loadingCard">
+      <h2 style="margin:0 0 8px" data-i18n="loadingTitle">Loading city database</h2>
+      <div class="muted" id="loadingText" data-i18n="loadingText">Loading cities.json from the site folder. If it is missing, a small fallback city set will be used.</div>
+      <div class="progress"><div class="bar"></div></div>
+    </div>
+  </div>
+
   <div class="app">
     <aside class="side">
-      <div class="brand"><div><h1>Endless Satellite City Guess</h1></div><div class="brand-actions"><select id="languageSelect" class="language-select"><option value="en">English</option><option value="zh">中文</option></select><button class="ghost" id="nextBtn" data-i18n="next">Next</button></div></div>
+      <div class="brand">
+        <div>
+          <h1>Endless Satellite City Guess</h1>
+        </div>
+
+        <div class="brand-actions">
+          <select id="languageSelect" class="language-select">
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+          </select>
+
+          <button class="ghost" id="nextBtn" data-i18n="next">Next</button>
+        </div>
+      </div>
+
       <div class="card">
         <div>
-          <label><div class="muted" data-i18n="difficulty">Difficulty</div><select id="difficulty"><option value="easy" data-i18n="easy">Easy</option><option value="medium" selected data-i18n="medium">Medium</option><option value="hard" data-i18n="hard">Hard</option><option value="all" data-i18n="all">All</option></select></label>
+          <label>
+            <div class="muted" data-i18n="difficulty">Difficulty</div>
+            <select id="difficulty">
+              <option value="easy" data-i18n="easy">Easy</option>
+              <option value="medium" selected data-i18n="medium">Medium</option>
+              <option value="hard" data-i18n="hard">Hard</option>
+              <option value="all" data-i18n="all">All</option>
+            </select>
+          </label>
         </div>
-        <div class="stats"><div class="stat"><b id="attemptText">1/6</b><span data-i18n="attempts">Attempts</span></div><div class="stat"><b id="zoomText">16</b><span>Zoom</span></div><div class="stat"><b id="poolText">0</b><span data-i18n="pool">Pool</span></div></div>
+
+        <div class="stats">
+          <div class="stat">
+            <b id="attemptText">1/6</b>
+            <span data-i18n="attempts">Attempts</span>
+          </div>
+
+          <div class="stat">
+            <b id="zoomText">16</b>
+            <span>Zoom</span>
+          </div>
+
+          <div class="stat">
+            <b id="poolText">0</b>
+            <span data-i18n="pool">Pool</span>
+          </div>
+        </div>
       </div>
+
       <div class="card">
-        <div class="suggestions"><div class="row"><input id="guessInput" placeholder="Enter a city, e.g. Tokyo / Shanghai / NYC" autocomplete="off" /><button id="guessBtn" data-i18n="guess">Guess</button></div><div class="suggestBox" id="suggestBox"></div></div>
+        <div class="suggestions">
+          <div class="row">
+            <input id="guessInput" placeholder="Enter a city, e.g. Tokyo / Shanghai / NYC" autocomplete="off" />
+            <button id="guessBtn" data-i18n="guess">Guess</button>
+          </div>
+
+          <div class="suggestBox" id="suggestBox"></div>
+        </div>
+
         <div class="muted" id="hintText" style="display:none"></div>
         <div class="history" id="history"></div>
       </div>
+
       <div class="card result" id="result"></div>
+
       <div class="card">
-        <div class="grid"><div class="stat"><b id="playedText">0</b><span data-i18n="played">Played</span></div><div class="stat"><b id="winText">0%</b><span data-i18n="winRate">Win Rate</span></div></div>
+        <div class="grid">
+          <div class="stat">
+            <b id="playedText">0</b>
+            <span data-i18n="played">Played</span>
+          </div>
+
+          <div class="stat">
+            <b id="winText">0%</b>
+            <span data-i18n="winRate">Win Rate</span>
+          </div>
+        </div>
+
         <button class="ghost" id="resetBtn" style="width:100%" data-i18n="resetStats">Reset Local Stats</button>
       </div>
     </aside>
-    <main class="map"><div id="map"></div><div class="topOverlay"><div class="pill" id="roundPill">Round 1</div></div></main>
+
+    <main class="map">
+      <div id="map"></div>
+
+      <div class="topOverlay">
+        <div class="pill" id="roundPill">Round 1</div>
+      </div>
+    </main>
   </div>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
   <script>
+    function setCityTheme(theme){
+      if(theme === "light"){
+        document.body.classList.add("light");
+      }else{
+        document.body.classList.remove("light");
+      }
+
+      localStorage.setItem("siteTheme", theme);
+    }
+
+    const cityThemeParams = new URLSearchParams(window.location.search);
+    const initialCityTheme =
+      cityThemeParams.get("theme") ||
+      localStorage.getItem("siteTheme") ||
+      "dark";
+
+    setCityTheme(initialCityTheme);
+
+    window.addEventListener("message", function(event){
+      if(event.data && event.data.type === "site-theme"){
+        setCityTheme(event.data.theme);
+      }
+    });
+
     const FALLBACK_CITIES = [
       {id:1,name:"New York",asciiName:"New York",countryCode:"US",countryName:"United States",lat:40.7128,lng:-74.006,population:8804190,featureCode:"PPL",aliases:["new york","new york city","nyc","纽约"]},
       {id:2,name:"Los Angeles",asciiName:"Los Angeles",countryCode:"US",countryName:"United States",lat:34.0522,lng:-118.2437,population:3898747,featureCode:"PPL",aliases:["los angeles","la","洛杉矶"]},
@@ -525,25 +1040,32 @@
     }
 
     $("guessBtn").onclick = submit;
+
     $("nextBtn").onclick = () => {
       round++;
       startRound();
     };
+
     $("guessInput").addEventListener("keydown", event => {
       if (event.key === "Enter") submit();
       if (event.key === "Escape") $("suggestBox").style.display = "none";
     });
+
     $("guessInput").addEventListener("input", event => suggest(event.target.value));
+
     $("difficulty").onchange = () => {
       round = 1;
       startRound();
     };
+
     $("languageSelect").onchange = event => setLanguage(event.target.value);
+
     $("resetBtn").onclick = () => {
       localStorage.removeItem("zcg_stats");
       localStorage.removeItem(usedKey());
       updateUI();
     };
+
     document.addEventListener("click", event => {
       if (!event.target.closest(".suggestions")) $("suggestBox").style.display = "none";
     });
