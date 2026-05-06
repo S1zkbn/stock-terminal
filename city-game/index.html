@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,25 +10,25 @@
   </style>
 </head>
 <body>
-  <div class="loading" id="loading"><div class="loadingCard"><h2 style="margin:0 0 8px">正在加载城市库</h2><div class="muted" id="loadingText">正在读取网站目录里的 cities.json；如果没有，会临时使用内置小题库。</div><div class="progress"><div class="bar"></div></div></div></div>
+  <div class="loading" id="loading"><div class="loadingCard"><h2 style="margin:0 0 8px">Loading city database</h2><div class="muted" id="loadingText">Loading cities.json from the site folder. If it is missing, a small fallback city set will be used.</div><div class="progress"><div class="bar"></div></div></div></div>
   <div class="app">
     <aside class="side">
-      <div class="brand"><div><h1>Endless Satellite City Guess</h1></div><button class="ghost" id="nextBtn">下一题</button></div>
+      <div class="brand"><div><h1>Endless Satellite City Guess</h1></div><button class="ghost" id="nextBtn">Next</button></div>
       <div class="card">
         <div>
-          <label><div class="muted">难度</div><select id="difficulty"><option value="easy">Easy 城市级</option><option value="medium" selected>Medium 进阶</option><option value="hard">Hard 挑战</option><option value="all">All 全部</option></select></label>
+          <label><div class="muted">Difficulty</div><select id="difficulty"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option><option value="all">All</option></select></label>
         </div>
-        <div class="stats"><div class="stat"><b id="attemptText">1/6</b><span>次数</span></div><div class="stat"><b id="zoomText">16</b><span>Zoom</span></div><div class="stat"><b id="poolText">0</b><span>题库</span></div></div>
+        <div class="stats"><div class="stat"><b id="attemptText">1/6</b><span>Attempts</span></div><div class="stat"><b id="zoomText">16</b><span>Zoom</span></div><div class="stat"><b id="poolText">0</b><span>Pool</span></div></div>
       </div>
       <div class="card">
-        <div class="suggestions"><div class="row"><input id="guessInput" placeholder="输入城市名，如 Tokyo / 上海 / NYC" autocomplete="off" /><button id="guessBtn">猜</button></div><div class="suggestBox" id="suggestBox"></div></div>
+        <div class="suggestions"><div class="row"><input id="guessInput" placeholder="Enter a city, e.g. Tokyo / Shanghai / NYC" autocomplete="off" /><button id="guessBtn">Guess</button></div><div class="suggestBox" id="suggestBox"></div></div>
         <div class="muted" id="hintText" style="display:none"></div>
         <div class="history" id="history"></div>
       </div>
       <div class="card result" id="result"></div>
       <div class="card">
-        <div class="grid"><div class="stat"><b id="playedText">0</b><span>已玩</span></div><div class="stat"><b id="winText">0%</b><span>胜率</span></div></div>
-        <button class="ghost" id="resetBtn" style="width:100%">重置本地记录</button>
+        <div class="grid"><div class="stat"><b id="playedText">0</b><span>Played</span></div><div class="stat"><b id="winText">0%</b><span>Win Rate</span></div></div>
+        <button class="ghost" id="resetBtn" style="width:100%">Reset Local Stats</button>
       </div>
     </aside>
     <main class="map"><div id="map"></div><div class="topOverlay"><div class="pill" id="roundPill">Round 1</div></div></main>
@@ -67,7 +67,6 @@
     let round = 1;
     let gameOver = false;
     let marker = null;
-    let focusPin = null;
     let allowedBounds = null;
     let isClamping = false;
 
@@ -249,11 +248,11 @@
         if (!response.ok) throw new Error("no cities.json");
         const data = await response.json();
         prepare(data);
-        $("loadingText").textContent = `已加载 ${cities.length.toLocaleString()} 个城市。`;
+        $("loadingText").textContent = `Loaded ${cities.length.toLocaleString()} cities.`;
         setTimeout(() => $("loading").style.display = "none", 250);
       } catch (error) {
         prepare(FALLBACK_CITIES);
-        $("loadingText").textContent = "没找到网站目录里的 cities.json，正在使用内置小题库。";
+        $("loadingText").textContent = "cities.json was not found in the site folder. Using the small fallback city set.";
         setTimeout(() => $("loading").style.display = "none", 700);
       }
     }
@@ -309,34 +308,21 @@
     }
 
     function startRound() {
-  answer = chooseCity();
-  attempt = 0;
-  gameOver = false;
-  $("guessInput").value = "";
-  $("history").innerHTML = "";
-  $("result").style.display = "none";
-  $("guessBtn").disabled = false;
-
-  if (marker) {
-    map.removeLayer(marker);
-    marker = null;
-  }
-
-  if (focusPin) {
-    map.removeLayer(focusPin);
-    focusPin = null;
-  }
-
-  applyViewLimits();
-
-  focusPin = L.marker([answer.lat, answer.lng], {
-    interactive: false,
-    keyboard: false
-  }).addTo(map);
-
-  $("roundPill").textContent = `Round ${round}`;
-  updateUI();
-}
+      answer = chooseCity();
+      attempt = 0;
+      gameOver = false;
+      $("guessInput").value = "";
+      $("history").innerHTML = "";
+      $("result").style.display = "none";
+      $("guessBtn").disabled = false;
+      if (marker) {
+        map.removeLayer(marker);
+        marker = null;
+      }
+      applyViewLimits();
+      $("roundPill").textContent = `Round ${round}`;
+      updateUI();
+    }
 
     function updateUI() {
       $("attemptText").textContent = `${Math.min(attempt + 1, MAX_ATTEMPTS)}/${MAX_ATTEMPTS}`;
@@ -399,49 +385,40 @@
     function addGuess(text, correct, distance) {
       const div = document.createElement("div");
       div.className = "guess";
-      const label = correct ? "正确" : distance == null ? "未收录" : Math.round(distance).toLocaleString() + " km";
+      const label = correct ? "Correct" : distance == null ? "Not found" : Math.round(distance).toLocaleString() + " km";
       div.innerHTML = `<span>${text}</span><span class="tag ${correct ? "ok" : "bad"}">${label}</span>`;
       $("history").prepend(div);
     }
 
     function endRound(won) {
-  gameOver = true;
-  $("guessBtn").disabled = true;
+      gameOver = true;
+      $("guessBtn").disabled = true;
 
-  const used = getUsed();
-  used.add(answer.id);
-  saveUsed(used);
+      const used = getUsed();
+      used.add(answer.id);
+      saveUsed(used);
 
-  const s = stats();
-  s.played++;
-  if (won) s.won++;
-  saveStats(s);
+      const s = stats();
+      s.played++;
+      if (won) s.won++;
+      saveStats(s);
 
-  allowedBounds = null;
-  map.dragging.enable();
-  map.setMinZoom(3);
-  map.setMaxZoom(18);
-  map.setMaxBounds(null);
-  map.setView([answer.lat, answer.lng], 11);
+      allowedBounds = null;
+      map.dragging.enable();
+      map.setMinZoom(3);
+      map.setMaxZoom(18);
+      map.setMaxBounds(null);
+      map.setView([answer.lat, answer.lng], 11);
+      marker = L.marker([answer.lat, answer.lng]).addTo(map).bindPopup(`${answer.name}${answer.countryName ? ", " + answer.countryName : ""}`).openPopup();
 
-  if (focusPin) {
-    map.removeLayer(focusPin);
-    focusPin = null;
-  }
-
-  marker = L.marker([answer.lat, answer.lng])
-    .addTo(map)
-    .bindPopup(`${answer.name}${answer.countryName ? ", " + answer.countryName : ""}`)
-    .openPopup();
-
-  $("result").innerHTML = `<b>${won ? "答对了" : "没猜出来"}</b><br>答案：${answer.name}${answer.countryName ? ", " + answer.countryName : ""}<br>人口：${populationValue(answer).toLocaleString()}<br><br><button id="continueBtn">继续下一题</button>`;
-  $("result").style.display = "block";
-  $("continueBtn").onclick = () => {
-    round++;
-    startRound();
-  };
-  updateUI();
-}
+      $("result").innerHTML = `<b>${won ? "Correct!" : "Out of guesses"}</b><br>Answer: ${answer.name}${answer.countryName ? ", " + answer.countryName : ""}<br>Population: ${populationValue(answer).toLocaleString()}<br><br><button id="continueBtn">Next Round</button>`;
+      $("result").style.display = "block";
+      $("continueBtn").onclick = () => {
+        round++;
+        startRound();
+      };
+      updateUI();
+    }
 
     function submit() {
       if (gameOver) return;
