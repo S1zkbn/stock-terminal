@@ -452,6 +452,43 @@ h2{
   height:100%;
 }
 
+
+.geo-game-section{
+  max-width:1500px;
+  padding:24px 20px 60px;
+}
+
+.geo-game-shell{
+  width:100%;
+  height:calc(100vh - 130px);
+  min-height:720px;
+  border-radius:28px;
+  overflow:hidden;
+  background:#0d1118;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 30px 90px rgba(0,0,0,.35);
+}
+
+.geo-game-frame{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+  background:#0d1118;
+}
+
+@media(max-width:900px){
+  .geo-game-section{
+    padding:18px 10px 40px;
+  }
+
+  .geo-game-shell{
+    height:82vh;
+    min-height:600px;
+    border-radius:18px;
+  }
+}
+
 </style>
 </head>
 
@@ -637,12 +674,24 @@ h2{
     <h1>GeoGuessr Hub</h1>
 
     <div class="sub-nav">
-      <button class="active" id="btn-geo-tips" onclick="showGeoPage('geo-tips')">Tips</button>
+      <button class="active" id="btn-geo-game" onclick="showGeoPage('geo-game')">City Game</button>
+      <button id="btn-geo-tips" onclick="showGeoPage('geo-tips')">Tips</button>
       <button id="btn-geo-ai" onclick="showGeoPage('geo-ai')">AI Chat</button>
     </div>
   </section>
 
-  <section id="geo-tips" class="stock-page active">
+  <section id="geo-game" class="stock-page active geo-game-section">
+    <div class="geo-game-shell">
+      <iframe
+        id="geoGameFrame"
+        src=""
+        title="Satellite City Guess Game"
+        class="geo-game-frame">
+      </iframe>
+    </div>
+  </section>
+
+  <section id="geo-tips" class="stock-page">
     <h2>GeoGuessr Tips</h2>
     <p class="small">Click the article to open. Full content can be added later.</p>
 
@@ -777,27 +826,32 @@ const data = {
   }
 };
 
-function showGeoPage(id){
-  const tipsPage = document.getElementById("geo-tips");
-  const aiPage = document.getElementById("geo-ai");
+function loadGeoGame(){
+  const frame = document.getElementById("geoGameFrame");
 
-  const tipsBtn = document.getElementById("btn-geo-tips");
-  const aiBtn = document.getElementById("btn-geo-ai");
-
-  if(!tipsPage || !aiPage || !tipsBtn || !aiBtn){
-    console.log("GeoGuessr page element missing");
-    return;
+  if(frame && !frame.getAttribute("src")){
+    frame.setAttribute("src", "./city-game/");
   }
+}
 
-  tipsPage.classList.remove("active");
-  aiPage.classList.remove("active");
+function showGeoPage(id){
+  document.querySelectorAll("#geoguessr .stock-page").forEach(function(page){
+    page.classList.remove("active");
+  });
 
-  document.getElementById(id).classList.add("active");
+  document.querySelectorAll("#geoguessr .sub-nav button").forEach(function(btn){
+    btn.classList.remove("active");
+  });
 
-  tipsBtn.classList.remove("active");
-  aiBtn.classList.remove("active");
+  const target = document.getElementById(id);
+  if(target) target.classList.add("active");
 
-  document.getElementById("btn-" + id).classList.add("active");
+  const activeBtn = document.getElementById("btn-" + id);
+  if(activeBtn) activeBtn.classList.add("active");
+
+  if(id === "geo-game"){
+    loadGeoGame();
+  }
 }
   
 function addChatMessage(text, type){
@@ -863,6 +917,10 @@ function showMain(id){
   document.getElementById("btn-stocks").classList.remove("active");
   document.getElementById("btn-geoguessr").classList.remove("active");
   document.getElementById("btn-" + id).classList.add("active");
+
+  if(id === "geoguessr"){
+    showGeoPage("geo-game");
+  }
 }
 
 async function loadDailyAnalysis(){
@@ -945,7 +1003,7 @@ function escapeHtml(text){
 }
 
 function showStockPage(id){
-  document.querySelectorAll(".stock-page").forEach(function(page){
+  document.querySelectorAll("#stocks .stock-page").forEach(function(page){
     page.classList.remove("active");
   });
 
