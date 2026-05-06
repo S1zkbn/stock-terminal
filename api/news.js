@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     encodeURIComponent(query) +
     "&lang=en" +
     "&country=us" +
-    "&max=10" +
+    "&max=12" +
     "&sortby=publishedAt" +
     "&apikey=" +
     apiKey;
