@@ -1234,7 +1234,7 @@ async function loadNews(){
   if(!grid) return;
 
   try{
-    const res = await fetch("/api/news");
+    const res = await fetch("/api/news?t=" + Date.now());
     const newsData = await res.json();
 
     if(!newsData.articles || newsData.articles.length === 0){
