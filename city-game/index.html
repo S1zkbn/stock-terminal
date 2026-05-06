@@ -911,15 +911,9 @@
         map.removeLayer(marker);
         marker = null;
       }
-       applyViewLimits();
-
-marker = L.marker([answer.lat, answer.lng], {
-  interactive:false,
-  keyboard:false
-}).addTo(map);
-
-$("roundPill").textContent = `Round ${round}`;
-updateUI();
+      applyViewLimits();
+      $("roundPill").textContent = `Round ${round}`;
+      updateUI();
     }
 
     function updateUI() {
@@ -989,45 +983,34 @@ updateUI();
     }
 
     function endRound(won) {
-  gameOver = true;
-  $("guessBtn").disabled = true;
+      gameOver = true;
+      $("guessBtn").disabled = true;
 
-  const used = getUsed();
-  used.add(answer.id);
-  saveUsed(used);
+      const used = getUsed();
+      used.add(answer.id);
+      saveUsed(used);
 
-  const s = stats();
-  s.played++;
-  if (won) s.won++;
-  saveStats(s);
+      const s = stats();
+      s.played++;
+      if (won) s.won++;
+      saveStats(s);
 
-  allowedBounds = null;
-  map.dragging.enable();
-  map.setMinZoom(3);
-  map.setMaxZoom(18);
-  map.setMaxBounds(null);
-  map.setView([answer.lat, answer.lng], 11);
+      allowedBounds = null;
+      map.dragging.enable();
+      map.setMinZoom(3);
+      map.setMaxZoom(18);
+      map.setMaxBounds(null);
+      map.setView([answer.lat, answer.lng], 11);
+      marker = L.marker([answer.lat, answer.lng]).addTo(map).bindPopup(`${answer.name}${answer.countryName ? ", " + answer.countryName : ""}`).openPopup();
 
-  if (marker) {
-    map.removeLayer(marker);
-    marker = null;
-  }
-
-  marker = L.marker([answer.lat, answer.lng])
-    .addTo(map)
-    .bindPopup(`${answer.name}${answer.countryName ? ", " + answer.countryName : ""}`)
-    .openPopup();
-
-  $("result").innerHTML = `<b>${won ? tr("correctTitle") : tr("outOfGuesses")}</b><br>${tr("answer")}: ${answer.name}${answer.countryName ? ", " + answer.countryName : ""}<br>${tr("population")}: ${populationValue(answer).toLocaleString()}<br><br><button id="continueBtn">${tr("nextRound")}</button>`;
-  $("result").style.display = "block";
-
-  $("continueBtn").onclick = () => {
-    round++;
-    startRound();
-  };
-
-  updateUI();
-}
+      $("result").innerHTML = `<b>${won ? tr("correctTitle") : tr("outOfGuesses")}</b><br>${tr("answer")}: ${answer.name}${answer.countryName ? ", " + answer.countryName : ""}<br>${tr("population")}: ${populationValue(answer).toLocaleString()}<br><br><button id="continueBtn">${tr("nextRound")}</button>`;
+      $("result").style.display = "block";
+      $("continueBtn").onclick = () => {
+        round++;
+        startRound();
+      };
+      updateUI();
+    }
 
     function submit() {
       if (gameOver) return;
