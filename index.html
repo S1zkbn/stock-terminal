@@ -884,6 +884,8 @@ const watchlistTickerSymbols = [
 
 let chartNeedsThemeRefresh = false;
 let watchNeedsThemeRefresh = false;
+let newsLoaded = false;
+let newsCache = null;
 
   
 function getCurrentTheme(){
@@ -1228,41 +1230,58 @@ function escapeHtml(text){
     .replaceAll("'", "&#039;");
 }
 
-async function loadNews(){
+async function loadNews(forceRefresh = false){
   const grid = document.getElementById("newsGrid");
-
   if(!grid) return;
 
+  if(newsLoaded && newsCache && !forceRefresh){
+    renderNews(newsCache);
+    return;
+  }
+
   try{
-    const res = await fetch("/api/news?t=" + Date.now());
+    const res = await fetch(forceRefresh ? "/api/news?refresh=1" : "/api/news");
     const newsData = await res.json();
 
-    if(!newsData.articles || newsData.articles.length === 0){
+    const articles = (newsData.articles || []).slice(0, 12);
+
+    if(articles.length === 0){
       showFallbackNews();
       return;
     }
 
-    grid.innerHTML = "";
+    newsCache = articles;
+    newsLoaded = true;
 
-    newsData.articles.slice(0, 12).forEach(function(article){
-      grid.innerHTML +=
-        '<div class="news-card">' +
-          '<a href="' + article.link + '" target="_blank">' +
-            '<img src="' + article.image + '" onerror="this.src=\'https://images.unsplash.com/photo-1535320903710-d993d3d77d29?auto=format&fit=crop&w=900&q=80\'">' +
-            '<div class="source-row">' +
-              '<span>' + (article.source || "Market News") + '</span>' +
-              '<span>' + formatDate(article.pubDate) + '</span>' +
-            '</div>' +
-            '<span class="badge ' + getNewsBadgeClass(article.title) + '">' + getNewsCategory(article.title) + '</span>' +
-            '<h3>' + article.title + '</h3>' +
-            '<p>Latest market update and analysis.</p>' +
-          '</a>' +
-        '</div>';
-    });
+    renderNews(articles);
   }catch(e){
     showFallbackNews();
   }
 }
+
+function renderNews(articles){
+  const grid = document.getElementById("newsGrid");
+  if(!grid) return;
+
+  grid.innerHTML = "";
+
+  articles.slice(0, 12).forEach(function(article){
+    grid.innerHTML +=
+      '<div class="news-card">' +
+        '<a href="' + article.link + '" target="_blank">' +
+          '<img src="' + article.image + '" onerror="this.src=\'https://images.unsplash.com/photo-1535320903710-d993d3d77d29?auto=format&fit=crop&w=900&q=80\'">' +
+          '<div class="source-row">' +
+            '<span>' + (article.source || "Market News") + '</span>' +
+            '<span>' + formatDate(article.pubDate) + '</span>' +
+          '</div>' +
+          '<span class="badge ' + getNewsBadgeClass(article.title) + '">' + getNewsCategory(article.title) + '</span>' +
+          '<h3>' + article.title + '</h3>' +
+          '<p>Latest market update and analysis.</p>' +
+        '</a>' +
+      '</div>';
+  });
+}
+
 
 function showFallbackNews(){
   const grid = document.getElementById("newsGrid");
@@ -1357,7 +1376,6 @@ const savedTheme = localStorage.getItem("siteTheme") || "dark";
 applyTheme(savedTheme);
 
 loadDailyAnalysis();
-loadNews();
 </script>
 
 </body>
