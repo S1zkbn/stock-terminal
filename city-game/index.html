@@ -6,7 +6,7 @@
   <title>Endless Satellite City Guess</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <style>
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:#0d1118;color:#f7f9fc;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden}button,input,select{font:inherit}button{border:0;border-radius:14px;padding:12px 15px;font-weight:800;cursor:pointer;background:#7aa2ff;color:#06101f}button.ghost{background:rgba(255,255,255,.08);color:#f7f9fc;border:1px solid rgba(255,255,255,.12)}button:disabled{opacity:.5;cursor:not-allowed}input,select{width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:#0b1018;color:#fff;padding:12px 13px;outline:none}input:focus,select:focus{border-color:#7aa2ff}.app{height:100vh;display:grid;grid-template-columns:390px 1fr}.side{background:#141b26;border-right:1px solid rgba(255,255,255,.08);padding:18px;overflow:auto}.map{min-width:0;position:relative}#map{height:100%;width:100%;background:#070a0f}.brand{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}.brand h1{font-size:22px;letter-spacing:-.04em;margin:0}.brand p{font-size:13px;color:#a9b4c8;line-height:1.45;margin:5px 0 0}.card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:15px;margin-bottom:13px;box-shadow:0 20px 60px rgba(0,0,0,.18)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row{display:flex;gap:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.stat{background:rgba(255,255,255,.06);border-radius:16px;padding:12px;text-align:center}.stat b{display:block;font-size:18px}.stat span{display:block;color:#a9b4c8;font-size:12px;margin-top:2px}.muted{color:#a9b4c8;font-size:13px;line-height:1.55}.suggestions{position:relative}.suggestBox{position:absolute;z-index:1000;left:0;right:0;top:50px;background:#0b1018;border:1px solid rgba(255,255,255,.16);border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.45);display:none}.suggestion{padding:11px 13px;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer}.suggestion:hover{background:rgba(122,162,255,.16)}.suggestion small{color:#a9b4c8}.history{display:grid;gap:8px;margin-top:12px}.guess{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.055);font-size:14px}.tag{border-radius:999px;padding:4px 8px;font-size:12px;background:rgba(255,255,255,.1)}.tag.ok{color:#7df5ad;background:rgba(93,235,153,.18)}.tag.bad{color:#ffd18c;background:rgba(255,185,86,.18)}.result{display:none;border-color:rgba(122,162,255,.28);background:rgba(122,162,255,.12);line-height:1.55}.topOverlay{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;pointer-events:none}.pill{pointer-events:auto;backdrop-filter:blur(14px);background:rgba(8,12,18,.75);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:9px 12px;color:#f7f9fc;font-size:13px}.loading{position:absolute;inset:0;display:grid;place-items:center;background:#0d1118;z-index:9999}.loadingCard{max-width:420px;background:#141b26;border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:22px;box-shadow:0 20px 80px rgba(0,0,0,.35)}.progress{height:8px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden;margin-top:14px}.bar{height:100%;width:20%;background:#7aa2ff;border-radius:999px;animation:load 1.2s infinite alternate}@keyframes load{to{width:95%}}@media(max-width:860px){body{overflow:auto}.app{height:auto;min-height:100vh;grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid rgba(255,255,255,.08)}.map{height:56vh}.brand{flex-direction:column}.topOverlay{top:10px;left:10px;right:10px}.pill{font-size:12px}}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:#0d1118;color:#f7f9fc;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden}button,input,select{font:inherit}button{border:0;border-radius:14px;padding:12px 15px;font-weight:800;cursor:pointer;background:#7aa2ff;color:#06101f}button.ghost{background:rgba(255,255,255,.08);color:#f7f9fc;border:1px solid rgba(255,255,255,.12)}button:disabled{opacity:.5;cursor:not-allowed}input,select{width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:#0b1018;color:#fff;padding:12px 13px;outline:none}input:focus,select:focus{border-color:#7aa2ff}.app{height:100vh;display:grid;grid-template-columns:390px 1fr}.side{background:#141b26;border-right:1px solid rgba(255,255,255,.08);padding:18px;overflow:auto}.map{min-width:0;position:relative}#map{height:100%;width:100%;background:#070a0f}.brand{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}.brand h1{font-size:22px;letter-spacing:-.04em;margin:0}.card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:15px;margin-bottom:13px;box-shadow:0 20px 60px rgba(0,0,0,.18)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row{display:flex;gap:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.stat{background:rgba(255,255,255,.06);border-radius:16px;padding:12px;text-align:center}.stat b{display:block;font-size:18px}.stat span{display:block;color:#a9b4c8;font-size:12px;margin-top:2px}.muted{color:#a9b4c8;font-size:13px;line-height:1.55}.suggestions{position:relative}.suggestBox{position:absolute;z-index:1000;left:0;right:0;top:50px;background:#0b1018;border:1px solid rgba(255,255,255,.16);border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.45);display:none}.suggestion{padding:11px 13px;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer}.suggestion:hover{background:rgba(122,162,255,.16)}.suggestion small{color:#a9b4c8}.history{display:grid;gap:8px;margin-top:12px}.guess{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.055);font-size:14px}.tag{border-radius:999px;padding:4px 8px;font-size:12px;background:rgba(255,255,255,.1)}.tag.ok{color:#7df5ad;background:rgba(93,235,153,.18)}.tag.bad{color:#ffd18c;background:rgba(255,185,86,.18)}.result{display:none;border-color:rgba(122,162,255,.28);background:rgba(122,162,255,.12);line-height:1.55}.topOverlay{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;pointer-events:none}.pill{pointer-events:auto;backdrop-filter:blur(14px);background:rgba(8,12,18,.75);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:9px 12px;color:#f7f9fc;font-size:13px}.loading{position:absolute;inset:0;display:grid;place-items:center;background:#0d1118;z-index:9999}.loadingCard{max-width:420px;background:#141b26;border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:22px;box-shadow:0 20px 80px rgba(0,0,0,.35)}.progress{height:8px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden;margin-top:14px}.bar{height:100%;width:20%;background:#7aa2ff;border-radius:999px;animation:load 1.2s infinite alternate}@keyframes load{to{width:95%}}@media(max-width:860px){body{overflow:auto}.app{height:auto;min-height:100vh;grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid rgba(255,255,255,.08)}.map{height:56vh}.brand{flex-direction:column}.topOverlay{top:10px;left:10px;right:10px}.pill{font-size:12px}}
   </style>
 </head>
 <body>
@@ -15,9 +15,8 @@
     <aside class="side">
       <div class="brand"><div><h1>Endless Satellite City Guess</h1></div><button class="ghost" id="nextBtn">下一题</button></div>
       <div class="card">
-        <div class="grid">
-          <label><div class="muted">难度</div><select id="difficulty"><option value="easy">Easy 大城市</option><option value="medium" selected>Medium 中等</option><option value="hard">Hard 小城市</option><option value="all">All 全部</option></select></label>
-          <label><div class="muted">模式</div><select id="mode"><option value="input" selected>输入城市名</option><option value="practice">练习：显示国家</option></select></label>
+        <div>
+          <label><div class="muted">难度</div><select id="difficulty"><option value="easy">Easy 城市级</option><option value="medium" selected>Medium 进阶</option><option value="hard">Hard 挑战</option><option value="all">All 全部</option></select></label>
         </div>
         <div class="stats"><div class="stat"><b id="attemptText">1/6</b><span>次数</span></div><div class="stat"><b id="zoomText">16</b><span>Zoom</span></div><div class="stat"><b id="poolText">0</b><span>题库</span></div></div>
       </div>
@@ -29,15 +28,14 @@
       <div class="card result" id="result"></div>
       <div class="card">
         <div class="grid"><div class="stat"><b id="playedText">0</b><span>已玩</span></div><div class="stat"><b id="winText">0%</b><span>胜率</span></div></div>
-        
         <button class="ghost" id="resetBtn" style="width:100%">重置本地记录</button>
       </div>
     </aside>
-    <main class="map"><div id="map"></div><div class="topOverlay"><div class="pill" id="roundPill">Round 1</div><div class="pill" id="countryPill" style="display:none"></div></div></main>
+    <main class="map"><div id="map"></div><div class="topOverlay"><div class="pill" id="roundPill">Round 1</div></div></main>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
-    const FALLBACK_CITIES=[
+    const FALLBACK_CITIES = [
       {id:1,name:"New York",asciiName:"New York",countryCode:"US",countryName:"United States",lat:40.7128,lng:-74.006,population:8804190,featureCode:"PPL",aliases:["new york","new york city","nyc","纽约"]},
       {id:2,name:"Los Angeles",asciiName:"Los Angeles",countryCode:"US",countryName:"United States",lat:34.0522,lng:-118.2437,population:3898747,featureCode:"PPL",aliases:["los angeles","la","洛杉矶"]},
       {id:3,name:"San Francisco",asciiName:"San Francisco",countryCode:"US",countryName:"United States",lat:37.7749,lng:-122.4194,population:873965,featureCode:"PPL",aliases:["san francisco","sf","旧金山"]},
@@ -49,96 +47,435 @@
       {id:9,name:"Singapore",asciiName:"Singapore",countryCode:"SG",countryName:"Singapore",lat:1.3521,lng:103.8198,population:5637000,featureCode:"PPLC",aliases:["singapore","新加坡"]},
       {id:10,name:"Sydney",asciiName:"Sydney",countryCode:"AU",countryName:"Australia",lat:-33.8688,lng:151.2093,population:5312000,featureCode:"PPLA",aliases:["sydney","悉尼"]}
     ];
-    const STAGES=[
-      {minZoom:15,maxZoom:18,radiusKm:3},
-      {minZoom:14,maxZoom:18,radiusKm:7},
-      {minZoom:13,maxZoom:18,radiusKm:16},
-      {minZoom:12,maxZoom:18,radiusKm:38},
-      {minZoom:10,maxZoom:18,radiusKm:95},
-      {minZoom:8,maxZoom:18,radiusKm:240}
+
+    const STAGES = [
+      {minZoom:15,maxZoom:18},
+      {minZoom:14,maxZoom:18},
+      {minZoom:13,maxZoom:18},
+      {minZoom:12,maxZoom:18},
+      {minZoom:10,maxZoom:18},
+      {minZoom:8,maxZoom:18}
     ];
-    const MAX_ATTEMPTS=STAGES.length;
-    let cities=[],cityById=new Map(),aliasRows=[],map,answer,attempt=0,round=1,gameOver=false,marker=null,allowedBounds=null;
-    const $=id=>document.getElementById(id);
-    const normalize=s=>(s||"").toString().normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^\p{Letter}\p{Number}\s]/gu," ").replace(/\s+/g," ").trim();
-    const km=(a,b)=>{const R=6371,toRad=x=>x*Math.PI/180,dLat=toRad(b.lat-a.lat),dLng=toRad(b.lng-a.lng),lat1=toRad(a.lat),lat2=toRad(b.lat);const x=Math.sin(dLat/2)**2+Math.cos(lat1)*Math.cos(lat2)*Math.sin(dLng/2)**2;return 2*R*Math.atan2(Math.sqrt(x),Math.sqrt(1-x))};
-    const currentStage=()=>STAGES[Math.min(attempt,STAGES.length-1)];
-    function boundsAround(city,radiusKm){const latDelta=radiusKm/111;const lngDelta=radiusKm/(111*Math.max(Math.cos(city.lat*Math.PI/180),0.2));return L.latLngBounds([city.lat-latDelta,city.lng-lngDelta],[city.lat+latDelta,city.lng+lngDelta]);}
-    function getLegalCenterPixelBounds(){
-      if(!allowedBounds)return null;
-      const z=map.getZoom();
-      const nw=map.project(allowedBounds.getNorthWest(),z);
-      const se=map.project(allowedBounds.getSouthEast(),z);
-      const half=map.getSize().divideBy(2);
-      const minX=nw.x+half.x;
-      const maxX=se.x-half.x;
-      const minY=nw.y+half.y;
-      const maxY=se.y-half.y;
-      return {minX,maxX,minY,maxY,nw,se};
+
+    const MAX_ATTEMPTS = STAGES.length;
+    let cities = [];
+    let cityById = new Map();
+    let aliasRows = [];
+    let map;
+    let answer;
+    let attempt = 0;
+    let round = 1;
+    let gameOver = false;
+    let marker = null;
+    let allowedBounds = null;
+    let isClamping = false;
+
+    const $ = id => document.getElementById(id);
+
+    const normalize = s => String(s || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^\p{Letter}\p{Number}\s]/gu, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const CITY_POPULATION_OVERRIDES = {
+      "sydney|AU": 5312000,
+      "melbourne|AU": 5078000,
+      "brisbane|AU": 2560000,
+      "perth|AU": 2192000,
+      "adelaide|AU": 1402000,
+      "gold coast|AU": 735000,
+      "san francisco|US": 4623000,
+      "boston|US": 4941000,
+      "washington|US": 6385000,
+      "miami|US": 6139000,
+      "atlanta|US": 6307000,
+      "seattle|US": 4034000,
+      "denver|US": 3005000,
+      "las vegas|US": 2265000,
+      "vancouver|CA": 2643000,
+      "toronto|CA": 6202000,
+      "montreal|CA": 4291000,
+      "manchester|GB": 2730000,
+      "birmingham|GB": 2920000,
+      "leeds|GB": 1901000,
+      "glasgow|GB": 1680000
+    };
+
+    function populationValue(city) {
+      return Number(city.gamePopulation ?? city.population ?? 0);
     }
-    function hasDragRoom(){
-      const b=getLegalCenterPixelBounds();
-      if(!b)return true;
-      return b.maxX-b.minX>4||b.maxY-b.minY>4;
+
+    function cityPopulationForGame(city) {
+      const key = `${normalize(city.name)}|${String(city.countryCode || "").toUpperCase()}`;
+      return CITY_POPULATION_OVERRIDES[key] ?? Number(city.population ?? 0);
     }
-    function clampCenterToAllowed(animate=false){
-      if(gameOver||!allowedBounds)return;
-      const b=getLegalCenterPixelBounds();
-      if(!b)return;
-      const z=map.getZoom();
-      const p=map.project(map.getCenter(),z);
-      let x=p.x,y=p.y;
-      if(b.minX>b.maxX)x=(b.nw.x+b.se.x)/2;
-      else x=Math.min(Math.max(x,b.minX),b.maxX);
-      if(b.minY>b.maxY)y=(b.nw.y+b.se.y)/2;
-      else y=Math.min(Math.max(y,b.minY),b.maxY);
-      if(Math.abs(x-p.x)>0.5||Math.abs(y-p.y)>0.5){
-        map.setView(map.unproject([x,y],z),z,{animate});
+
+    function runTests() {
+      console.assert(normalize("São   Paulo!") === "sao paulo", "normalize should remove accents and punctuation");
+      console.assert(cityPopulationForGame({name:"Sydney",countryCode:"AU",population:250000}) === 5312000, "Sydney should use override population");
+      console.assert(populationValue({gamePopulation:0,population:123}) === 0, "populationValue should preserve 0 gamePopulation");
+      console.assert(populationValue({population:123}) === 123, "populationValue should fall back to raw population");
+      const testEasy = {gamePopulation:750000};
+      const testMedium = {gamePopulation:250000};
+      const testHard = {gamePopulation:249999};
+      console.assert(populationValue(testEasy) >= 750000, "Easy boundary should include 750,000");
+      console.assert(populationValue(testMedium) >= 250000 && populationValue(testMedium) < 750000, "Medium boundary should include 250,000");
+      console.assert(populationValue(testHard) < 250000, "Hard boundary should be below 250,000");
+    }
+
+    const km = (a, b) => {
+      const R = 6371;
+      const toRad = x => x * Math.PI / 180;
+      const dLat = toRad(b.lat - a.lat);
+      const dLng = toRad(b.lng - a.lng);
+      const lat1 = toRad(a.lat);
+      const lat2 = toRad(b.lat);
+      const x = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+      return 2 * R * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x));
+    };
+
+    const currentStage = () => STAGES[Math.min(attempt, STAGES.length - 1)];
+
+    function getLegalCenterPixelBounds() {
+      if (!allowedBounds) return null;
+      const z = map.getZoom();
+      const nw = map.project(allowedBounds.getNorthWest(), z);
+      const se = map.project(allowedBounds.getSouthEast(), z);
+      const half = map.getSize().divideBy(2);
+      return {
+        minX: nw.x + half.x,
+        maxX: se.x - half.x,
+        minY: nw.y + half.y,
+        maxY: se.y - half.y,
+        nw,
+        se
+      };
+    }
+
+    function clampCenterToAllowed(animate = false) {
+      if (isClamping || gameOver || !allowedBounds) return;
+      const b = getLegalCenterPixelBounds();
+      if (!b) return;
+
+      const z = map.getZoom();
+      const p = map.project(map.getCenter(), z);
+      let x = p.x;
+      let y = p.y;
+
+      if (b.minX > b.maxX) x = (b.nw.x + b.se.x) / 2;
+      else x = Math.min(Math.max(x, b.minX), b.maxX);
+
+      if (b.minY > b.maxY) y = (b.nw.y + b.se.y) / 2;
+      else y = Math.min(Math.max(y, b.minY), b.maxY);
+
+      if (Math.abs(x - p.x) > 0.5 || Math.abs(y - p.y) > 0.5) {
+        isClamping = true;
+        map.setView(map.unproject([x, y], z), z, {animate});
+        isClamping = false;
       }
     }
-    function syncDragging(){
-      if(!map||!map.dragging)return;
-      if(gameOver||!allowedBounds){map.dragging.enable();return;}
-      const st=currentStage();
-      const z=map.getZoom();
-      if(z<=st.minZoom+0.01)map.dragging.disable();
+
+    function syncDragging() {
+      if (!map || !map.dragging) return;
+      if (gameOver || !allowedBounds) {
+        map.dragging.enable();
+        return;
+      }
+      const stage = currentStage();
+      if (map.getZoom() <= stage.minZoom + 0.01) map.dragging.disable();
       else map.dragging.enable();
     }
-    function applyViewLimits(reason="keep"){
-      const st=currentStage();
-      allowedBounds=null;
+
+    function applyViewLimits() {
+      const stage = currentStage();
+      allowedBounds = null;
       map.setMaxBounds(null);
-      map.setMinZoom(st.minZoom);
-      map.setMaxZoom(st.maxZoom);
+      map.setMinZoom(stage.minZoom);
+      map.setMaxZoom(stage.maxZoom);
+      map.setView([answer.lat, answer.lng], stage.minZoom, {animate:false});
 
-      // Important: do not animate here. If we record bounds during a zoom animation,
-      // Leaflet may give us the old viewport, which makes the next zoom level feel frozen.
-      map.setView([answer.lat,answer.lng],st.minZoom,{animate:false});
-
-      requestAnimationFrame(()=>{
-        allowedBounds=map.getBounds();
+      requestAnimationFrame(() => {
+        allowedBounds = map.getBounds();
         syncDragging();
       });
     }
-    const stats=()=>JSON.parse(localStorage.getItem("zcg_stats")||"{\"played\":0,\"won\":0}");
-    const saveStats=s=>localStorage.setItem("zcg_stats",JSON.stringify(s));
-    const usedKey=()=>`zcg_used_${$("difficulty").value}`;
-    const getUsed=()=>new Set(JSON.parse(localStorage.getItem(usedKey())||"[]"));
-    const saveUsed=s=>localStorage.setItem(usedKey(),JSON.stringify([...s].slice(-50000)));
-    function prepare(raw){cities=raw.map((c,i)=>{const aliases=new Set([c.name,c.asciiName,...(c.aliases||[])]);return{...c,id:c.id??i+1,lat:+c.lat,lng:+c.lng,population:+(c.population||0),aliases:[...aliases].map(normalize).filter(Boolean)}}).filter(c=>Number.isFinite(c.lat)&&Number.isFinite(c.lng)&&c.name);cityById=new Map(cities.map(c=>[c.id,c]));aliasRows=[];for(const c of cities){for(const a of c.aliases)aliasRows.push({alias:a,city:c});}$("poolText").textContent=cities.length.toLocaleString();}
-    async function loadCities(){try{const r=await fetch("./cities.json",{cache:"no-store"});if(!r.ok)throw new Error("no cities.json");const data=await r.json();prepare(data);$("loadingText").textContent=`已加载 ${cities.length.toLocaleString()} 个城市。`;setTimeout(()=>$("loading").style.display="none",250);}catch(e){prepare(FALLBACK_CITIES);$("loadingText").textContent="没找到网站目录里的 cities.json，正在使用内置小题库。";setTimeout(()=>$("loading").style.display="none",700);}}
-    function pool(){const d=$("difficulty").value;let p=cities;if(d==="easy")p=cities.filter(c=>c.population>=1000000||c.featureCode==="PPLC");if(d==="medium")p=cities.filter(c=>c.population>=100000&&c.population<3000000);if(d==="hard")p=cities.filter(c=>c.population>0&&c.population<300000);return p.length?p:cities;}
-    function chooseCity(){const p=pool(),used=getUsed();let available=p.filter(c=>!used.has(c.id));if(!available.length){used.clear();saveUsed(used);available=p;}const weighted=[];for(const c of available){const w=c.featureCode==="PPLC"?4:c.population>=1000000?3:c.population>=100000?2:1;for(let i=0;i<w;i++)weighted.push(c);}return weighted[Math.floor(Math.random()*weighted.length)];}
-    function setupMap(){map=L.map("map",{zoomControl:true,dragging:true,scrollWheelZoom:true,doubleClickZoom:true,boxZoom:false,keyboard:true,tap:true,attributionControl:true,zoomSnap:1,inertia:false});L.tileLayer("https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{maxZoom:19,attribution:"Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"}).addTo(map);map.on("drag",()=>clampCenterToAllowed(false));map.on("dragend",()=>clampCenterToAllowed(false));map.on("zoomend resize",()=>{clampCenterToAllowed(false);syncDragging();});}
-    function startRound(){answer=chooseCity();attempt=0;gameOver=false;$("guessInput").value="";$("history").innerHTML="";$("result").style.display="none";$("guessBtn").disabled=false;if(marker){map.removeLayer(marker);marker=null;}applyViewLimits("start");$("roundPill").textContent=`Round ${round}`;$("countryPill").style.display=$("mode").value==="practice"?"block":"none";$("countryPill").textContent=`${answer.countryName||answer.countryCode}`;updateUI();}
-    function updateUI(){$("attemptText").textContent=`${Math.min(attempt+1,MAX_ATTEMPTS)}/${MAX_ATTEMPTS}`;const st=currentStage();$("zoomText").textContent=`${st.minZoom}+`;const s=stats();$("playedText").textContent=s.played;$("winText").textContent=s.played?`${Math.round(s.won/s.played*100)}%`:"0%";$("hintText").textContent=gameOver?"":"";}
-    function findExact(q){const n=normalize(q);if(!n)return null;let hit=aliasRows.find(r=>r.alias===n);if(hit)return hit.city;return null;}
-    function suggest(q){const n=normalize(q);const box=$("suggestBox");box.innerHTML="";if(n.length<2){box.style.display="none";return;}const scored=[];const seen=new Set();for(const r of aliasRows){if(seen.has(r.city.id))continue;let score=0;if(r.alias.startsWith(n))score=3;else if(r.alias.includes(n))score=2;else continue;score+=Math.min(Math.log10((r.city.population||1)+1)/10,1);scored.push({score,city:r.city});seen.add(r.city.id);if(scored.length>350)break;}scored.sort((a,b)=>b.score-a.score).slice(0,12).forEach(({city})=>{const div=document.createElement("div");div.className="suggestion";div.innerHTML=`${city.name} <small>${city.countryName||city.countryCode} · ${Number(city.population||0).toLocaleString()}</small>`;div.onclick=()=>{$("guessInput").value=city.name;box.style.display="none";$("guessInput").focus();};box.appendChild(div);});box.style.display=box.children.length?"block":"none";}
-    function addGuess(text,correct,dist){const div=document.createElement("div");div.className="guess";div.innerHTML=`<span>${text}</span><span class="tag ${correct?"ok":"bad"}">${correct?"正确":dist==null?"未收录":Math.round(dist).toLocaleString()+" km"}</span>`;$("history").prepend(div);}
-    function endRound(won){gameOver=true;$("guessBtn").disabled=true;const used=getUsed();used.add(answer.id);saveUsed(used);const s=stats();s.played++;if(won)s.won++;saveStats(s);allowedBounds=null;map.dragging.enable();map.setMinZoom(3);map.setMaxZoom(18);map.setMaxBounds(null);map.setView([answer.lat,answer.lng],11);marker=L.marker([answer.lat,answer.lng]).addTo(map).bindPopup(`${answer.name}${answer.countryName?", "+answer.countryName:""}`).openPopup();$("result").innerHTML=`<b>${won?"答对了":"没猜出来"}</b><br>答案：${answer.name}${answer.countryName?", "+answer.countryName:""}<br>人口：${Number(answer.population||0).toLocaleString()}<br><br><button id="continueBtn">继续下一题</button>`;$("result").style.display="block";$("continueBtn").onclick=()=>{round++;startRound();};updateUI();}
-    function submit(){if(gameOver)return;const raw=$("guessInput").value.trim();if(!raw)return;const guessed=findExact(raw);const correct=!!guessed&&guessed.id===answer.id;const dist=guessed?km(guessed,answer):null;addGuess(raw,correct,dist);if(correct){endRound(true);return;}attempt++;if(attempt>=MAX_ATTEMPTS){endRound(false);return;}applyViewLimits("wrong");$("guessInput").value="";$("suggestBox").style.display="none";updateUI();}
-    $("guessBtn").onclick=submit;$("nextBtn").onclick=()=>{round++;startRound();};$("guessInput").addEventListener("keydown",e=>{if(e.key==="Enter")submit();if(e.key==="Escape")$("suggestBox").style.display="none";});$("guessInput").addEventListener("input",e=>suggest(e.target.value));$("difficulty").onchange=()=>{round=1;startRound();};$("mode").onchange=updateUI;$("resetBtn").onclick=()=>{localStorage.removeItem("zcg_stats");localStorage.removeItem(usedKey());updateUI();};document.addEventListener("click",e=>{if(!e.target.closest(".suggestions"))$("suggestBox").style.display="none";});
-    (async()=>{setupMap();await loadCities();startRound();})();
+
+    const stats = () => JSON.parse(localStorage.getItem("zcg_stats") || "{\"played\":0,\"won\":0}");
+    const saveStats = s => localStorage.setItem("zcg_stats", JSON.stringify(s));
+    const usedKey = () => `zcg_used_${$("difficulty").value}`;
+    const getUsed = () => new Set(JSON.parse(localStorage.getItem(usedKey()) || "[]"));
+    const saveUsed = s => localStorage.setItem(usedKey(), JSON.stringify([...s].slice(-50000)));
+
+    function isRealCity(city) {
+      const code = String(city.featureCode || "").toUpperCase();
+      const validCodes = new Set(["PPL", "PPLA", "PPLA2", "PPLA3", "PPLA4", "PPLC"]);
+      return validCodes.has(code) && Number(city.population ?? 0) > 0;
+    }
+
+    function prepare(raw) {
+      cities = raw
+        .map((city, i) => {
+          const aliases = new Set([city.name, city.asciiName, ...(city.aliases || [])]);
+          const base = {
+            ...city,
+            id: city.id ?? i + 1,
+            lat: Number(city.lat),
+            lng: Number(city.lng),
+            population: Number(city.population ?? 0),
+            aliases: [...aliases].map(normalize).filter(Boolean)
+          };
+          return {
+            ...base,
+            gamePopulation: cityPopulationForGame(base)
+          };
+        })
+        .filter(city => Number.isFinite(city.lat) && Number.isFinite(city.lng) && city.name && isRealCity(city));
+
+      cityById = new Map(cities.map(city => [city.id, city]));
+      aliasRows = [];
+      for (const city of cities) {
+        for (const alias of city.aliases) aliasRows.push({alias, city});
+      }
+      $("poolText").textContent = cities.length.toLocaleString();
+    }
+
+    async function loadCities() {
+      try {
+        const response = await fetch("./cities.json", {cache:"no-store"});
+        if (!response.ok) throw new Error("no cities.json");
+        const data = await response.json();
+        prepare(data);
+        $("loadingText").textContent = `已加载 ${cities.length.toLocaleString()} 个城市。`;
+        setTimeout(() => $("loading").style.display = "none", 250);
+      } catch (error) {
+        prepare(FALLBACK_CITIES);
+        $("loadingText").textContent = "没找到网站目录里的 cities.json，正在使用内置小题库。";
+        setTimeout(() => $("loading").style.display = "none", 700);
+      }
+    }
+
+    function pool() {
+      const difficulty = $("difficulty").value;
+      let selected = cities;
+
+      if (difficulty === "easy") selected = cities.filter(city => populationValue(city) >= 750000);
+      if (difficulty === "medium") selected = cities.filter(city => populationValue(city) >= 250000 && populationValue(city) < 750000);
+      if (difficulty === "hard") selected = cities.filter(city => populationValue(city) > 0 && populationValue(city) < 250000);
+
+      return selected.length ? selected : cities;
+    }
+
+    function chooseCity() {
+      const currentPool = pool();
+      const used = getUsed();
+      let available = currentPool.filter(city => !used.has(city.id));
+      if (!available.length) {
+        used.clear();
+        saveUsed(used);
+        available = currentPool;
+      }
+      return available[Math.floor(Math.random() * available.length)];
+    }
+
+    function setupMap() {
+      map = L.map("map", {
+        zoomControl:true,
+        dragging:true,
+        scrollWheelZoom:true,
+        doubleClickZoom:true,
+        boxZoom:false,
+        keyboard:true,
+        tap:true,
+        attributionControl:true,
+        zoomSnap:1,
+        inertia:false
+      });
+
+      L.tileLayer("https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+        maxZoom:19,
+        attribution:"Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
+      }).addTo(map);
+
+      map.on("drag", () => clampCenterToAllowed(false));
+      map.on("dragend", () => clampCenterToAllowed(false));
+      map.on("zoomend resize", () => {
+        clampCenterToAllowed(false);
+        syncDragging();
+      });
+    }
+
+    function startRound() {
+      answer = chooseCity();
+      attempt = 0;
+      gameOver = false;
+      $("guessInput").value = "";
+      $("history").innerHTML = "";
+      $("result").style.display = "none";
+      $("guessBtn").disabled = false;
+      if (marker) {
+        map.removeLayer(marker);
+        marker = null;
+      }
+      applyViewLimits();
+      $("roundPill").textContent = `Round ${round}`;
+      updateUI();
+    }
+
+    function updateUI() {
+      $("attemptText").textContent = `${Math.min(attempt + 1, MAX_ATTEMPTS)}/${MAX_ATTEMPTS}`;
+      const stage = currentStage();
+      $("zoomText").textContent = `${stage.minZoom}+`;
+      const s = stats();
+      $("playedText").textContent = s.played;
+      $("winText").textContent = s.played ? `${Math.round(s.won / s.played * 100)}%` : "0%";
+      $("hintText").textContent = "";
+    }
+
+    function findExact(query) {
+      const normalized = normalize(query);
+      if (!normalized) return null;
+      const hit = aliasRows.find(row => row.alias === normalized);
+      return hit ? hit.city : null;
+    }
+
+    function suggest(query) {
+      const normalized = normalize(query);
+      const box = $("suggestBox");
+      box.innerHTML = "";
+      if (normalized.length < 2) {
+        box.style.display = "none";
+        return;
+      }
+
+      const scored = [];
+      const seen = new Set();
+      for (const row of aliasRows) {
+        if (seen.has(row.city.id)) continue;
+        let score = 0;
+        if (row.alias.startsWith(normalized)) score = 3;
+        else if (row.alias.includes(normalized)) score = 2;
+        else continue;
+        score += Math.min(Math.log10(populationValue(row.city) + 1) / 10, 1);
+        scored.push({score, city:row.city});
+        seen.add(row.city.id);
+        if (scored.length > 350) break;
+      }
+
+      scored
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 12)
+        .forEach(({city}) => {
+          const div = document.createElement("div");
+          div.className = "suggestion";
+          div.innerHTML = `${city.name} <small>${city.countryName || city.countryCode} · ${populationValue(city).toLocaleString()}</small>`;
+          div.onclick = () => {
+            $("guessInput").value = city.name;
+            box.style.display = "none";
+            $("guessInput").focus();
+          };
+          box.appendChild(div);
+        });
+
+      box.style.display = box.children.length ? "block" : "none";
+    }
+
+    function addGuess(text, correct, distance) {
+      const div = document.createElement("div");
+      div.className = "guess";
+      const label = correct ? "正确" : distance == null ? "未收录" : Math.round(distance).toLocaleString() + " km";
+      div.innerHTML = `<span>${text}</span><span class="tag ${correct ? "ok" : "bad"}">${label}</span>`;
+      $("history").prepend(div);
+    }
+
+    function endRound(won) {
+      gameOver = true;
+      $("guessBtn").disabled = true;
+
+      const used = getUsed();
+      used.add(answer.id);
+      saveUsed(used);
+
+      const s = stats();
+      s.played++;
+      if (won) s.won++;
+      saveStats(s);
+
+      allowedBounds = null;
+      map.dragging.enable();
+      map.setMinZoom(3);
+      map.setMaxZoom(18);
+      map.setMaxBounds(null);
+      map.setView([answer.lat, answer.lng], 11);
+      marker = L.marker([answer.lat, answer.lng]).addTo(map).bindPopup(`${answer.name}${answer.countryName ? ", " + answer.countryName : ""}`).openPopup();
+
+      $("result").innerHTML = `<b>${won ? "答对了" : "没猜出来"}</b><br>答案：${answer.name}${answer.countryName ? ", " + answer.countryName : ""}<br>人口：${populationValue(answer).toLocaleString()}<br><br><button id="continueBtn">继续下一题</button>`;
+      $("result").style.display = "block";
+      $("continueBtn").onclick = () => {
+        round++;
+        startRound();
+      };
+      updateUI();
+    }
+
+    function submit() {
+      if (gameOver) return;
+      const raw = $("guessInput").value.trim();
+      if (!raw) return;
+
+      const guessed = findExact(raw);
+      const correct = Boolean(guessed) && guessed.id === answer.id;
+      const distance = guessed ? km(guessed, answer) : null;
+      addGuess(raw, correct, distance);
+
+      if (correct) {
+        endRound(true);
+        return;
+      }
+
+      attempt++;
+      if (attempt >= MAX_ATTEMPTS) {
+        endRound(false);
+        return;
+      }
+
+      applyViewLimits();
+      $("guessInput").value = "";
+      $("suggestBox").style.display = "none";
+      updateUI();
+    }
+
+    $("guessBtn").onclick = submit;
+    $("nextBtn").onclick = () => {
+      round++;
+      startRound();
+    };
+    $("guessInput").addEventListener("keydown", event => {
+      if (event.key === "Enter") submit();
+      if (event.key === "Escape") $("suggestBox").style.display = "none";
+    });
+    $("guessInput").addEventListener("input", event => suggest(event.target.value));
+    $("difficulty").onchange = () => {
+      round = 1;
+      startRound();
+    };
+    $("resetBtn").onclick = () => {
+      localStorage.removeItem("zcg_stats");
+      localStorage.removeItem(usedKey());
+      updateUI();
+    };
+    document.addEventListener("click", event => {
+      if (!event.target.closest(".suggestions")) $("suggestBox").style.display = "none";
+    });
+
+    (async () => {
+      runTests();
+      setupMap();
+      await loadCities();
+      startRound();
+    })();
   </script>
 </body>
 </html>
