@@ -156,11 +156,12 @@
       display:flex;
       gap:8px;
       align-items:center;
+      flex-wrap:wrap;
     }
 
     .language-select{
       width:auto;
-      min-width:112px;
+      min-width:92px;
       padding:12px 34px 12px 13px;
       border-radius:14px;
     }
@@ -446,6 +447,11 @@
             <option value="zh">中文</option>
           </select>
 
+          <select id="unitSelect" class="language-select">
+            <option value="metric">km</option>
+            <option value="imperial">mi</option>
+          </select>
+
           <button class="ghost" id="nextBtn" data-i18n="next">Next</button>
         </div>
       </div>
@@ -644,6 +650,29 @@
 
     let currentLang = localStorage.getItem("zcg_lang") || "en";
     const tr = key => I18N[currentLang][key] ?? I18N.en[key] ?? key;
+
+    let currentUnit = localStorage.getItem("zcg_unit") || "metric";
+
+    function applyUnit(){
+      const select = $("unitSelect");
+      if(select) select.value = currentUnit;
+    }
+
+    function setUnit(unit){
+      currentUnit = unit === "imperial" ? "imperial" : "metric";
+      localStorage.setItem("zcg_unit", currentUnit);
+      applyUnit();
+    }
+
+    function formatDistance(distanceKm){
+      if(distanceKm == null) return tr("notFound");
+
+      if(currentUnit === "imperial"){
+        return Math.round(distanceKm * 0.621371).toLocaleString() + " mi";
+      }
+
+      return Math.round(distanceKm).toLocaleString() + " km";
+    }
 
     function applyLanguage() {
       const select = $("languageSelect");
@@ -907,11 +936,19 @@
       $("history").innerHTML = "";
       $("result").style.display = "none";
       $("guessBtn").disabled = false;
+
       if (marker) {
         map.removeLayer(marker);
         marker = null;
       }
+
       applyViewLimits();
+
+      marker = L.marker([answer.lat, answer.lng], {
+        interactive:false,
+        keyboard:false
+      }).addTo(map);
+
       $("roundPill").textContent = `Round ${round}`;
       updateUI();
     }
@@ -977,7 +1014,7 @@
     function addGuess(text, correct, distance) {
       const div = document.createElement("div");
       div.className = "guess";
-      const label = correct ? tr("correct") : distance == null ? tr("notFound") : Math.round(distance).toLocaleString() + " km";
+      const label = correct ? tr("correct") : distance == null ? tr("notFound") : formatDistance(distance);
       div.innerHTML = `<span>${text}</span><span class="tag ${correct ? "ok" : "bad"}">${label}</span>`;
       $("history").prepend(div);
     }
@@ -1001,14 +1038,25 @@
       map.setMaxZoom(18);
       map.setMaxBounds(null);
       map.setView([answer.lat, answer.lng], 11);
-      marker = L.marker([answer.lat, answer.lng]).addTo(map).bindPopup(`${answer.name}${answer.countryName ? ", " + answer.countryName : ""}`).openPopup();
+
+      if (marker) {
+        map.removeLayer(marker);
+        marker = null;
+      }
+
+      marker = L.marker([answer.lat, answer.lng])
+        .addTo(map)
+        .bindPopup(`${answer.name}${answer.countryName ? ", " + answer.countryName : ""}`)
+        .openPopup();
 
       $("result").innerHTML = `<b>${won ? tr("correctTitle") : tr("outOfGuesses")}</b><br>${tr("answer")}: ${answer.name}${answer.countryName ? ", " + answer.countryName : ""}<br>${tr("population")}: ${populationValue(answer).toLocaleString()}<br><br><button id="continueBtn">${tr("nextRound")}</button>`;
       $("result").style.display = "block";
+
       $("continueBtn").onclick = () => {
         round++;
         startRound();
       };
+
       updateUI();
     }
 
@@ -1059,6 +1107,7 @@
     };
 
     $("languageSelect").onchange = event => setLanguage(event.target.value);
+    $("unitSelect").onchange = event => setUnit(event.target.value);
 
     $("resetBtn").onclick = () => {
       localStorage.removeItem("zcg_stats");
@@ -1073,6 +1122,7 @@
     (async () => {
       runTests();
       applyLanguage();
+      applyUnit();
       setupMap();
       await loadCities();
       startRound();
