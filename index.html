@@ -922,6 +922,32 @@ function updateTradingViewTheme(theme){
   }
 }
 
+function refreshLiveChart(){
+  const chartFrame = document.getElementById("chartFrame");
+  if(!chartFrame) return;
+
+  const theme = getCurrentTheme();
+
+  requestAnimationFrame(function(){
+    setTimeout(function(){
+      chartFrame.src = chartFrame.src.replace(/theme=(dark|light)/, "theme=" + theme);
+    }, 80);
+  });
+}
+
+function refreshWatchChart(){
+  const watchChartFrame = document.getElementById("watchChartFrame");
+  if(!watchChartFrame) return;
+
+  const selected = document.getElementById("watchSym")?.value || "NYSE:CMG";
+
+  requestAnimationFrame(function(){
+    setTimeout(function(){
+      watchChartFrame.src = chartUrl(selected, false);
+    }, 80);
+  });
+}
+
 function applyTheme(theme){
   const button = document.getElementById("themeToggle");
 
@@ -1023,6 +1049,15 @@ function showStockPage(id){
   if(id === "news"){
     loadDailyAnalysis();
     loadNews();
+
+  if(id === "chart"){
+  refreshLiveChart();
+}
+
+if(id === "watchlist"){
+  refreshWatchChart();
+}
+    
   }
 }
 
