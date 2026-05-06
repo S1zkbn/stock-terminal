@@ -488,10 +488,10 @@
           <label>
             <div class="muted" data-i18n="difficulty">Difficulty</div>
             <select id="difficulty">
-              <option value="easy" data-i18n="easy">Easy</option>
-              <option value="medium" selected data-i18n="medium">Medium</option>
-              <option value="hard" data-i18n="hard">Hard</option>
-              <option value="all" data-i18n="all">All</option>
+            <option value="easy" selected data-i18n="easy">Easy</option>
+            <option value="medium" data-i18n="medium">Medium</option>
+            <option value="hard" data-i18n="hard">Hard</option>
+            <option value="all" data-i18n="all">All</option>
             </select>
           </label>
 
@@ -783,12 +783,13 @@
       console.assert(cityPopulationForGame({name:"Sydney",countryCode:"AU",population:250000}) === 5312000, "Sydney should use override population");
       console.assert(populationValue({gamePopulation:0,population:123}) === 0, "populationValue should preserve 0 gamePopulation");
       console.assert(populationValue({population:123}) === 123, "populationValue should fall back to raw population");
-      const testEasy = {gamePopulation:750000};
-      const testMedium = {gamePopulation:250000};
-      const testHard = {gamePopulation:249999};
-      console.assert(populationValue(testEasy) >= 750000, "Easy boundary should include 750,000");
-      console.assert(populationValue(testMedium) >= 250000 && populationValue(testMedium) < 750000, "Medium boundary should include 250,000");
-      console.assert(populationValue(testHard) < 250000, "Hard boundary should be below 250,000");
+      const testEasy = {gamePopulation:5000000};
+      const testMedium = {gamePopulation:1000000};
+      const testHard = {gamePopulation:999999};
+
+      console.assert(populationValue(testEasy) >= 5000000, "Easy boundary should include 5,000,000");
+      console.assert(populationValue(testMedium) >= 1000000 && populationValue(testMedium) < 5000000, "Medium boundary should include 1,000,000");
+      console.assert(populationValue(testHard) < 1000000, "Hard boundary should be below 1,000,000");
     }
 
     const km = (a, b) => {
@@ -933,15 +934,26 @@
     }
 
     function pool() {
-      const difficulty = $("difficulty").value;
-      let selected = cities;
+  const difficulty = $("difficulty").value;
+  let selected = cities;
 
-      if (difficulty === "easy") selected = cities.filter(city => populationValue(city) >= 750000);
-      if (difficulty === "medium") selected = cities.filter(city => populationValue(city) >= 250000 && populationValue(city) < 750000);
-      if (difficulty === "hard") selected = cities.filter(city => populationValue(city) > 0 && populationValue(city) < 250000);
+  // Easy: 5,000,000+ population
+  if (difficulty === "easy") {
+    selected = cities.filter(city => populationValue(city) >= 5000000);
+  }
 
-      return selected.length ? selected : cities;
-    }
+  // Medium: 1,000,000 to 4,999,999 population
+  if (difficulty === "medium") {
+    selected = cities.filter(city => populationValue(city) >= 1000000 && populationValue(city) < 5000000);
+  }
+
+  // Hard: below 1,000,000 population
+  if (difficulty === "hard") {
+    selected = cities.filter(city => populationValue(city) > 0 && populationValue(city) < 1000000);
+  }
+
+  return selected.length ? selected : cities;
+}
 
     function chooseCity() {
       const currentPool = pool();
