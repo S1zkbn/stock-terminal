@@ -849,6 +849,7 @@ function applyTheme(theme){
   localStorage.setItem("siteTheme", theme);
   updateTradingViewTheme(theme);
   renderAllTickers();
+  updateGeoGameTheme(theme);
 }
 
 function toggleTheme(){
@@ -861,9 +862,24 @@ function loadGeoGame(){
 
   if(frame && !frame.getAttribute("src")){
     frame.setAttribute("src", "./city-game/?theme=" + getCurrentTheme());
+
+    frame.onload = function(){
+      updateGeoGameTheme(getCurrentTheme());
+    };
   }
 }
 
+function updateGeoGameTheme(theme){
+  const frame = document.getElementById("geoGameFrame");
+
+  if(!frame || !frame.contentWindow) return;
+
+  frame.contentWindow.postMessage({
+    type:"site-theme",
+    theme:theme
+  }, window.location.origin);
+}
+  
 function showGeoPage(id){
   document.querySelectorAll("#geoguessr .stock-page").forEach(function(page){
     page.classList.remove("active");
