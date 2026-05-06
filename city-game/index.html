@@ -6,29 +6,29 @@
   <title>Endless Satellite City Guess</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <style>
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:#0d1118;color:#f7f9fc;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden}button,input,select{font:inherit}button{border:0;border-radius:14px;padding:12px 15px;font-weight:800;cursor:pointer;background:#7aa2ff;color:#06101f}button.ghost{background:rgba(255,255,255,.08);color:#f7f9fc;border:1px solid rgba(255,255,255,.12)}button:disabled{opacity:.5;cursor:not-allowed}input,select{width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:#0b1018;color:#fff;padding:12px 13px;outline:none}input:focus,select:focus{border-color:#7aa2ff}.app{height:100vh;display:grid;grid-template-columns:390px 1fr}.side{background:#141b26;border-right:1px solid rgba(255,255,255,.08);padding:18px;overflow:auto}.map{min-width:0;position:relative}#map{height:100%;width:100%;background:#070a0f}.brand{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}.brand h1{font-size:22px;letter-spacing:-.04em;margin:0}.card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:15px;margin-bottom:13px;box-shadow:0 20px 60px rgba(0,0,0,.18)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row{display:flex;gap:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.stat{background:rgba(255,255,255,.06);border-radius:16px;padding:12px;text-align:center}.stat b{display:block;font-size:18px}.stat span{display:block;color:#a9b4c8;font-size:12px;margin-top:2px}.muted{color:#a9b4c8;font-size:13px;line-height:1.55}.suggestions{position:relative}.suggestBox{position:absolute;z-index:1000;left:0;right:0;top:50px;background:#0b1018;border:1px solid rgba(255,255,255,.16);border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.45);display:none}.suggestion{padding:11px 13px;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer}.suggestion:hover{background:rgba(122,162,255,.16)}.suggestion small{color:#a9b4c8}.history{display:grid;gap:8px;margin-top:12px}.guess{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.055);font-size:14px}.tag{border-radius:999px;padding:4px 8px;font-size:12px;background:rgba(255,255,255,.1)}.tag.ok{color:#7df5ad;background:rgba(93,235,153,.18)}.tag.bad{color:#ffd18c;background:rgba(255,185,86,.18)}.result{display:none;border-color:rgba(122,162,255,.28);background:rgba(122,162,255,.12);line-height:1.55}.topOverlay{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;pointer-events:none}.pill{pointer-events:auto;backdrop-filter:blur(14px);background:rgba(8,12,18,.75);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:9px 12px;color:#f7f9fc;font-size:13px}.loading{position:absolute;inset:0;display:grid;place-items:center;background:#0d1118;z-index:9999}.loadingCard{max-width:420px;background:#141b26;border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:22px;box-shadow:0 20px 80px rgba(0,0,0,.35)}.progress{height:8px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden;margin-top:14px}.bar{height:100%;width:20%;background:#7aa2ff;border-radius:999px;animation:load 1.2s infinite alternate}@keyframes load{to{width:95%}}@media(max-width:860px){body{overflow:auto}.app{height:auto;min-height:100vh;grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid rgba(255,255,255,.08)}.map{height:56vh}.brand{flex-direction:column}.topOverlay{top:10px;left:10px;right:10px}.pill{font-size:12px}}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:#0d1118;color:#f7f9fc;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden}button,input,select{font:inherit}button{border:0;border-radius:14px;padding:12px 15px;font-weight:800;cursor:pointer;background:#7aa2ff;color:#06101f}button.ghost{background:rgba(255,255,255,.08);color:#f7f9fc;border:1px solid rgba(255,255,255,.12)}button:disabled{opacity:.5;cursor:not-allowed}input,select{width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:#0b1018;color:#fff;padding:12px 13px;outline:none}input:focus,select:focus{border-color:#7aa2ff}.app{height:100vh;display:grid;grid-template-columns:390px 1fr}.side{background:#141b26;border-right:1px solid rgba(255,255,255,.08);padding:18px;overflow:auto}.map{min-width:0;position:relative}#map{height:100%;width:100%;background:#070a0f}.brand{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}.brand-actions{display:flex;gap:8px;align-items:center}.language-select{width:auto;min-width:112px;padding:12px 34px 12px 13px;border-radius:14px}.brand h1{font-size:22px;letter-spacing:-.04em;margin:0}.card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:15px;margin-bottom:13px;box-shadow:0 20px 60px rgba(0,0,0,.18)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row{display:flex;gap:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.stat{background:rgba(255,255,255,.06);border-radius:16px;padding:12px;text-align:center}.stat b{display:block;font-size:18px}.stat span{display:block;color:#a9b4c8;font-size:12px;margin-top:2px}.muted{color:#a9b4c8;font-size:13px;line-height:1.55}.suggestions{position:relative}.suggestBox{position:absolute;z-index:1000;left:0;right:0;top:50px;background:#0b1018;border:1px solid rgba(255,255,255,.16);border-radius:16px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.45);display:none}.suggestion{padding:11px 13px;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer}.suggestion:hover{background:rgba(122,162,255,.16)}.suggestion small{color:#a9b4c8}.history{display:grid;gap:8px;margin-top:12px}.guess{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.055);font-size:14px}.tag{border-radius:999px;padding:4px 8px;font-size:12px;background:rgba(255,255,255,.1)}.tag.ok{color:#7df5ad;background:rgba(93,235,153,.18)}.tag.bad{color:#ffd18c;background:rgba(255,185,86,.18)}.result{display:none;border-color:rgba(122,162,255,.28);background:rgba(122,162,255,.12);line-height:1.55}.topOverlay{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;pointer-events:none}.pill{pointer-events:auto;backdrop-filter:blur(14px);background:rgba(8,12,18,.75);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:9px 12px;color:#f7f9fc;font-size:13px}.loading{position:absolute;inset:0;display:grid;place-items:center;background:#0d1118;z-index:9999}.loadingCard{max-width:420px;background:#141b26;border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:22px;box-shadow:0 20px 80px rgba(0,0,0,.35)}.progress{height:8px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden;margin-top:14px}.bar{height:100%;width:20%;background:#7aa2ff;border-radius:999px;animation:load 1.2s infinite alternate}@keyframes load{to{width:95%}}@media(max-width:860px){body{overflow:auto}.app{height:auto;min-height:100vh;grid-template-columns:1fr}.side{border-right:0;border-bottom:1px solid rgba(255,255,255,.08)}.map{height:56vh}.brand{flex-direction:column}.topOverlay{top:10px;left:10px;right:10px}.pill{font-size:12px}}
   </style>
 </head>
 <body>
-  <div class="loading" id="loading"><div class="loadingCard"><h2 style="margin:0 0 8px">Loading city database</h2><div class="muted" id="loadingText">Loading cities.json from the site folder. If it is missing, a small fallback city set will be used.</div><div class="progress"><div class="bar"></div></div></div></div>
+  <div class="loading" id="loading"><div class="loadingCard"><h2 style="margin:0 0 8px" data-i18n="loadingTitle">Loading city database</h2><div class="muted" id="loadingText" data-i18n="loadingText">Loading cities.json from the site folder. If it is missing, a small fallback city set will be used.</div><div class="progress"><div class="bar"></div></div></div></div>
   <div class="app">
     <aside class="side">
-      <div class="brand"><div><h1>Endless Satellite City Guess</h1></div><button class="ghost" id="nextBtn">Next</button></div>
+      <div class="brand"><div><h1>Endless Satellite City Guess</h1></div><div class="brand-actions"><select id="languageSelect" class="language-select"><option value="en">English</option><option value="zh">中文</option></select><button class="ghost" id="nextBtn" data-i18n="next">Next</button></div></div>
       <div class="card">
         <div>
-          <label><div class="muted">Difficulty</div><select id="difficulty"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option><option value="all">All</option></select></label>
+          <label><div class="muted" data-i18n="difficulty">Difficulty</div><select id="difficulty"><option value="easy" data-i18n="easy">Easy</option><option value="medium" selected data-i18n="medium">Medium</option><option value="hard" data-i18n="hard">Hard</option><option value="all" data-i18n="all">All</option></select></label>
         </div>
-        <div class="stats"><div class="stat"><b id="attemptText">1/6</b><span>Attempts</span></div><div class="stat"><b id="zoomText">16</b><span>Zoom</span></div><div class="stat"><b id="poolText">0</b><span>Pool</span></div></div>
+        <div class="stats"><div class="stat"><b id="attemptText">1/6</b><span data-i18n="attempts">Attempts</span></div><div class="stat"><b id="zoomText">16</b><span>Zoom</span></div><div class="stat"><b id="poolText">0</b><span data-i18n="pool">Pool</span></div></div>
       </div>
       <div class="card">
-        <div class="suggestions"><div class="row"><input id="guessInput" placeholder="Enter a city, e.g. Tokyo / Shanghai / NYC" autocomplete="off" /><button id="guessBtn">Guess</button></div><div class="suggestBox" id="suggestBox"></div></div>
+        <div class="suggestions"><div class="row"><input id="guessInput" placeholder="Enter a city, e.g. Tokyo / Shanghai / NYC" autocomplete="off" /><button id="guessBtn" data-i18n="guess">Guess</button></div><div class="suggestBox" id="suggestBox"></div></div>
         <div class="muted" id="hintText" style="display:none"></div>
         <div class="history" id="history"></div>
       </div>
       <div class="card result" id="result"></div>
       <div class="card">
-        <div class="grid"><div class="stat"><b id="playedText">0</b><span>Played</span></div><div class="stat"><b id="winText">0%</b><span>Win Rate</span></div></div>
-        <button class="ghost" id="resetBtn" style="width:100%">Reset Local Stats</button>
+        <div class="grid"><div class="stat"><b id="playedText">0</b><span data-i18n="played">Played</span></div><div class="stat"><b id="winText">0%</b><span data-i18n="winRate">Win Rate</span></div></div>
+        <button class="ghost" id="resetBtn" style="width:100%" data-i18n="resetStats">Reset Local Stats</button>
       </div>
     </aside>
     <main class="map"><div id="map"></div><div class="topOverlay"><div class="pill" id="roundPill">Round 1</div></div></main>
@@ -71,6 +71,83 @@
     let isClamping = false;
 
     const $ = id => document.getElementById(id);
+
+    const I18N = {
+      en: {
+        loadingTitle: "Loading city database",
+        loadingText: "Loading cities.json from the site folder. If it is missing, a small fallback city set will be used.",
+        loadedCities: count => `Loaded ${count.toLocaleString()} cities.`,
+        fallbackCities: "cities.json was not found in the site folder. Using the small fallback city set.",
+        next: "Next",
+        difficulty: "Difficulty",
+        easy: "Easy",
+        medium: "Medium",
+        hard: "Hard",
+        all: "All",
+        attempts: "Attempts",
+        pool: "Pool",
+        guess: "Guess",
+        inputPlaceholder: "Enter a city, e.g. Tokyo / Shanghai / NYC",
+        played: "Played",
+        winRate: "Win Rate",
+        resetStats: "Reset Local Stats",
+        correct: "Correct",
+        notFound: "Not found",
+        correctTitle: "Correct!",
+        outOfGuesses: "Out of guesses",
+        answer: "Answer",
+        population: "Population",
+        nextRound: "Next Round"
+      },
+      zh: {
+        loadingTitle: "正在加载城市库",
+        loadingText: "正在读取网站目录里的 cities.json。如果没有，会临时使用内置小题库。",
+        loadedCities: count => `已加载 ${count.toLocaleString()} 个城市。`,
+        fallbackCities: "没有找到网站目录里的 cities.json，正在使用内置小题库。",
+        next: "下一题",
+        difficulty: "难度",
+        easy: "Easy 简单",
+        medium: "Medium 中等",
+        hard: "Hard 困难",
+        all: "All 全部",
+        attempts: "次数",
+        pool: "题库",
+        guess: "猜",
+        inputPlaceholder: "输入城市名，如 Tokyo / 上海 / NYC",
+        played: "已玩",
+        winRate: "胜率",
+        resetStats: "重置本地记录",
+        correct: "正确",
+        notFound: "未收录",
+        correctTitle: "答对了！",
+        outOfGuesses: "没猜出来",
+        answer: "答案",
+        population: "人口",
+        nextRound: "继续下一题"
+      }
+    };
+
+    let currentLang = localStorage.getItem("zcg_lang") || "en";
+    const tr = key => I18N[currentLang][key] ?? I18N.en[key] ?? key;
+
+    function applyLanguage() {
+      const select = $("languageSelect");
+      if (select) select.value = currentLang;
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        const value = tr(key);
+        if (typeof value === "string") el.textContent = value;
+      });
+      const input = $("guessInput");
+      if (input) input.placeholder = tr("inputPlaceholder");
+    }
+
+    function setLanguage(lang) {
+      currentLang = I18N[lang] ? lang : "en";
+      localStorage.setItem("zcg_lang", currentLang);
+      applyLanguage();
+      updateUI();
+    }
 
     const normalize = s => String(s || "")
       .normalize("NFD")
@@ -248,11 +325,11 @@
         if (!response.ok) throw new Error("no cities.json");
         const data = await response.json();
         prepare(data);
-        $("loadingText").textContent = `Loaded ${cities.length.toLocaleString()} cities.`;
+        $("loadingText").textContent = I18N[currentLang].loadedCities(cities.length);
         setTimeout(() => $("loading").style.display = "none", 250);
       } catch (error) {
         prepare(FALLBACK_CITIES);
-        $("loadingText").textContent = "cities.json was not found in the site folder. Using the small fallback city set.";
+        $("loadingText").textContent = tr("fallbackCities");
         setTimeout(() => $("loading").style.display = "none", 700);
       }
     }
@@ -385,7 +462,7 @@
     function addGuess(text, correct, distance) {
       const div = document.createElement("div");
       div.className = "guess";
-      const label = correct ? "Correct" : distance == null ? "Not found" : Math.round(distance).toLocaleString() + " km";
+      const label = correct ? tr("correct") : distance == null ? tr("notFound") : Math.round(distance).toLocaleString() + " km";
       div.innerHTML = `<span>${text}</span><span class="tag ${correct ? "ok" : "bad"}">${label}</span>`;
       $("history").prepend(div);
     }
@@ -411,7 +488,7 @@
       map.setView([answer.lat, answer.lng], 11);
       marker = L.marker([answer.lat, answer.lng]).addTo(map).bindPopup(`${answer.name}${answer.countryName ? ", " + answer.countryName : ""}`).openPopup();
 
-      $("result").innerHTML = `<b>${won ? "Correct!" : "Out of guesses"}</b><br>Answer: ${answer.name}${answer.countryName ? ", " + answer.countryName : ""}<br>Population: ${populationValue(answer).toLocaleString()}<br><br><button id="continueBtn">Next Round</button>`;
+      $("result").innerHTML = `<b>${won ? tr("correctTitle") : tr("outOfGuesses")}</b><br>${tr("answer")}: ${answer.name}${answer.countryName ? ", " + answer.countryName : ""}<br>${tr("population")}: ${populationValue(answer).toLocaleString()}<br><br><button id="continueBtn">${tr("nextRound")}</button>`;
       $("result").style.display = "block";
       $("continueBtn").onclick = () => {
         round++;
@@ -461,6 +538,7 @@
       round = 1;
       startRound();
     };
+    $("languageSelect").onchange = event => setLanguage(event.target.value);
     $("resetBtn").onclick = () => {
       localStorage.removeItem("zcg_stats");
       localStorage.removeItem(usedKey());
@@ -472,6 +550,7 @@
 
     (async () => {
       runTests();
+      applyLanguage();
       setupMap();
       await loadCities();
       startRound();
