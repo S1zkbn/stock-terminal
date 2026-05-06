@@ -855,6 +855,10 @@ const watchlistTickerSymbols = [
   {"proName":"NASDAQ:RKLB","title":"RKLB"}
 ];
 
+let chartNeedsThemeRefresh = false;
+let watchNeedsThemeRefresh = false;
+
+  
 function getCurrentTheme(){
   return document.body.classList.contains("light") ? "light" : "dark";
 }
@@ -908,6 +912,9 @@ function chartUrl(symbol, allowSymbolChange){
 }
 
 function updateTradingViewTheme(theme){
+  chartNeedsThemeRefresh = true;
+  watchNeedsThemeRefresh = true;
+
   const activeStockPage = document.querySelector("#stocks .stock-page.active");
   if(!activeStockPage) return;
 
@@ -915,10 +922,12 @@ function updateTradingViewTheme(theme){
 
   if(id === "chart"){
     refreshLiveChart();
+    chartNeedsThemeRefresh = false;
   }
 
   if(id === "watchlist"){
     refreshWatchChart();
+    watchNeedsThemeRefresh = false;
   }
 }
 
@@ -931,7 +940,7 @@ function refreshLiveChart(){
   requestAnimationFrame(function(){
     setTimeout(function(){
       chartFrame.src = chartFrame.src.replace(/theme=(dark|light)/, "theme=" + theme);
-    }, 80);
+    }, 100);
   });
 }
 
@@ -944,7 +953,7 @@ function refreshWatchChart(){
   requestAnimationFrame(function(){
     setTimeout(function(){
       watchChartFrame.src = chartUrl(selected, false);
-    }, 80);
+    }, 100);
   });
 }
 
@@ -1047,15 +1056,18 @@ function showStockPage(id){
   if(activeBtn) activeBtn.classList.add("active");
 
   if(id === "news"){
-    loadDailyAnalysis();
-    loadNews();
-
-  if(id === "chart"){
-  refreshLiveChart();
+  loadDailyAnalysis();
+  loadNews();
 }
 
-if(id === "watchlist"){
+  if(id === "chart" && chartNeedsThemeRefresh){
+  refreshLiveChart();
+  chartNeedsThemeRefresh = false;
+}
+
+  if(id === "watchlist" && watchNeedsThemeRefresh){
   refreshWatchChart();
+  watchNeedsThemeRefresh = false;
 }
     
   }
